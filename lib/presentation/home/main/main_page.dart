@@ -13,11 +13,16 @@ class MainPage extends StatelessWidget {
         Image(
           image: const AssetImage('img/cupscups01.jpg'),
           fit: BoxFit.cover,
-          height: MediaQuery.of(context).size.height,
+          height: mainPageHeight,
           width: MediaQuery.of(context).size.width,
         ),
         ConstrainedBox(
-          constraints: BoxConstraints.tight(MediaQuery.of(context).size),
+          constraints: BoxConstraints.tight(
+            Size(
+              MediaQuery.of(context).size.width,
+              mainPageHeight,
+            ),
+          ),
           child: Container(
             color: Colors.black.withOpacity(0.5),
           ),
