@@ -1,5 +1,7 @@
-import 'package:beans_instapay/presentation/home/footer/footer_screen.dart';
-import 'package:beans_instapay/presentation/home/header/header_screen.dart';
+import 'package:beans_instapay/presentation/home/contact/contact_page.dart';
+import 'package:beans_instapay/presentation/home/footer/footer_page.dart';
+import 'package:beans_instapay/presentation/home/main/main_page.dart';
+import 'package:beans_instapay/ui/constant.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,13 +32,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: PageView(
-          controller: pageController,
-          scrollDirection: Axis.vertical,
-          pageSnapping: false,
-          children: const [
-            HeaderScreen(),
-            FooterScreen(),
+        child: ListView(
+          children: [
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: pageHeight,
+                minHeight: pageHeight,
+              ),
+              child: const MainPage(),
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: pageHeight,
+                minHeight: pageHeight,
+              ),
+              child: const ContactPage(),
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 100),
+              child: const FooterPage(),
+            ),
           ],
         ),
       ),
