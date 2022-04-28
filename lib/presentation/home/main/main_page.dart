@@ -14,6 +14,7 @@ class MainPage extends StatelessWidget {
           image: const AssetImage('img/cupscups01.jpg'),
           fit: BoxFit.cover,
           height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
         ),
         ConstrainedBox(
           constraints: BoxConstraints.tight(MediaQuery.of(context).size),
