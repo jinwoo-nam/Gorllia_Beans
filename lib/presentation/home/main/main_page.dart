@@ -94,7 +94,7 @@ class MainPage extends StatelessWidget {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: pageHeight / 3,
+              height: mainPageHeight / 3,
               color: headerCardColor,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),

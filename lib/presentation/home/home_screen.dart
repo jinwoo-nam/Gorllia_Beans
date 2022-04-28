@@ -36,15 +36,15 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             ConstrainedBox(
               constraints: const BoxConstraints(
-                maxHeight: pageHeight,
-                minHeight: pageHeight,
+                maxHeight: mainPageHeight,
+                minHeight: mainPageHeight,
               ),
               child: const MainPage(),
             ),
             ConstrainedBox(
               constraints: const BoxConstraints(
-                maxHeight: pageHeight,
-                minHeight: pageHeight,
+                maxHeight: contactPageHeight,
+                minHeight: contactPageHeight,
               ),
               child: const ContactPage(),
             ),
