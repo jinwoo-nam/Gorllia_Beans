@@ -152,16 +152,6 @@ class MainPage extends StatelessWidget {
                           ],
                         ),
                       ),
-
-                      // Text(
-                      //   '구매하기',
-                      //   textAlign: TextAlign.center,
-                      //   style: GoogleFonts.notoSans(
-                      //     color: Colors.white,
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
                     ),
                   ],
                 ),

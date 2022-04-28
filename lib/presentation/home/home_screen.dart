@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const ContactPage(),
             ),
             ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 100),
+              constraints: const BoxConstraints(maxHeight: 120),
               child: const FooterPage(),
             ),
           ],
