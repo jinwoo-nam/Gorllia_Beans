@@ -1,4 +1,5 @@
 import 'package:beans_instapay/domain/model/product_info.dart';
+import 'package:beans_instapay/ui/color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,11 +38,15 @@ class ProductListWidget extends StatelessWidget {
           ),
           SizedBox(
             width: 210,
-            child: Text(
-              productInfo.price,
-              style: GoogleFonts.notoSans(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Text(
+                productInfo.price,
+                style: GoogleFonts.notoSans(
+                  color: priceGrey,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

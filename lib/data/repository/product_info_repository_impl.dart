@@ -12,7 +12,12 @@ class ProductInfoRepositoryImpl implements ProductInfoRepository {
   }
 
   @override
-  Future<Result<ProductPageInfo>> getStickCoffeeInfo() async {
+  Future<Result<ProductPageInfo>> getStickCoffeePageInfo() async {
     return await dataSource.getStickCoffeeInfo();
+  }
+
+  @override
+  Future<Result<ProductPageInfo>> getCoffeeBeansPageInfo() async{
+    return await dataSource.getCoffeeBeansInfo();
   }
 }

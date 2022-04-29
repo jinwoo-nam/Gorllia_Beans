@@ -1,6 +1,7 @@
 import 'package:beans_instapay/presentation/home/contact/contact_page.dart';
 import 'package:beans_instapay/presentation/home/footer/footer_page.dart';
 import 'package:beans_instapay/presentation/home/main/main_page.dart';
+import 'package:beans_instapay/presentation/home/product/coffee_beans_page.dart';
 import 'package:beans_instapay/presentation/home/product/dripbag_page.dart';
 import 'package:beans_instapay/presentation/home/product/stick_coffee_page.dart';
 import 'package:beans_instapay/ui/color.dart';
@@ -50,6 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: const MainPage(),
             ),
+            Container(
+              color: Colors.white,
+              height: 60,
+            ),
             ConstrainedBox(
               constraints: const BoxConstraints(
                 maxHeight: productPageHeight,
@@ -63,6 +68,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 minHeight: productPageHeight,
               ),
               child: const StickCoffeePage(),
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: productPageHeight,
+                minHeight: productPageHeight,
+              ),
+              child: const CoffeeBeansPage(),
             ),
             ConstrainedBox(
               constraints: const BoxConstraints(

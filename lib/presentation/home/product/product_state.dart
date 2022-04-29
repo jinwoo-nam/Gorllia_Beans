@@ -10,6 +10,7 @@ class ProductState with _$ProductState {
   factory ProductState({
     ProductPageInfo? dripBagPageInfo,
     ProductPageInfo? stickCoffeePageInfo,
+    ProductPageInfo? coffeeBeansPageInfo,
   }) = _ProductState;
 
   factory ProductState.fromJson(Map<String, dynamic> json) =>
