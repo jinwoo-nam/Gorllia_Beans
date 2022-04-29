@@ -66,7 +66,7 @@ class ProductPageWidget extends StatelessWidget {
                 bottom: 5,
               ),
               child: Text(
-                '전 품목 10% 할인',
+                pageInfo.comment,
                 style: GoogleFonts.notoSans(
                   color: secondaryGrey.withOpacity(0.7),
                   fontSize: 22,

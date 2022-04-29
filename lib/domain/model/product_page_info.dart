@@ -10,6 +10,7 @@ class ProductPageInfo with _$ProductPageInfo {
   factory ProductPageInfo({
     required String title,
     required String subtitle,
+    required String comment,
     required String imageUrl,
     required List<ProductInfo> productInfo,
   }) = _ProductPageInfo;

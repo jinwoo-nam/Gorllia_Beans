@@ -15,6 +15,7 @@ class ProductInfoDataSource {
 ProductPageInfo dripBagPageInfo = ProductPageInfo(
   title: '드립백',
   subtitle: 'Fedora Drip bag',
+  comment: '전 품목 10% 할인',
   imageUrl: 'img/shop/banner/cat_dripbag_fedora.jpg',
   productInfo: dripBagProductInfo,
 );
@@ -73,6 +74,7 @@ List<ProductInfo> dripBagProductInfo = [
 ProductPageInfo stickCoffeePageInfo = ProductPageInfo(
   title: '원두스틱 커피',
   subtitle: 'Stick Coffee',
+  comment: '전 품목 10% 할인',
   imageUrl: 'img/shop/banner/cat_stick_banner.jpg',
   productInfo: stickCoffeeProductInfo,
 );
