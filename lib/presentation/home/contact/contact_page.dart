@@ -193,7 +193,6 @@ class _ContactPageState extends State<ContactPage> {
           ],
         ),
       ),
-      height: MediaQuery.of(context).size.height,
     );
   }
 }
