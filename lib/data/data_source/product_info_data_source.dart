@@ -6,6 +6,10 @@ class ProductInfoDataSource {
   Future<Result<ProductPageInfo>> getDripBagInfo() async {
     return Result.success(dripBagPageInfo);
   }
+
+  Future<Result<ProductPageInfo>> getStickCoffeeInfo() async {
+    return Result.success(stickCoffeePageInfo);
+  }
 }
 
 ProductPageInfo dripBagPageInfo = ProductPageInfo(
@@ -63,5 +67,47 @@ List<ProductInfo> dripBagProductInfo = [
         '아프리카를 대표하는 산미가 특징인 원두\n달콤한 과일 향과 특유의 쌉쌀한 풍미가 어우러진 것이 특징이며 뛰어난 레몬 맛의 산미를 느낄 수 있습니다.',
     cupNote: '레몬 꽃 밀크초콜릿',
     price: '13,500원',
+  ),
+];
+
+ProductPageInfo stickCoffeePageInfo = ProductPageInfo(
+  title: '원두스틱 커피',
+  subtitle: 'Stick Coffee',
+  imageUrl: 'img/shop/banner/cat_stick_banner.jpg',
+  productInfo: stickCoffeeProductInfo,
+);
+
+List<ProductInfo> stickCoffeeProductInfo = [
+  ProductInfo(
+    imageUrl: 'img/shop/product/thumb_stickTP_100.jpg',
+    name: '고릴라빈즈 탄자니아피베리 원두스틱 100개입',
+    description:
+        '킬리만자로 산의 남서사면 지역에서 재배되며 고도가 높고 균일한 품질로 재배되는 원두\n과일향과 백합, 쟈스민향이 나며 약한 초콜렛 맛이 특징으로 자두나 살구의 새콤달콤한 맛이 특징으로 아이스커피로 먹으면 더욱 특별한 맛을 느낄 수 있습니다.',
+    cupNote: '자스민 레몬 살구',
+    price: '13,500원',
+  ),
+  ProductInfo(
+    imageUrl: 'img/shop/product/thumb_stickTP_30.jpg',
+    name: '고릴라빈즈 탄자니아피베리 원두스틱 30개입',
+    description:
+        '킬리만자로 산의 남서사면 지역에서 재배되며 고도가 높고 균일한 품질로 재배되는 원두\n과일향과 백합, 쟈스민향이 나며 약한 초콜렛 맛이 특징으로 자두나 살구의 새콤달콤한 맛이 특징으로 아이스커피로 먹으면 더욱 특별한 맛을 느낄 수 있습니다.',
+    cupNote: '자스민 레몬 살구',
+    price: '4,050원',
+  ),
+  ProductInfo(
+    imageUrl: 'img/shop/product/thumb_stickYI_100.jpg',
+    name: '고릴라빈즈 예가체프 이디도 원두스틱 100개입',
+    description:
+        '싱글오리진 커피 중 가장 뛰어난 평가를 받은 커피로 스폐셜티 업계에서 가장 주목하는 원두\n커피를 내리면 프리지아 향기가 퍼지며, 달콤하며 산미가 강하고 약한 씁쓸한 맛이 특징이며 꿀에 절인 레몬차와 같은 부드러운 끝 맛을 느낄 수 있습니다.',
+    cupNote: '프리지아 꿀 레몬차',
+    price: '13,500원',
+  ),
+  ProductInfo(
+    imageUrl: 'img/shop/product/thumb_stickYI_30.jpg',
+    name: '고릴라빈즈 예가체프 이디도 원두스틱 30개입',
+    description:
+        '싱글오리진 커피 중 가장 뛰어난 평가를 받은 커피로 스폐셜티 업계에서 가장 주목하는 원두\n커피를 내리면 프리지아 향기가 퍼지며, 달콤하며 산미가 강하고 약한 씁쓸한 맛이 특징이며 꿀에 절인 레몬차와 같은 부드러운 끝 맛을 느낄 수 있습니다.',
+    cupNote: '자스민 레몬 살구',
+    price: '4,050원',
   ),
 ];

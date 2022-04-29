@@ -7,7 +7,12 @@ class ProductInfoRepositoryImpl implements ProductInfoRepository {
   final dataSource = ProductInfoDataSource();
 
   @override
-  Future<Result<ProductPageInfo>> getDripBagPageInfo() async{
+  Future<Result<ProductPageInfo>> getDripBagPageInfo() async {
     return await dataSource.getDripBagInfo();
+  }
+
+  @override
+  Future<Result<ProductPageInfo>> getStickCoffeeInfo() async {
+    return await dataSource.getStickCoffeeInfo();
   }
 }

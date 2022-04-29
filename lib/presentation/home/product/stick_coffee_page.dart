@@ -3,16 +3,16 @@ import 'package:beans_instapay/presentation/home/product/widget/product_page_wid
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DripBagPage extends StatelessWidget {
-  const DripBagPage({Key? key}) : super(key: key);
+class StickCoffeePage extends StatelessWidget {
+  const StickCoffeePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ProductViewModel>();
     final state = viewModel.state;
 
-    return state.dripBagPageInfo != null
-        ? ProductPageWidget(pageInfo: state.dripBagPageInfo!)
+    return state.stickCoffeePageInfo != null
+        ? ProductPageWidget(pageInfo: state.stickCoffeePageInfo!)
         : Container();
   }
 }

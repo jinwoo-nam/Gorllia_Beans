@@ -9,6 +9,7 @@ part 'product_state.g.dart';
 class ProductState with _$ProductState {
   factory ProductState({
     ProductPageInfo? dripBagPageInfo,
+    ProductPageInfo? stickCoffeePageInfo,
   }) = _ProductState;
 
   factory ProductState.fromJson(Map<String, dynamic> json) =>
