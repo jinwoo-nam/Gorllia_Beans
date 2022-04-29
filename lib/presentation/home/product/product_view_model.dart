@@ -38,5 +38,6 @@ class ProductViewModel with ChangeNotifier {
       },
       error: (message) {},
     );
+    notifyListeners();
   }
 }
