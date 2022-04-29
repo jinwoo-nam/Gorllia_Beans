@@ -1,5 +1,5 @@
 import 'package:beans_instapay/core/result.dart';
-import 'package:beans_instapay/domain/model/product_info.dart';
+import 'package:beans_instapay/domain/model/product_page_info.dart';
 import 'package:beans_instapay/domain/repository/product_info_repository.dart';
 
 class GetDripBagInfoUseCase {
@@ -7,7 +7,7 @@ class GetDripBagInfoUseCase {
 
   GetDripBagInfoUseCase(this.repository);
 
-  Future<Result<List<ProductInfo>>> call() async {
-    return await repository.getDripBagInfoList();
+  Future<Result<ProductPageInfo>> call() async {
+    return await repository.getDripBagPageInfo();
   }
 }

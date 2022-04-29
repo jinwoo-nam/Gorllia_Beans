@@ -18,7 +18,7 @@ class ProductViewModel with ChangeNotifier {
     result.when(
       success: (data) {
         _state = state.copyWith(
-          dripBagInfoList: data,
+          dripBagPageInfo: data,
         );
       },
       error: (message) {},

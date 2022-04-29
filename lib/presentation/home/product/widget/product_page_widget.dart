@@ -1,10 +1,16 @@
+import 'package:beans_instapay/domain/model/product_page_info.dart';
 import 'package:beans_instapay/presentation/home/product/widget/product_list_widget.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProductPageWidget extends StatelessWidget {
-  const ProductPageWidget({Key? key}) : super(key: key);
+  final ProductPageInfo pageInfo;
+
+  const ProductPageWidget({
+    Key? key,
+    required this.pageInfo,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,7 @@ class ProductPageWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '드립백',
+              pageInfo.title,
               style: GoogleFonts.notoSans(
                 fontSize: 25,
                 height: 1.5,
@@ -28,7 +34,7 @@ class ProductPageWidget extends StatelessWidget {
               ),
             ),
             Text(
-              'Fedora Drip bag',
+              pageInfo.subtitle,
               style: GoogleFonts.notoSans(
                 fontSize: 30,
                 height: 1.5,
@@ -47,10 +53,10 @@ class ProductPageWidget extends StatelessWidget {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Image(
-                image: AssetImage('img/shop/banner/cat_dripbag_fedora.jpg'),
+                image: AssetImage(pageInfo.imageUrl),
                 fit: BoxFit.cover,
               ),
             ),
@@ -90,13 +96,11 @@ class ProductPageWidget extends StatelessWidget {
                 children: [
                   ListView(
                     scrollDirection: Axis.horizontal,
-                    children: const [
-                      ProductListWidget(),
-                      ProductListWidget(),
-                      ProductListWidget(),
-                      ProductListWidget(),
-                      ProductListWidget(),
-                    ],
+                    children: pageInfo.productInfo
+                        .map(
+                          (e) => ProductListWidget(productInfo: e),
+                        )
+                        .toList(),
                   ),
                   Align(
                     alignment: Alignment.topRight,

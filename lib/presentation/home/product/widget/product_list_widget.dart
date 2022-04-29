@@ -1,8 +1,14 @@
+import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProductListWidget extends StatelessWidget {
-  const ProductListWidget({Key? key}) : super(key: key);
+  final ProductInfo productInfo;
+
+  const ProductListWidget({
+    Key? key,
+    required this.productInfo,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +17,10 @@ class ProductListWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(bottom: 16.0),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
             child: Image(
-              image: AssetImage('img/shop/product/thumb_dripbagGA.jpg'),
+              image: AssetImage(productInfo.imageUrl),
               fit: BoxFit.cover,
               height: 300,
             ),
@@ -22,7 +28,7 @@ class ProductListWidget extends StatelessWidget {
           SizedBox(
             width: 210,
             child: Text(
-              '과테말라 안티구아 드립백 10개입',
+              productInfo.name,
               style: GoogleFonts.notoSans(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
@@ -32,7 +38,7 @@ class ProductListWidget extends StatelessWidget {
           SizedBox(
             width: 210,
             child: Text(
-              '13,500 원',
+              productInfo.price,
               style: GoogleFonts.notoSans(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
