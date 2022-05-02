@@ -4,6 +4,7 @@ import 'package:beans_instapay/presentation/home/main/main_page.dart';
 import 'package:beans_instapay/presentation/home/product/coffee_beans_page.dart';
 import 'package:beans_instapay/presentation/home/product/dripbag_page.dart';
 import 'package:beans_instapay/presentation/home/product/stick_coffee_page.dart';
+import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/constant.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double calcMainHeight, calcProductHeight;
+    if (Responsive.isPage1(context)) {
+      calcMainHeight = mainPageHeight;
+    } else if (Responsive.isPage2(context)) {
+      calcMainHeight = mainPageHeight + 80;
+    } else if (Responsive.isPage3(context)) {
+      calcMainHeight = mainPageHeight + 200;
+    } else if (Responsive.isPage4(context)) {
+      calcMainHeight = mainPageHeight + 300;
+    } else {
+      calcMainHeight = mainPageHeight + 350;
+    }
+
+    if (Responsive.isPage1(context)) {
+      calcProductHeight = productPageHeight;
+    } else if (Responsive.isPage2(context)) {
+      calcProductHeight = productPageHeight + 80;
+    } else if (Responsive.isPage3(context)) {
+      calcProductHeight = productPageHeight + 200;
+    } else if (Responsive.isPage4(context)) {
+      calcProductHeight = productPageHeight - 400;
+    } else {
+      calcProductHeight = (MediaQuery.of(context).size.width/2);
+    }
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         shape: const RoundedRectangleBorder(),
@@ -45,9 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: [
             ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: mainPageHeight,
-                minHeight: mainPageHeight,
+              constraints: BoxConstraints(
+                maxHeight: calcMainHeight,
+                minHeight: calcMainHeight,
               ),
               child: const MainPage(),
             ),
@@ -56,9 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 60,
             ),
             ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: productPageHeight,
-                minHeight: productPageHeight,
+              constraints: BoxConstraints(
+                maxHeight: calcProductHeight,
+                minHeight: calcProductHeight,
               ),
               child: const DripBagPage(),
             ),

@@ -1,8 +1,11 @@
 import 'package:beans_instapay/domain/model/product_page_info.dart';
+import 'package:beans_instapay/presentation/home/product/detail/product_detail_page.dart';
 import 'package:beans_instapay/presentation/home/product/widget/product_list_widget.dart';
+import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:math' as math;
 
 class ProductPageWidget extends StatelessWidget {
   final ProductPageInfo pageInfo;
@@ -24,125 +27,685 @@ class ProductPageWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              pageInfo.title,
-              style: GoogleFonts.notoSans(
-                fontSize: 25,
-                height: 1.5,
-                fontWeight: FontWeight.bold,
-              ),
+            if (Responsive.isPage1(context) ||
+                Responsive.isPage2(context) ||
+                Responsive.isPage3(context))
+              getTitleSubtitle(context),
+            if (Responsive.isPage1(context) ||
+                Responsive.isPage2(context) ||
+                Responsive.isPage3(context))
+              getImageComment(context),
+            if (Responsive.isPage4(context) || Responsive.isPage5(context))
+              getImageComment(context),
+            const SizedBox(
+              height: 50,
             ),
-            Text(
-              pageInfo.subtitle,
-              style: GoogleFonts.notoSans(
-                fontSize: 30,
-                height: 1.5,
-                fontWeight: FontWeight.bold,
+            if (Responsive.isPage1(context) ||
+                Responsive.isPage2(context) ||
+                Responsive.isPage3(context))
+              Expanded(
+                child: Stack(
+                  children: [
+                    ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: pageInfo.productInfo
+                          .map(
+                            (e) => ProductListWidget(productInfo: e),
+                          )
+                          .toList(),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 150.0),
+                        child: Container(
+                          width: 40,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(100),
+                              bottomLeft: Radius.circular(100),
+                            ),
+                          ),
+                          child: const Icon(Icons.arrow_right),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 150.0),
+                        child: Container(
+                          width: 40,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(100),
+                              bottomRight: Radius.circular(100),
+                            ),
+                          ),
+                          child: const Icon(Icons.arrow_left),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getTitleSubtitle(BuildContext context) {
+    if (Responsive.isPage1(context)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            pageInfo.title,
+            style: GoogleFonts.notoSans(
+              fontSize: 25,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15.0),
-              child: LayoutBuilder(
-                builder: (context, constraints) => Container(
-                  width: 80,
-                  height: 3,
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                  ),
+          ),
+          Text(
+            pageInfo.subtitle,
+            style: GoogleFonts.notoSans(
+              fontSize: 30,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: LayoutBuilder(
+              builder: (context, constraints) => Container(
+                width: 80,
+                height: 3,
+                decoration: const BoxDecoration(
+                  color: Colors.black,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Image(
-                image: AssetImage(pageInfo.imageUrl),
-                fit: BoxFit.cover,
+          ),
+        ],
+      );
+    } else if (Responsive.isPage2(context)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            pageInfo.title,
+            style: GoogleFonts.notoSans(
+              fontSize: 25,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            pageInfo.subtitle,
+            style: GoogleFonts.notoSans(
+              fontSize: 30,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: LayoutBuilder(
+              builder: (context, constraints) => Container(
+                width: 80,
+                height: 3,
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 10.0,
-                bottom: 5,
+          ),
+        ],
+      );
+    } else if (Responsive.isPage3(context)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            pageInfo.title,
+            style: GoogleFonts.notoSans(
+              fontSize: 25,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            pageInfo.subtitle,
+            style: GoogleFonts.notoSans(
+              fontSize: 30,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: LayoutBuilder(
+              builder: (context, constraints) => Container(
+                width: 80,
+                height: 3,
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else if (Responsive.isPage4(context)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            pageInfo.title,
+            style: GoogleFonts.notoSans(
+              fontSize: 45,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            pageInfo.subtitle,
+            style: GoogleFonts.notoSans(
+              fontSize: 30,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: LayoutBuilder(
+              builder: (context, constraints) => Container(
+                width: 80,
+                height: 3,
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            pageInfo.title,
+            style: GoogleFonts.notoSans(
+              fontSize: 65,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            pageInfo.subtitle,
+            style: GoogleFonts.notoSans(
+              fontSize: 40,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: LayoutBuilder(
+              builder: (context, constraints) => Container(
+                width: 80,
+                height: 3,
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+  }
+
+  Widget getImageComment(BuildContext context) {
+    if (Responsive.isPage1(context)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Image(
+              image: AssetImage(pageInfo.imageUrl),
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 10.0,
+              bottom: 5,
+            ),
+            child: Text(
+              pageInfo.comment,
+              style: GoogleFonts.notoSans(
+                color: secondaryGrey.withOpacity(0.7),
+                fontSize: 22,
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProductDetailPage(),
+                ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.only(bottom: 1),
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: Colors.black, width: 2),
+                ),
               ),
               child: Text(
-                pageInfo.comment,
+                'SEE COLLECTION',
                 style: GoogleFonts.notoSans(
-                  color: secondaryGrey.withOpacity(0.7),
-                  fontSize: 22,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 40.0),
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 1),
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.black, width: 2),
-                  ),
+          )
+        ],
+      );
+    } else if (Responsive.isPage2(context)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Image(
+              image: AssetImage(pageInfo.imageUrl),
+              fit: BoxFit.cover,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10.0,
+                  bottom: 5,
                 ),
                 child: Text(
-                  'SEE COLLECTION',
+                  pageInfo.comment,
                   style: GoogleFonts.notoSans(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
+                    color: secondaryGrey.withOpacity(0.7),
+                    fontSize: 22,
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: pageInfo.productInfo
-                        .map(
-                          (e) => ProductListWidget(productInfo: e),
-                        )
-                        .toList(),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProductDetailPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.only(bottom: 1),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.black, width: 2),
+                    ),
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 150.0),
-                      child: Container(
-                        width: 40,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(100),
-                            bottomLeft: Radius.circular(100),
-                          ),
+                  child: Text(
+                    'SEE COLLECTION',
+                    style: GoogleFonts.notoSans(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+    } else if (Responsive.isPage3(context)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: AssetImage(pageInfo.imageUrl),
+                      fit: BoxFit.cover,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                      child: Text(
+                        pageInfo.comment,
+                        style: GoogleFonts.notoSans(
+                          color: secondaryGrey.withOpacity(0.7),
+                          fontSize: 20,
                         ),
-                        child: const Icon(Icons.arrow_right),
+                      ),
+                    ),
+                  ],
+                ),
+                Transform.rotate(
+                  angle: math.pi / 2,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProductDetailPage(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 1),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: Colors.black, width: 2),
+                        ),
+                      ),
+                      child: Text(
+                        'SEE COLLECTION',
+                        style: GoogleFonts.notoSans(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 150.0),
-                      child: Container(
-                        width: 40,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(100),
-                            bottomRight: Radius.circular(100),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+        ],
+      );
+    } else if (Responsive.isPage4(context)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 80.0,
+                      left: 100,
+                    ),
+                    child: Column(
+                      children: [
+                        Image(
+                          image: AssetImage(pageInfo.imageUrl),
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width / 3,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: Text(
+                            pageInfo.comment,
+                            style: GoogleFonts.notoSans(
+                              color: secondaryGrey.withOpacity(0.7),
+                              fontSize: 20,
+                            ),
                           ),
                         ),
-                        child: const Icon(Icons.arrow_left),
+                      ],
+                    ),
+                  ),
+                  getTitleSubtitle(context),
+                  Positioned(
+                    left: MediaQuery.of(context).size.width / 3,
+                    top: 150,
+                    child: Transform.rotate(
+                      angle: math.pi / 2,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProductDetailPage(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(bottom: 1),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: Colors.black, width: 2),
+                            ),
+                          ),
+                          child: Text(
+                            'SEE COLLECTION',
+                            style: GoogleFonts.notoSans(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 2,
+                height: 500,
+                child: Stack(
+                  children: [
+                    ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: pageInfo.productInfo
+                          .map(
+                            (e) => ProductListWidget(productInfo: e),
+                          )
+                          .toList(),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 150.0),
+                        child: Container(
+                          width: 40,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(100),
+                              bottomLeft: Radius.circular(100),
+                            ),
+                          ),
+                          child: const Icon(Icons.arrow_right),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 150.0),
+                        child: Container(
+                          width: 40,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(100),
+                              bottomRight: Radius.circular(100),
+                            ),
+                          ),
+                          child: const Icon(Icons.arrow_left),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  const SizedBox(
+                    width: 120,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 80.0,
+                      left: 100,
+                    ),
+                    child: Column(
+                      children: [
+                        Image(
+                          image: AssetImage(pageInfo.imageUrl),
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width / 3,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: Text(
+                            pageInfo.comment,
+                            style: GoogleFonts.notoSans(
+                              color: secondaryGrey.withOpacity(0.7),
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  getTitleSubtitle(context),
+                  Positioned(
+                    left: MediaQuery.of(context).size.width / 3,
+                    top: 150,
+                    child: Transform.rotate(
+                      angle: math.pi / 2,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProductDetailPage(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(bottom: 1),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: Colors.black, width: 2),
+                            ),
+                          ),
+                          child: Text(
+                            'SEE COLLECTION',
+                            style: GoogleFonts.notoSans(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 3 + 160,
+                height: MediaQuery.of(context).size.width / 3 + 50,
+                child: Stack(
+                  children: [
+                    ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: pageInfo.productInfo
+                          .map(
+                            (e) => ProductListWidget(productInfo: e),
+                          )
+                          .toList(),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 150.0),
+                        child: Container(
+                          width: 40,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(100),
+                              bottomLeft: Radius.circular(100),
+                            ),
+                          ),
+                          child: const Icon(Icons.arrow_right),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 150.0),
+                        child: Container(
+                          width: 40,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(100),
+                              bottomRight: Radius.circular(100),
+                            ),
+                          ),
+                          child: const Icon(Icons.arrow_left),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+        ],
+      );
+    }
   }
 }
