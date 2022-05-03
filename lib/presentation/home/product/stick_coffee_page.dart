@@ -1,5 +1,6 @@
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/presentation/home/product/widget/product_page_widget.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,11 +12,10 @@ class StickCoffeePage extends StatefulWidget {
 }
 
 class _StickCoffeePageState extends State<StickCoffeePage> {
-  final scrollController = ScrollController();
+  final scrollController = CarouselController();
 
   @override
   void dispose() {
-    scrollController.dispose();
     super.dispose();
   }
 

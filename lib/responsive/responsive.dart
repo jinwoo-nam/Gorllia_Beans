@@ -34,6 +34,10 @@ class Responsive extends StatelessWidget {
   static bool isPage5(BuildContext context) =>
       MediaQuery.of(context).size.width >= 1200;
 
+  static bool isPage4or5(BuildContext context) =>
+      isPage4(context) || isPage5(context);
+
+
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;

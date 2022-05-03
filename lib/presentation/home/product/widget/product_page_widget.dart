@@ -4,13 +4,14 @@ import 'package:beans_instapay/presentation/home/product/widget/product_list_wid
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
 
 class ProductPageWidget extends StatefulWidget {
   final ProductPageInfo pageInfo;
-  final ScrollController scrollController;
+  final CarouselController scrollController;
 
   const ProductPageWidget({
     Key? key,
@@ -51,99 +52,7 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
             if (Responsive.isPage1(context) ||
                 Responsive.isPage2(context) ||
                 Responsive.isPage3(context))
-              Expanded(
-                child: Stack(
-                  children: [
-                    ListView(
-                      controller: widget.scrollController,
-                      scrollDirection: Axis.horizontal,
-                      children: widget.pageInfo.productInfo
-                          .map(
-                            (e) => ProductListWidget(productInfo: e),
-                          )
-                          .toList(),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 150.0),
-                        child: InkWell(
-                          onTap: () {
-                            double offset =
-                                widget.scrollController.offset + 200;
-                            if (offset >
-                                widget.scrollController.position
-                                    .maxScrollExtent) {
-                              offset = widget
-                                  .scrollController.position.maxScrollExtent;
-                            }
-
-                            widget.scrollController.animateTo(
-                              offset,
-                              duration: const Duration(milliseconds: 200),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                            );
-                          },
-                          child: OnHoverDetect(builder: (isHovered) {
-                            final color =
-                                (isHovered) ? selectColor : Colors.white;
-
-                            return Container(
-                              width: 40,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: color.withOpacity(0.8),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(100),
-                                  bottomLeft: Radius.circular(100),
-                                ),
-                              ),
-                              child: const Icon(Icons.arrow_right),
-                            );
-                          }),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 150.0),
-                        child: InkWell(
-                          onTap: () {
-                            double offset =
-                                widget.scrollController.offset - 200;
-                            if (offset < 0) {
-                              offset = 0;
-                            }
-                            widget.scrollController.animateTo(
-                              offset,
-                              duration: const Duration(milliseconds: 200),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                            );
-                          },
-                          child: OnHoverDetect(builder: (isHovered) {
-                            final color =
-                                (isHovered) ? selectColor : Colors.white;
-
-                            return Container(
-                              width: 40,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: color.withOpacity(0.8),
-                                borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(100),
-                                  bottomRight: Radius.circular(100),
-                                ),
-                              ),
-                              child: const Icon(Icons.arrow_left),
-                            );
-                          }),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              ProductList(widget: widget),
           ],
         ),
       ),
@@ -349,41 +258,7 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
               ),
             ),
           ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProductDetailPage(),
-                ),
-              );
-            },
-            child: OnHoverDetect(
-              builder: (isHovered) {
-                final color = (isHovered) ? selectColor : Colors.black;
-
-                return Container(
-                  padding: const EdgeInsets.only(bottom: 1),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: color,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                  child: Text(
-                    'SEE COLLECTION',
-                    style: GoogleFonts.notoSans(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: color,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+          const SeeCollection(),
         ],
       );
     } else if (Responsive.isPage2(context)) {
@@ -413,41 +288,7 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ProductDetailPage(),
-                    ),
-                  );
-                },
-                child: OnHoverDetect(
-                  builder: (isHovered) {
-                    final color = (isHovered) ? selectColor : Colors.black;
-
-                    return Container(
-                      padding: const EdgeInsets.only(bottom: 1),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: color,
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                      child: Text(
-                        'SEE COLLECTION',
-                        style: GoogleFonts.notoSans(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: color,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              const SeeCollection(),
             ],
           ),
         ],
@@ -482,36 +323,7 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
                 ),
                 Transform.rotate(
                   angle: math.pi / 2,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ProductDetailPage(),
-                        ),
-                      );
-                    },
-                    child: OnHoverDetect(builder: (isHovered) {
-                      final color = (isHovered) ? selectColor : Colors.black;
-
-                      return Container(
-                        padding: const EdgeInsets.only(bottom: 1),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: color, width: 2),
-                          ),
-                        ),
-                        child: Text(
-                          'SEE COLLECTION',
-                          style: GoogleFonts.notoSans(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: color,
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
+                  child: const SeeCollection(),
                 ),
               ],
             ),
@@ -562,96 +374,15 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
                     top: 150,
                     child: Transform.rotate(
                       angle: math.pi / 2,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ProductDetailPage(),
-                            ),
-                          );
-                        },
-                        child: OnHoverDetect(
-                          builder: (isHovered) {
-                            final color =
-                                (isHovered) ? selectColor : Colors.black;
-
-                            return Container(
-                              padding: const EdgeInsets.only(bottom: 1),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: color,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              child: Text(
-                                'SEE COLLECTION',
-                                style: GoogleFonts.notoSans(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: color,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      child: const SeeCollection(),
                     ),
                   ),
                 ],
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 2,
-                height: 500,
-                child: Stack(
-                  children: [
-                    ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: widget.pageInfo.productInfo
-                          .map(
-                            (e) => ProductListWidget(productInfo: e),
-                          )
-                          .toList(),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 150.0),
-                        child: Container(
-                          width: 40,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(100),
-                              bottomLeft: Radius.circular(100),
-                            ),
-                          ),
-                          child: const Icon(Icons.arrow_right),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 150.0),
-                        child: Container(
-                          width: 40,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(100),
-                              bottomRight: Radius.circular(100),
-                            ),
-                          ),
-                          child: const Icon(Icons.arrow_left),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: ProductList(
+                  widget: widget,
                 ),
               ),
             ],
@@ -705,96 +436,16 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
                     top: 150,
                     child: Transform.rotate(
                       angle: math.pi / 2,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ProductDetailPage(),
-                            ),
-                          );
-                        },
-                        child: OnHoverDetect(
-                          builder: (isHovered) {
-                            final color =
-                                (isHovered) ? selectColor : Colors.black;
-
-                            return Container(
-                              padding: const EdgeInsets.only(bottom: 1),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: color,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              child: Text(
-                                'SEE COLLECTION',
-                                style: GoogleFonts.notoSans(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: color,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      child: const SeeCollection(),
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 3 + 160,
+                width: MediaQuery.of(context).size.width / 3 + 200,
                 height: MediaQuery.of(context).size.width / 3 + 50,
-                child: Stack(
-                  children: [
-                    ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: widget.pageInfo.productInfo
-                          .map(
-                            (e) => ProductListWidget(productInfo: e),
-                          )
-                          .toList(),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 150.0),
-                        child: Container(
-                          width: 40,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(100),
-                              bottomLeft: Radius.circular(100),
-                            ),
-                          ),
-                          child: const Icon(Icons.arrow_right),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 150.0),
-                        child: Container(
-                          width: 40,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(100),
-                              bottomRight: Radius.circular(100),
-                            ),
-                          ),
-                          child: const Icon(Icons.arrow_left),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: ProductList(
+                  widget: widget,
                 ),
               ),
             ],
@@ -805,5 +456,177 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
         ],
       );
     }
+  }
+}
+
+class SeeCollection extends StatelessWidget {
+  const SeeCollection({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ProductDetailPage(),
+          ),
+        );
+      },
+      child: OnHoverDetect(
+        builder: (isHovered) {
+          final color = (isHovered) ? selectColor : Colors.black;
+
+          return Container(
+            padding: const EdgeInsets.only(bottom: 1),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: color,
+                  width: 2,
+                ),
+              ),
+            ),
+            child: Text(
+              'SEE COLLECTION',
+              style: GoogleFonts.notoSans(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ProductList extends StatefulWidget {
+  const ProductList({
+    Key? key,
+    required this.widget,
+  }) : super(key: key);
+
+  final ProductPageWidget widget;
+
+  @override
+  State<ProductList> createState() => _ProductListState();
+}
+
+class _ProductListState extends State<ProductList> {
+  int _current = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Stack(
+          children: [
+            CarouselSlider(
+              carouselController: widget.widget.scrollController,
+              options: CarouselOptions(
+                  height: 450,
+                  enlargeCenterPage: true,
+                  viewportFraction: 0.4,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  }),
+              items: widget.widget.pageInfo.productInfo
+                  .map(
+                    (item) => Container(
+                      margin: const EdgeInsets.all(5.0),
+                      child: ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5.0)),
+                          child: ProductListWidget(productInfo: item)),
+                    ),
+                  )
+                  .toList(),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 150.0),
+                child: InkWell(
+                  onTap: () {
+                    widget.widget.scrollController.nextPage();
+                  },
+                  child: OnHoverDetect(builder: (isHovered) {
+                    final color = (isHovered) ? selectColor : Colors.white;
+
+                    return Container(
+                      width: 40,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        color: color.withOpacity(0.8),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(100),
+                          bottomLeft: Radius.circular(100),
+                        ),
+                      ),
+                      child: const Icon(Icons.arrow_right),
+                    );
+                  }),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 150.0),
+                child: InkWell(
+                  onTap: () {
+                    widget.widget.scrollController.previousPage();
+                  },
+                  child: OnHoverDetect(builder: (isHovered) {
+                    final color = (isHovered) ? selectColor : Colors.white;
+
+                    return Container(
+                      width: 40,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        color: color.withOpacity(0.8),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(100),
+                          bottomRight: Radius.circular(100),
+                        ),
+                      ),
+                      child: const Icon(Icons.arrow_left),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children:
+              widget.widget.pageInfo.productInfo.asMap().entries.map((entry) {
+            return GestureDetector(
+              onTap: () =>
+                  widget.widget.scrollController.animateToPage(entry.key),
+              child: Container(
+                width: 12.0,
+                height: 12.0,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black)
+                        .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+              ),
+            );
+          }).toList(),
+        )
+      ],
+    );
   }
 }
