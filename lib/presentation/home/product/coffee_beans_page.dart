@@ -3,8 +3,21 @@ import 'package:beans_instapay/presentation/home/product/widget/product_page_wid
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CoffeeBeansPage extends StatelessWidget {
+class CoffeeBeansPage extends StatefulWidget {
   const CoffeeBeansPage({Key? key}) : super(key: key);
+
+  @override
+  State<CoffeeBeansPage> createState() => _CoffeeBeansPageState();
+}
+
+class _CoffeeBeansPageState extends State<CoffeeBeansPage> {
+  final scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +25,10 @@ class CoffeeBeansPage extends StatelessWidget {
     final state = viewModel.state;
 
     return state.coffeeBeansPageInfo != null
-        ? ProductPageWidget(pageInfo: state.coffeeBeansPageInfo!)
+        ? ProductPageWidget(
+            pageInfo: state.coffeeBeansPageInfo!,
+            scrollController: scrollController,
+          )
         : Container();
   }
 }

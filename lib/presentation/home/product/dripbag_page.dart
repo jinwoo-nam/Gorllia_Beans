@@ -3,8 +3,21 @@ import 'package:beans_instapay/presentation/home/product/widget/product_page_wid
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DripBagPage extends StatelessWidget {
+class DripBagPage extends StatefulWidget {
   const DripBagPage({Key? key}) : super(key: key);
+
+  @override
+  State<DripBagPage> createState() => _DripBagPageState();
+}
+
+class _DripBagPageState extends State<DripBagPage> {
+  final scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +25,10 @@ class DripBagPage extends StatelessWidget {
     final state = viewModel.state;
 
     return state.dripBagPageInfo != null
-        ? ProductPageWidget(pageInfo: state.dripBagPageInfo!)
+        ? ProductPageWidget(
+            pageInfo: state.dripBagPageInfo!,
+            scrollController: scrollController,
+          )
         : Container();
   }
 }

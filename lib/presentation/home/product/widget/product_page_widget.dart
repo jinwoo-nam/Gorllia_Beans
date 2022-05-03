@@ -3,18 +3,26 @@ import 'package:beans_instapay/presentation/home/product/detail/product_detail_p
 import 'package:beans_instapay/presentation/home/product/widget/product_list_widget.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
+import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
 
-class ProductPageWidget extends StatelessWidget {
+class ProductPageWidget extends StatefulWidget {
   final ProductPageInfo pageInfo;
+  final ScrollController scrollController;
 
   const ProductPageWidget({
     Key? key,
     required this.pageInfo,
+    required this.scrollController,
   }) : super(key: key);
 
+  @override
+  State<ProductPageWidget> createState() => _ProductPageWidgetState();
+}
+
+class _ProductPageWidgetState extends State<ProductPageWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,8 +55,9 @@ class ProductPageWidget extends StatelessWidget {
                 child: Stack(
                   children: [
                     ListView(
+                      controller: widget.scrollController,
                       scrollDirection: Axis.horizontal,
-                      children: pageInfo.productInfo
+                      children: widget.pageInfo.productInfo
                           .map(
                             (e) => ProductListWidget(productInfo: e),
                           )
@@ -58,17 +67,40 @@ class ProductPageWidget extends StatelessWidget {
                       alignment: Alignment.topRight,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 150.0),
-                        child: Container(
-                          width: 40,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(100),
-                              bottomLeft: Radius.circular(100),
-                            ),
-                          ),
-                          child: const Icon(Icons.arrow_right),
+                        child: InkWell(
+                          onTap: () {
+                            double offset =
+                                widget.scrollController.offset + 200;
+                            if (offset >
+                                widget.scrollController.position
+                                    .maxScrollExtent) {
+                              offset = widget
+                                  .scrollController.position.maxScrollExtent;
+                            }
+
+                            widget.scrollController.animateTo(
+                              offset,
+                              duration: const Duration(milliseconds: 200),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                            );
+                          },
+                          child: OnHoverDetect(builder: (isHovered) {
+                            final color =
+                                (isHovered) ? selectColor : Colors.white;
+
+                            return Container(
+                              width: 40,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                color: color.withOpacity(0.8),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(100),
+                                  bottomLeft: Radius.circular(100),
+                                ),
+                              ),
+                              child: const Icon(Icons.arrow_right),
+                            );
+                          }),
                         ),
                       ),
                     ),
@@ -76,17 +108,36 @@ class ProductPageWidget extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 150.0),
-                        child: Container(
-                          width: 40,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(100),
-                              bottomRight: Radius.circular(100),
-                            ),
-                          ),
-                          child: const Icon(Icons.arrow_left),
+                        child: InkWell(
+                          onTap: () {
+                            double offset =
+                                widget.scrollController.offset - 200;
+                            if (offset < 0) {
+                              offset = 0;
+                            }
+                            widget.scrollController.animateTo(
+                              offset,
+                              duration: const Duration(milliseconds: 200),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                            );
+                          },
+                          child: OnHoverDetect(builder: (isHovered) {
+                            final color =
+                                (isHovered) ? selectColor : Colors.white;
+
+                            return Container(
+                              width: 40,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                color: color.withOpacity(0.8),
+                                borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(100),
+                                  bottomRight: Radius.circular(100),
+                                ),
+                              ),
+                              child: const Icon(Icons.arrow_left),
+                            );
+                          }),
                         ),
                       ),
                     ),
@@ -105,7 +156,7 @@ class ProductPageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            pageInfo.title,
+            widget.pageInfo.title,
             style: GoogleFonts.notoSans(
               fontSize: 25,
               height: 1.5,
@@ -113,7 +164,7 @@ class ProductPageWidget extends StatelessWidget {
             ),
           ),
           Text(
-            pageInfo.subtitle,
+            widget.pageInfo.subtitle,
             style: GoogleFonts.notoSans(
               fontSize: 30,
               height: 1.5,
@@ -139,7 +190,7 @@ class ProductPageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            pageInfo.title,
+            widget.pageInfo.title,
             style: GoogleFonts.notoSans(
               fontSize: 25,
               height: 1.5,
@@ -147,7 +198,7 @@ class ProductPageWidget extends StatelessWidget {
             ),
           ),
           Text(
-            pageInfo.subtitle,
+            widget.pageInfo.subtitle,
             style: GoogleFonts.notoSans(
               fontSize: 30,
               height: 1.5,
@@ -173,7 +224,7 @@ class ProductPageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            pageInfo.title,
+            widget.pageInfo.title,
             style: GoogleFonts.notoSans(
               fontSize: 25,
               height: 1.5,
@@ -181,7 +232,7 @@ class ProductPageWidget extends StatelessWidget {
             ),
           ),
           Text(
-            pageInfo.subtitle,
+            widget.pageInfo.subtitle,
             style: GoogleFonts.notoSans(
               fontSize: 30,
               height: 1.5,
@@ -207,7 +258,7 @@ class ProductPageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            pageInfo.title,
+            widget.pageInfo.title,
             style: GoogleFonts.notoSans(
               fontSize: 45,
               height: 1.5,
@@ -215,7 +266,7 @@ class ProductPageWidget extends StatelessWidget {
             ),
           ),
           Text(
-            pageInfo.subtitle,
+            widget.pageInfo.subtitle,
             style: GoogleFonts.notoSans(
               fontSize: 30,
               height: 1.5,
@@ -241,7 +292,7 @@ class ProductPageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            pageInfo.title,
+            widget.pageInfo.title,
             style: GoogleFonts.notoSans(
               fontSize: 65,
               height: 1.5,
@@ -249,7 +300,7 @@ class ProductPageWidget extends StatelessWidget {
             ),
           ),
           Text(
-            pageInfo.subtitle,
+            widget.pageInfo.subtitle,
             style: GoogleFonts.notoSans(
               fontSize: 40,
               height: 1.5,
@@ -281,7 +332,7 @@ class ProductPageWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Image(
-              image: AssetImage(pageInfo.imageUrl),
+              image: AssetImage(widget.pageInfo.imageUrl),
               fit: BoxFit.cover,
             ),
           ),
@@ -291,7 +342,7 @@ class ProductPageWidget extends StatelessWidget {
               bottom: 5,
             ),
             child: Text(
-              pageInfo.comment,
+              widget.pageInfo.comment,
               style: GoogleFonts.notoSans(
                 color: secondaryGrey.withOpacity(0.7),
                 fontSize: 22,
@@ -307,22 +358,32 @@ class ProductPageWidget extends StatelessWidget {
                 ),
               );
             },
-            child: Container(
-              padding: const EdgeInsets.only(bottom: 1),
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.black, width: 2),
-                ),
-              ),
-              child: Text(
-                'SEE COLLECTION',
-                style: GoogleFonts.notoSans(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            child: OnHoverDetect(
+              builder: (isHovered) {
+                final color = (isHovered) ? selectColor : Colors.black;
+
+                return Container(
+                  padding: const EdgeInsets.only(bottom: 1),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: color,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    'SEE COLLECTION',
+                    style: GoogleFonts.notoSans(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: color,
+                    ),
+                  ),
+                );
+              },
             ),
-          )
+          ),
         ],
       );
     } else if (Responsive.isPage2(context)) {
@@ -332,7 +393,7 @@ class ProductPageWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Image(
-              image: AssetImage(pageInfo.imageUrl),
+              image: AssetImage(widget.pageInfo.imageUrl),
               fit: BoxFit.cover,
             ),
           ),
@@ -345,7 +406,7 @@ class ProductPageWidget extends StatelessWidget {
                   bottom: 5,
                 ),
                 child: Text(
-                  pageInfo.comment,
+                  widget.pageInfo.comment,
                   style: GoogleFonts.notoSans(
                     color: secondaryGrey.withOpacity(0.7),
                     fontSize: 22,
@@ -361,20 +422,30 @@ class ProductPageWidget extends StatelessWidget {
                     ),
                   );
                 },
-                child: Container(
-                  padding: const EdgeInsets.only(bottom: 1),
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.black, width: 2),
-                    ),
-                  ),
-                  child: Text(
-                    'SEE COLLECTION',
-                    style: GoogleFonts.notoSans(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                child: OnHoverDetect(
+                  builder: (isHovered) {
+                    final color = (isHovered) ? selectColor : Colors.black;
+
+                    return Container(
+                      padding: const EdgeInsets.only(bottom: 1),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: color,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        'SEE COLLECTION',
+                        style: GoogleFonts.notoSans(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: color,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -394,13 +465,13 @@ class ProductPageWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image(
-                      image: AssetImage(pageInfo.imageUrl),
+                      image: AssetImage(widget.pageInfo.imageUrl),
                       fit: BoxFit.cover,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20.0),
                       child: Text(
-                        pageInfo.comment,
+                        widget.pageInfo.comment,
                         style: GoogleFonts.notoSans(
                           color: secondaryGrey.withOpacity(0.7),
                           fontSize: 20,
@@ -420,21 +491,26 @@ class ProductPageWidget extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Container(
-                      padding: const EdgeInsets.only(bottom: 1),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: Colors.black, width: 2),
+                    child: OnHoverDetect(builder: (isHovered) {
+                      final color = (isHovered) ? selectColor : Colors.black;
+
+                      return Container(
+                        padding: const EdgeInsets.only(bottom: 1),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: color, width: 2),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'SEE COLLECTION',
-                        style: GoogleFonts.notoSans(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
+                        child: Text(
+                          'SEE COLLECTION',
+                          style: GoogleFonts.notoSans(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: color,
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ),
                 ),
               ],
@@ -463,14 +539,14 @@ class ProductPageWidget extends StatelessWidget {
                     child: Column(
                       children: [
                         Image(
-                          image: AssetImage(pageInfo.imageUrl),
+                          image: AssetImage(widget.pageInfo.imageUrl),
                           fit: BoxFit.cover,
                           width: MediaQuery.of(context).size.width / 3,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
                           child: Text(
-                            pageInfo.comment,
+                            widget.pageInfo.comment,
                             style: GoogleFonts.notoSans(
                               color: secondaryGrey.withOpacity(0.7),
                               fontSize: 20,
@@ -495,20 +571,31 @@ class ProductPageWidget extends StatelessWidget {
                             ),
                           );
                         },
-                        child: Container(
-                          padding: const EdgeInsets.only(bottom: 1),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(color: Colors.black, width: 2),
-                            ),
-                          ),
-                          child: Text(
-                            'SEE COLLECTION',
-                            style: GoogleFonts.notoSans(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                        child: OnHoverDetect(
+                          builder: (isHovered) {
+                            final color =
+                                (isHovered) ? selectColor : Colors.black;
+
+                            return Container(
+                              padding: const EdgeInsets.only(bottom: 1),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: color,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                'SEE COLLECTION',
+                                style: GoogleFonts.notoSans(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: color,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -522,7 +609,7 @@ class ProductPageWidget extends StatelessWidget {
                   children: [
                     ListView(
                       scrollDirection: Axis.horizontal,
-                      children: pageInfo.productInfo
+                      children: widget.pageInfo.productInfo
                           .map(
                             (e) => ProductListWidget(productInfo: e),
                           )
@@ -595,14 +682,14 @@ class ProductPageWidget extends StatelessWidget {
                     child: Column(
                       children: [
                         Image(
-                          image: AssetImage(pageInfo.imageUrl),
+                          image: AssetImage(widget.pageInfo.imageUrl),
                           fit: BoxFit.cover,
                           width: MediaQuery.of(context).size.width / 3,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
                           child: Text(
-                            pageInfo.comment,
+                            widget.pageInfo.comment,
                             style: GoogleFonts.notoSans(
                               color: secondaryGrey.withOpacity(0.7),
                               fontSize: 20,
@@ -627,20 +714,31 @@ class ProductPageWidget extends StatelessWidget {
                             ),
                           );
                         },
-                        child: Container(
-                          padding: const EdgeInsets.only(bottom: 1),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(color: Colors.black, width: 2),
-                            ),
-                          ),
-                          child: Text(
-                            'SEE COLLECTION',
-                            style: GoogleFonts.notoSans(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                        child: OnHoverDetect(
+                          builder: (isHovered) {
+                            final color =
+                                (isHovered) ? selectColor : Colors.black;
+
+                            return Container(
+                              padding: const EdgeInsets.only(bottom: 1),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: color,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                'SEE COLLECTION',
+                                style: GoogleFonts.notoSans(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: color,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -654,7 +752,7 @@ class ProductPageWidget extends StatelessWidget {
                   children: [
                     ListView(
                       scrollDirection: Axis.horizontal,
-                      children: pageInfo.productInfo
+                      children: widget.pageInfo.productInfo
                           .map(
                             (e) => ProductListWidget(productInfo: e),
                           )

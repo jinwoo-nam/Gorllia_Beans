@@ -17,9 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final pageController = PageController(
-    initialPage: 0,
-  );
+  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -29,13 +27,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    pageController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    double calcMainHeight, calcProductHeight;
+    double calcMainHeight, calcProductHeight, calcContactPageHeight;
     if (Responsive.isPage1(context)) {
       calcMainHeight = mainPageHeight;
     } else if (Responsive.isPage2(context)) {
@@ -57,63 +55,95 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (Responsive.isPage4(context)) {
       calcProductHeight = productPageHeight - 400;
     } else {
-      calcProductHeight = (MediaQuery.of(context).size.width/2);
+      calcProductHeight = (MediaQuery.of(context).size.width / 2);
+    }
+
+    if (Responsive.isPage1(context) ||
+        Responsive.isPage2(context) ||
+        Responsive.isPage3(context)) {
+      calcContactPageHeight = contactPageHeight;
+    } else if (Responsive.isPage4(context)) {
+      calcContactPageHeight = contactPageHeight - 250;
+    } else {
+      calcContactPageHeight = contactPageHeight - 350;
     }
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        shape: const RoundedRectangleBorder(),
-        onPressed: () {},
-        child: const Icon(Icons.keyboard_arrow_up_sharp),
-        backgroundColor: selectColor.withOpacity(0.6),
+      floatingActionButton: Visibility(
+        visible: true,
+        child: FloatingActionButton(
+          shape: const RoundedRectangleBorder(),
+          onPressed: () {
+            scrollController.animateTo(
+              0,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.fastOutSlowIn,
+            );
+          },
+          child: const Icon(Icons.keyboard_arrow_up_sharp),
+          backgroundColor: selectColor.withOpacity(0.6),
+        ),
       ),
       body: SafeArea(
-        child: ListView(
-          children: [
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: calcMainHeight,
-                minHeight: calcMainHeight,
+        child: NotificationListener(
+          onNotification: (event) {
+            if (event is UserScrollNotification) {
+              if (scrollController.offset != 0) {
+                setState(() {});
+              } else {
+                setState(() {});
+              }
+            }
+            return false;
+          },
+          child: ListView(
+            controller: scrollController,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: calcMainHeight,
+                  minHeight: calcMainHeight,
+                ),
+                child: const MainPage(),
               ),
-              child: const MainPage(),
-            ),
-            Container(
-              color: Colors.white,
-              height: 60,
-            ),
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: calcProductHeight,
-                minHeight: calcProductHeight,
+              Container(
+                color: Colors.white,
+                height: 60,
               ),
-              child: const DripBagPage(),
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: productPageHeight,
-                minHeight: productPageHeight,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: calcProductHeight,
+                  minHeight: calcProductHeight,
+                ),
+                child: const DripBagPage(),
               ),
-              child: const StickCoffeePage(),
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: productPageHeight,
-                minHeight: productPageHeight,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: calcProductHeight,
+                  minHeight: calcProductHeight,
+                ),
+                child: const StickCoffeePage(),
               ),
-              child: const CoffeeBeansPage(),
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: contactPageHeight,
-                minHeight: contactPageHeight,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: calcProductHeight,
+                  minHeight: calcProductHeight,
+                ),
+                child: const CoffeeBeansPage(),
               ),
-              child: const ContactPage(),
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 120),
-              child: const FooterPage(),
-            ),
-          ],
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: calcContactPageHeight,
+                  minHeight: calcContactPageHeight,
+                ),
+                child: const ContactPage(),
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 120),
+                child: const FooterPage(),
+              ),
+            ],
+          ),
         ),
       ),
     );

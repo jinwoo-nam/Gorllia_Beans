@@ -1,6 +1,7 @@
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/constant.dart';
+import 'package:beans_instapay/ui/on_hover_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -41,43 +42,45 @@ class MainPage extends StatelessWidget {
                     ),
                     child: getMainText(context),
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 20.0,
-                      horizontal: 50,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.white,
-                      ),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(10.0), // POINT
-                      ),
-                    ),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '최고급 드립백 커피를 만나보세요',
-                            style: GoogleFonts.notoSans(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  OnHoverButton(
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: 290,
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal: 50,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 15.0,
+                          horizontal: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: Colors.white,
                           ),
-                          const WidgetSpan(
-                            child: Icon(
-                              Icons.play_arrow_sharp,
-                              color: Colors.white,
-                              size: 18,
-                            ),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10.0), // POINT
                           ),
-                        ],
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              '최고급 드립백 커피를 만나보세요',
+                              style: GoogleFonts.notoSans(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Icon(
+                              Icons.arrow_right,
+                              color: Colors.white,
+                              size: 22,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -211,34 +214,39 @@ class MainPage extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Colors.white,
-                  ),
-                ),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '구매하기',
-                        style: GoogleFonts.notoSans(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+              OnHoverButton(
+                child: InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 3,
+                        color: Colors.white,
                       ),
-                      const WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_right_alt,
-                          color: Colors.white,
-                          size: 19,
-                        ),
+                    ),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '구매하기',
+                            style: GoogleFonts.notoSans(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const WidgetSpan(
+                            child: Icon(
+                              Icons.arrow_right_alt,
+                              color: Colors.white,
+                              size: 19,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -277,34 +285,36 @@ class MainPage extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Colors.white,
+              OnHoverButton(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '구매하기',
-                        style: GoogleFonts.notoSans(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '구매하기',
+                          style: GoogleFonts.notoSans(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_right_alt,
-                          color: Colors.white,
-                          size: 19,
+                        const WidgetSpan(
+                          child: Icon(
+                            Icons.arrow_right_alt,
+                            color: Colors.white,
+                            size: 19,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -343,34 +353,36 @@ class MainPage extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Colors.white,
+              OnHoverButton(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '구매하기',
-                        style: GoogleFonts.notoSans(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '구매하기',
+                          style: GoogleFonts.notoSans(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_right_alt,
-                          color: Colors.white,
-                          size: 19,
+                        const WidgetSpan(
+                          child: Icon(
+                            Icons.arrow_right_alt,
+                            color: Colors.white,
+                            size: 19,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -411,34 +423,36 @@ class MainPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Colors.white,
+              OnHoverButton(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '구매하기',
-                        style: GoogleFonts.notoSans(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '구매하기',
+                          style: GoogleFonts.notoSans(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_right_alt,
-                          color: Colors.white,
-                          size: 19,
+                        const WidgetSpan(
+                          child: Icon(
+                            Icons.arrow_right_alt,
+                            color: Colors.white,
+                            size: 19,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -481,34 +495,36 @@ class MainPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.white,
+                OnHoverButton(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 30, horizontal: 40),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 3,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '구매하기',
-                          style: GoogleFonts.notoSans(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '구매하기',
+                            style: GoogleFonts.notoSans(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        const WidgetSpan(
-                          child: Icon(
-                            Icons.arrow_right_alt,
-                            color: Colors.white,
-                            size: 19,
+                          const WidgetSpan(
+                            child: Icon(
+                              Icons.arrow_right_alt,
+                              color: Colors.white,
+                              size: 19,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

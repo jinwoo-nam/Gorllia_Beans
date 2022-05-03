@@ -13,10 +13,15 @@ class ProductDetailPage extends StatelessWidget {
           centerTitle: false,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
-          title: const Image(
-            image: AssetImage('img/GB_widelogo_brown.png'),
-            fit: BoxFit.cover,
-            width: 190,
+          title: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Image(
+              image: AssetImage('img/GB_widelogo_brown.png'),
+              fit: BoxFit.cover,
+              width: 190,
+            ),
           ),
           actions: [
             GestureDetector(
