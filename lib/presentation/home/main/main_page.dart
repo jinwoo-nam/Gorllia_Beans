@@ -1,15 +1,20 @@
+import 'package:beans_instapay/presentation/home/home_event.dart';
+import 'package:beans_instapay/presentation/home/home_view_model.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/constant.dart';
 import 'package:beans_instapay/ui/on_hover_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<HomeViewModel>();
+
     return Stack(
       children: [
         Image(
@@ -44,7 +49,9 @@ class MainPage extends StatelessWidget {
                   ),
                   OnHoverButton(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        viewModel.onEvent(const HomeEvent.moveToDripBag());
+                      },
                       child: Container(
                         width: 290,
                         margin: const EdgeInsets.symmetric(
@@ -87,7 +94,7 @@ class MainPage extends StatelessWidget {
                 ],
               ),
             ),
-            getMainAd(context),
+            getMainAd(context, viewModel),
           ],
         ),
       ],
@@ -182,7 +189,7 @@ class MainPage extends StatelessWidget {
     }
   }
 
-  Widget getMainAd(BuildContext context) {
+  Widget getMainAd(BuildContext context, HomeViewModel viewModel) {
     if (Responsive.isPage1(context)) {
       return Container(
         width: MediaQuery.of(context).size.width,
@@ -194,62 +201,11 @@ class MainPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '고릴라빈즈 론칭 기념',
-                style: GoogleFonts.notoSans(
-                  color: Colors.white,
-                  fontSize: 15,
-                  height: 2,
-                ),
-              ),
-              Text(
-                '최고급 원두 1+1 할인 이벤트!',
-                style: GoogleFonts.notoSans(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  height: 2,
-                ),
-              ),
+              getADText(context, viewModel),
               const SizedBox(
                 height: 25,
               ),
-              OnHoverButton(
-                child: InkWell(
-                  onTap: () {},
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 3,
-                        color: Colors.white,
-                      ),
-                    ),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '구매하기',
-                            style: GoogleFonts.notoSans(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const WidgetSpan(
-                            child: Icon(
-                              Icons.arrow_right_alt,
-                              color: Colors.white,
-                              size: 19,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              getBuyButton(context, viewModel),
             ],
           ),
         ),
@@ -265,59 +221,11 @@ class MainPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '고릴라빈즈 론칭 기념',
-                style: GoogleFonts.notoSans(
-                  color: Colors.white,
-                  fontSize: 15,
-                  height: 2,
-                ),
-              ),
-              Text(
-                '최고급 원두 1+1 할인 이벤트!',
-                style: GoogleFonts.notoSans(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  height: 2,
-                ),
-              ),
+              getADText(context, viewModel),
               const SizedBox(
                 height: 25,
               ),
-              OnHoverButton(
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.white,
-                    ),
-                  ),
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '구매하기',
-                          style: GoogleFonts.notoSans(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const WidgetSpan(
-                          child: Icon(
-                            Icons.arrow_right_alt,
-                            color: Colors.white,
-                            size: 19,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              getBuyButton(context, viewModel),
             ],
           ),
         ),
@@ -333,59 +241,11 @@ class MainPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '고릴라빈즈 론칭 기념',
-                style: GoogleFonts.notoSans(
-                  color: Colors.white,
-                  fontSize: 20,
-                  height: 2,
-                ),
-              ),
-              Text(
-                '최고급 원두 1+1 할인 이벤트!',
-                style: GoogleFonts.notoSans(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  height: 2,
-                ),
-              ),
+              getADText(context, viewModel),
               const SizedBox(
                 height: 25,
               ),
-              OnHoverButton(
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.white,
-                    ),
-                  ),
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '구매하기',
-                          style: GoogleFonts.notoSans(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const WidgetSpan(
-                          child: Icon(
-                            Icons.arrow_right_alt,
-                            color: Colors.white,
-                            size: 19,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              getBuyButton(context, viewModel),
             ],
           ),
         ),
@@ -400,62 +260,8 @@ class MainPage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '고릴라빈즈 론칭 기념',
-                    style: GoogleFonts.notoSans(
-                      color: Colors.white,
-                      fontSize: 20,
-                      height: 2,
-                    ),
-                  ),
-                  Text(
-                    '최고급 원두 1+1 할인 이벤트!',
-                    style: GoogleFonts.notoSans(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      height: 2,
-                    ),
-                  ),
-                ],
-              ),
-              OnHoverButton(
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.white,
-                    ),
-                  ),
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '구매하기',
-                          style: GoogleFonts.notoSans(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const WidgetSpan(
-                          child: Icon(
-                            Icons.arrow_right_alt,
-                            color: Colors.white,
-                            size: 19,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              getADText(context, viewModel),
+              getBuyButton(context, viewModel),
             ],
           ),
         ),
@@ -472,67 +278,114 @@ class MainPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '고릴라빈즈 론칭 기념',
-                      style: GoogleFonts.notoSans(
-                        color: Colors.white,
-                        fontSize: 20,
-                        height: 2,
-                      ),
-                    ),
-                    Text(
-                      '최고급 원두 1+1 할인 이벤트!',
-                      style: GoogleFonts.notoSans(
-                        color: Colors.white,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        height: 2,
-                      ),
-                    ),
-                  ],
-                ),
-                OnHoverButton(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 30, horizontal: 40),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 3,
-                        color: Colors.white,
-                      ),
-                    ),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '구매하기',
-                            style: GoogleFonts.notoSans(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const WidgetSpan(
-                            child: Icon(
-                              Icons.arrow_right_alt,
-                              color: Colors.white,
-                              size: 19,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                getADText(context, viewModel),
+                getBuyButton(context, viewModel),
               ],
             ),
           ),
         ),
       );
     }
+  }
+
+  Widget getBuyButton(BuildContext context, HomeViewModel viewModel) {
+    double ver = 10;
+    double ho = 20;
+    if (Responsive.isPage1(context)) {
+      ver = 10;
+      ho = 20;
+    } else if (Responsive.isPage2(context) || Responsive.isPage3(context)) {
+      ver = 20;
+      ho = 30;
+    } else if (Responsive.isPage4(context)) {
+      ver = 30;
+      ho = 40;
+    } else {
+      ver = 30;
+      ho = 40;
+    }
+
+    return OnHoverButton(
+      child: InkWell(
+        onTap: () {
+          viewModel.onEvent(const HomeEvent.moveToCoffeeBeans());
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: ver, horizontal: ho),
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 3,
+              color: Colors.white,
+            ),
+          ),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: '구매하기',
+                  style: GoogleFonts.notoSans(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const WidgetSpan(
+                  child: Icon(
+                    Icons.arrow_right_alt,
+                    color: Colors.white,
+                    size: 19,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getADText(BuildContext context, HomeViewModel viewModel) {
+    double fontSize1 = 15;
+    double fontSize2 = 24;
+
+    if (Responsive.isPage1(context) || Responsive.isPage2(context)) {
+      fontSize1 = 15;
+      fontSize2 = 24;
+    } else if (Responsive.isPage3(context) || Responsive.isPage4(context)) {
+      fontSize1 = 20;
+      fontSize2 = 40;
+    } else {
+      fontSize1 = 20;
+      fontSize2 = 40;
+    }
+
+    return InkWell(
+      onTap: () {
+        viewModel.onEvent(const HomeEvent.moveToCoffeeBeans());
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '고릴라빈즈 론칭 기념',
+            style: GoogleFonts.notoSans(
+              color: Colors.white,
+              fontSize: fontSize1,
+              height: 2,
+            ),
+          ),
+          Text(
+            '최고급 원두 1+1 할인 이벤트!',
+            style: GoogleFonts.notoSans(
+              color: Colors.white,
+              fontSize: fontSize2,
+              fontWeight: FontWeight.bold,
+              height: 2,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

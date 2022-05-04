@@ -1,13 +1,15 @@
+import 'dart:async';
+
 import 'package:beans_instapay/presentation/home/contact/contact_page.dart';
 import 'package:beans_instapay/presentation/home/footer/footer_page.dart';
+import 'package:beans_instapay/presentation/home/home_view_model.dart';
 import 'package:beans_instapay/presentation/home/main/main_page.dart';
 import 'package:beans_instapay/presentation/home/product/coffee_beans_page.dart';
 import 'package:beans_instapay/presentation/home/product/dripbag_page.dart';
 import 'package:beans_instapay/presentation/home/product/stick_coffee_page.dart';
-import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
-import 'package:beans_instapay/ui/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,55 +20,43 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final scrollController = ScrollController();
+  StreamSubscription? _streamSubscription;
 
   @override
   void initState() {
-    // TODO: implement initState
+    Future.microtask(() {
+      final viewModel = context.read<HomeViewModel>();
+
+      _streamSubscription = viewModel.eventStream.listen((event) {
+        event.when(moveToDripBag: () {
+          scrollController.animateTo(
+            viewModel.getCalcMainHeight(context),
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.fastOutSlowIn,
+          );
+        }, moveToCoffeeBeans: () {
+          scrollController.animateTo(
+            viewModel.getCalcMainHeight(context) +
+                (viewModel.getCalcProductHeight(context) * 2),
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.fastOutSlowIn,
+          );
+        });
+      });
+    });
     super.initState();
   }
 
   @override
   void dispose() {
+    _streamSubscription?.cancel();
     scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    double calcMainHeight, calcProductHeight, calcContactPageHeight;
-    if (Responsive.isPage1(context)) {
-      calcMainHeight = mainPageHeight;
-    } else if (Responsive.isPage2(context)) {
-      calcMainHeight = mainPageHeight + 80;
-    } else if (Responsive.isPage3(context)) {
-      calcMainHeight = mainPageHeight + 200;
-    } else if (Responsive.isPage4(context)) {
-      calcMainHeight = mainPageHeight + 300;
-    } else {
-      calcMainHeight = mainPageHeight + 350;
-    }
-
-    if (Responsive.isPage1(context)) {
-      calcProductHeight = productPageHeight;
-    } else if (Responsive.isPage2(context)) {
-      calcProductHeight = productPageHeight + 80;
-    } else if (Responsive.isPage3(context)) {
-      calcProductHeight = productPageHeight + 200;
-    } else if (Responsive.isPage4(context)) {
-      calcProductHeight = productPageHeight - 400;
-    } else {
-      calcProductHeight = (MediaQuery.of(context).size.width / 2);
-    }
-
-    if (Responsive.isPage1(context) ||
-        Responsive.isPage2(context) ||
-        Responsive.isPage3(context)) {
-      calcContactPageHeight = contactPageHeight;
-    } else if (Responsive.isPage4(context)) {
-      calcContactPageHeight = contactPageHeight - 250;
-    } else {
-      calcContactPageHeight = contactPageHeight - 350;
-    }
+    final viewModel = context.watch<HomeViewModel>();
 
     return Scaffold(
       floatingActionButton: Visibility(
@@ -101,8 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: calcMainHeight,
-                  minHeight: calcMainHeight,
+                  maxHeight: viewModel.getCalcMainHeight(context),
+                  minHeight: viewModel.getCalcMainHeight(context),
                 ),
                 child: const MainPage(),
               ),
@@ -112,29 +102,29 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: calcProductHeight,
-                  minHeight: calcProductHeight,
+                  maxHeight: viewModel.getCalcProductHeight(context),
+                  minHeight: viewModel.getCalcProductHeight(context),
                 ),
                 child: const DripBagPage(),
               ),
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: calcProductHeight,
-                  minHeight: calcProductHeight,
+                  maxHeight: viewModel.getCalcProductHeight(context),
+                  minHeight: viewModel.getCalcProductHeight(context),
                 ),
                 child: const StickCoffeePage(),
               ),
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: calcProductHeight,
-                  minHeight: calcProductHeight,
+                  maxHeight: viewModel.getCalcProductHeight(context),
+                  minHeight: viewModel.getCalcProductHeight(context),
                 ),
                 child: const CoffeeBeansPage(),
               ),
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: calcContactPageHeight,
-                  minHeight: calcContactPageHeight,
+                  maxHeight: viewModel.getCalcContactPageHeight(context),
+                  minHeight: viewModel.getCalcContactPageHeight(context),
                 ),
                 child: const ContactPage(),
               ),
