@@ -46,9 +46,6 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
               getImageComment(context),
             if (Responsive.isPage4(context) || Responsive.isPage5(context))
               getImageComment(context),
-            const SizedBox(
-              height: 50,
-            ),
             if (Responsive.isPage1(context) ||
                 Responsive.isPage2(context) ||
                 Responsive.isPage3(context))
@@ -511,14 +508,16 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
+    double page5Width = 450 + ((MediaQuery.of(context).size.width-1200)/10);
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Stack(
           children: [
             CarouselSlider(
               carouselController: widget.widget.scrollController,
               options: CarouselOptions(
-                  height: 450,
+                  height: (Responsive.isPage5(context)) ? page5Width : 450,
                   enlargeCenterPage: true,
                   viewportFraction: 0.4,
                   onPageChanged: (index, reason) {

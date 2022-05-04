@@ -15,6 +15,7 @@ class ProductListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
       child: getProductImage(context),
     );
   }
@@ -158,7 +159,7 @@ class ProductListWidget extends StatelessWidget {
       );
     } else {
       return SizedBox(
-        width: 200,
+        width: 300,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
