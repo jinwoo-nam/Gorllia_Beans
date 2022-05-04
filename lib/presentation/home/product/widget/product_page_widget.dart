@@ -387,9 +387,6 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
               ),
             ],
           ),
-          const SizedBox(
-            height: 15,
-          ),
         ],
       );
     } else {
@@ -402,9 +399,6 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
             children: [
               Stack(
                 children: [
-                  const SizedBox(
-                    width: 120,
-                  ),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 80.0,
@@ -443,15 +437,11 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 3 + 200,
-                height: MediaQuery.of(context).size.width / 3 + 50,
                 child: ProductList(
                   widget: widget,
                 ),
               ),
             ],
-          ),
-          const SizedBox(
-            height: 15,
           ),
         ],
       );
