@@ -508,7 +508,9 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
-    double page5Width = 450 + ((MediaQuery.of(context).size.width-1200)/10);
+    double page5Width = 450 + ((MediaQuery.of(context).size.width - 1200) / 9);
+    double page3Width = 450 + ((MediaQuery.of(context).size.width - 730) / 5);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -517,7 +519,11 @@ class _ProductListState extends State<ProductList> {
             CarouselSlider(
               carouselController: widget.widget.scrollController,
               options: CarouselOptions(
-                  height: (Responsive.isPage5(context)) ? page5Width : 450,
+                  height: (Responsive.isPage5(context))
+                      ? page5Width
+                      : (Responsive.isPage3(context))
+                          ? page3Width
+                          : 450,
                   enlargeCenterPage: true,
                   viewportFraction: 0.4,
                   onPageChanged: (index, reason) {

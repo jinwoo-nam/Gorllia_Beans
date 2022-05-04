@@ -1,6 +1,7 @@
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
+import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,24 +17,22 @@ class ProductListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
-      child: getProductImage(context),
+      child: OnHoverDetect(
+        builder: (isHovered) {
+          return getProductCard(context, isHovered);
+        },
+      ),
     );
   }
 
-  Widget getProductImage(BuildContext context) {
+  Widget getProductCard(BuildContext context, bool isHovered) {
     if (Responsive.isPage1(context)) {
       return SizedBox(
         width: 250,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Image(
-                image: AssetImage(productInfo.imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
+            getProductImage(isHovered, 250),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -61,13 +60,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Image(
-                image: AssetImage(productInfo.imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
+            getProductImage(isHovered, 250),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -95,13 +88,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Image(
-                image: AssetImage(productInfo.imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
+            getProductImage(isHovered, 250),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -129,13 +116,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Image(
-                image: AssetImage(productInfo.imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
+            getProductImage(isHovered, 200),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -163,13 +144,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Image(
-                image: AssetImage(productInfo.imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
+            getProductImage(isHovered, 300),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -192,5 +167,81 @@ class ProductListWidget extends StatelessWidget {
         ),
       );
     }
+  }
+
+  Widget getProductImage(bool isHovered, double width) {
+    return Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child:
+            // (isHovered)
+            //     ?
+            Stack(
+          alignment: Alignment.center,
+          children: [
+            Image(
+              image: AssetImage(productInfo.imageUrl),
+              fit: BoxFit.cover,
+            ),
+            AnimatedPositioned(
+              bottom: (isHovered) ? 0 : -50,
+              duration: const Duration(milliseconds: 300),
+              child: AnimatedOpacity(
+                opacity: isHovered ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 400),
+                child: OnHoverDetect(
+                  builder: (isHoveredInContainer) {
+                    final color =
+                        (isHoveredInContainer) ? Colors.black : selectColor;
+                    return Container(
+                      alignment: Alignment.center,
+                      width: width,
+                      height: 50,
+                      color: color,
+                      child: Text(
+                        '구매하기',
+                        style: GoogleFonts.notoSans(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            AnimatedOpacity(
+              opacity: isHovered ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 400),
+              child: AnimatedScale(
+                duration: const Duration(milliseconds: 300),
+                scale: (isHovered) ? 1 : 1.5,
+                child: OnHoverDetect(
+                  builder: (isButtonHovered) {
+                    final color =
+                        (isButtonHovered) ? selectColor : Colors.white;
+                    return ElevatedButton(
+                      onPressed: () {},
+                      child: const Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(50, 50),
+                        shape: const CircleBorder(),
+                        primary: color,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        )
+        // : Image(
+        //     image: AssetImage(productInfo.imageUrl),
+        //     fit: BoxFit.cover,
+        //   ),
+        );
   }
 }
