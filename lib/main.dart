@@ -1,5 +1,6 @@
 import 'package:beans_instapay/di/provider_setup.dart';
 import 'package:beans_instapay/presentation/home/home_screen.dart';
+import 'package:beans_instapay/presentation/home/overlay/overlay_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: Stack(
+        children: const [
+          HomeScreen(),
+          OverlayView(),
+        ],
+      ),
     );
   }
 }

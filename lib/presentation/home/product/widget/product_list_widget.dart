@@ -1,4 +1,5 @@
 import 'package:beans_instapay/domain/model/product_info.dart';
+import 'package:beans_instapay/presentation/home/overlay/loader.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
@@ -192,17 +193,23 @@ class ProductListWidget extends StatelessWidget {
                   builder: (isHoveredInContainer) {
                     final color =
                         (isHoveredInContainer) ? Colors.black : selectColor;
-                    return Container(
-                      alignment: Alignment.center,
-                      width: width,
-                      height: 50,
-                      color: color,
-                      child: Text(
-                        '구매하기',
-                        style: GoogleFonts.notoSans(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                    return InkWell(
+                      onTap: () async{
+                        Loader.appLoader.showLoader();
+                        await Future.delayed(const Duration(seconds: 5));
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: width,
+                        height: 50,
+                        color: color,
+                        child: Text(
+                          '구매하기',
+                          style: GoogleFonts.notoSans(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     );
