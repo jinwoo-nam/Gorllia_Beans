@@ -4,6 +4,7 @@ import 'package:beans_instapay/presentation/home/home_event.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeViewModel with ChangeNotifier {
   double calcMainHeight = mainPageHeight;
@@ -73,5 +74,9 @@ class HomeViewModel with ChangeNotifier {
   void _moveToCoffeeBeans() async {
     notifyListeners();
     _eventController.add(const HomeEvent.moveToCoffeeBeans());
+  }
+
+  void launchURL(Uri query) async {
+    if (!await launchUrl(query)) throw 'Could not launch $query';
   }
 }

@@ -2,6 +2,7 @@ import 'package:beans_instapay/data/repository/product_info_repository_impl.dart
 import 'package:beans_instapay/domain/use_case/get_coffee_beans_info_use_case.dart';
 import 'package:beans_instapay/domain/use_case/get_drip_bag_info_use_case.dart';
 import 'package:beans_instapay/domain/use_case/get_stick_coffee_info_use_case.dart';
+import 'package:beans_instapay/main_view_model.dart';
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,9 @@ Future<List<SingleChildWidget>> getProviders() async {
     ),
     ChangeNotifierProvider<HomeViewModel>(
       create: (context) => HomeViewModel(),
+    ),
+    ChangeNotifierProvider<MainViewModel>(
+      create: (context) => MainViewModel(),
     ),
   ];
 
