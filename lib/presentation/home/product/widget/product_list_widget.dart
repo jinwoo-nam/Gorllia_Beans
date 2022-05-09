@@ -6,6 +6,7 @@ import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ProductListWidget extends StatelessWidget {
@@ -32,6 +33,9 @@ class ProductListWidget extends StatelessWidget {
 
   Widget getProductCard(
       BuildContext context, bool isHovered, MainViewModel viewModel) {
+    int dcPrice =
+        (productInfo.price * ((100 - productInfo.dcRate) / 100)) as int;
+
     if (Responsive.isPage1(context)) {
       return SizedBox(
         width: 250,
@@ -49,7 +53,7 @@ class ProductListWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Text(
-                productInfo.price,
+                currencyFormat(dcPrice),
                 style: GoogleFonts.notoSans(
                   color: priceGrey,
                   fontSize: 16,
@@ -77,7 +81,7 @@ class ProductListWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Text(
-                productInfo.price,
+                currencyFormat(dcPrice),
                 style: GoogleFonts.notoSans(
                   color: priceGrey,
                   fontSize: 16,
@@ -105,7 +109,7 @@ class ProductListWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Text(
-                productInfo.price,
+                currencyFormat(dcPrice),
                 style: GoogleFonts.notoSans(
                   color: priceGrey,
                   fontSize: 16,
@@ -133,7 +137,7 @@ class ProductListWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               child: Text(
-                productInfo.price,
+                currencyFormat(dcPrice),
                 style: GoogleFonts.notoSans(
                   color: priceGrey,
                   fontSize: 16,
@@ -161,7 +165,7 @@ class ProductListWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               child: Text(
-                productInfo.price,
+                currencyFormat(dcPrice),
                 style: GoogleFonts.notoSans(
                   color: priceGrey,
                   fontSize: 16,
@@ -252,5 +256,10 @@ class ProductListWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String currencyFormat(int price) {
+    var format = NumberFormat('###,###,### 원');
+    return format.format(price);
   }
 }

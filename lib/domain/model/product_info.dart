@@ -7,7 +7,9 @@ class ProductInfo with _$ProductInfo {
   factory ProductInfo({
     required String imageUrl,
     required String name,
-    required String price,
+    required int price,
+    required double dcRate,
+    required int shippingFee,
     required String cupNote,
     required String description,
     required List<String> categories,
