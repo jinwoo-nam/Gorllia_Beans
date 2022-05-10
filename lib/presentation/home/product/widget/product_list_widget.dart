@@ -37,7 +37,7 @@ class ProductListWidget extends StatelessWidget {
   Widget getProductCard(BuildContext context, bool isHovered,
       MainViewModel viewModel, ProductViewModel productViewModel) {
     int dcPrice =
-        (productInfo.price * ((100 - productInfo.dcRate) / 100)) as int;
+        (productInfo.price * ((100 - productInfo.dcRate) / 100)).toInt();
 
     if (Responsive.isPage1(context)) {
       return SizedBox(

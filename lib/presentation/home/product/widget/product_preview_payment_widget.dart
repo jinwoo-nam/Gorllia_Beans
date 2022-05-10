@@ -108,231 +108,244 @@ class _ProductPreviewPaymentWidgetState
                   children: [
                     Expanded(
                       child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(32.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: IconButton(
-                                  icon: const Icon(Icons.close_outlined),
-                                  onPressed: () {
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                color: selectColor,
+                                child: InkWell(
+                                  child: const Icon(
+                                    Icons.close_outlined,
+                                    color: Colors.white,
+                                    size: 25,
+                                  ),
+                                  onTap: () {
                                     removeOverlay('');
                                     Loader.appLoader.hideLoader();
                                   },
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  widget.info.name,
-                                  style: GoogleFonts.notoSans(
-                                    fontSize: 21,
-                                    height: 1.5,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(32.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      widget.info.name,
+                                      style: GoogleFonts.notoSans(
+                                        fontSize: 21,
+                                        height: 1.5,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              '결제 금액',
-                                              style: GoogleFonts.notoSans(
-                                                fontSize: 17,
-                                                color: priceGrey,
-                                              ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '결제 금액',
+                                                  style: GoogleFonts.notoSans(
+                                                    fontSize: 17,
+                                                    color: priceGrey,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  currencyFormat(totalPrice),
+                                                  style: GoogleFonts.notoSans(
+                                                    fontSize: 21,
+                                                    color: secondaryGrey,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            Text(
-                                              currencyFormat(totalPrice),
-                                              style: GoogleFonts.notoSans(
-                                                fontSize: 21,
-                                                color: secondaryGrey,
-                                              ),
+                                            const Divider(
+                                              color: priceGrey,
                                             ),
-                                          ],
-                                        ),
-                                        const Divider(
-                                          color: priceGrey,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '정가',
-                                                style: GoogleFonts.notoSans(
-                                                  fontSize: 15,
-                                                  color: priceGrey,
-                                                ),
-                                              ),
-                                              Text(
-                                                currencyFormat(
-                                                    widget.info.price),
-                                                style: GoogleFonts.notoSans(
-                                                  fontSize: 15,
-                                                  color: secondaryGrey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                '할인가',
-                                                style: GoogleFonts.notoSans(
-                                                  fontSize: 15,
-                                                  color: priceGrey,
-                                                ),
-                                              ),
-                                              Column(
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  vertical: 8.0),
+                                              child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                    MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Text(
-                                                    currencyFormat(dcPrice),
+                                                    '정가',
+                                                    style: GoogleFonts.notoSans(
+                                                      fontSize: 15,
+                                                      color: priceGrey,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    currencyFormat(
+                                                        widget.info.price),
                                                     style: GoogleFonts.notoSans(
                                                       fontSize: 15,
                                                       color: secondaryGrey,
                                                     ),
                                                   ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  vertical: 8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
                                                   Text(
-                                                    '($dcRate% 할인)',
+                                                    '할인가',
                                                     style: GoogleFonts.notoSans(
-                                                      fontSize: 13,
+                                                      fontSize: 15,
+                                                      color: priceGrey,
+                                                    ),
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        currencyFormat(dcPrice),
+                                                        style: GoogleFonts.notoSans(
+                                                          fontSize: 15,
+                                                          color: secondaryGrey,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '($dcRate% 할인)',
+                                                        style: GoogleFonts.notoSans(
+                                                          fontSize: 13,
+                                                          color: secondaryGrey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  vertical: 8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    '배송비',
+                                                    style: GoogleFonts.notoSans(
+                                                      fontSize: 15,
+                                                      color: priceGrey,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    currencyFormat(shippingFee),
+                                                    style: GoogleFonts.notoSans(
+                                                      fontSize: 15,
                                                       color: secondaryGrey,
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '배송비',
-                                                style: GoogleFonts.notoSans(
-                                                  fontSize: 15,
-                                                  color: priceGrey,
-                                                ),
-                                              ),
-                                              Text(
-                                                currencyFormat(shippingFee),
-                                                style: GoogleFonts.notoSans(
-                                                  fontSize: 15,
-                                                  color: secondaryGrey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        (isBeans)
-                                            ? Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 8.0),
-                                                child: beansDropDown!,
+                                            ),
+                                            (isBeans)
+                                                ? Padding(
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                            vertical: 8.0),
+                                                    child: beansDropDown!,
+                                                  )
+                                                : Padding(
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                            vertical: 8.0),
+                                                    child: dropDown!,
+                                                  ),
+                                            if (isBeans)
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    vertical: 8.0),
+                                                child: beansTypeDropDown!,
                                               )
-                                            : Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 8.0),
-                                                child: dropDown!,
-                                              ),
-                                        if (isBeans)
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8.0),
-                                            child: beansTypeDropDown!,
-                                          )
-                                      ],
-                                    ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 30,
+                                      ),
+                                      getQrImage(
+                                          state.selectedProductCount, beansType),
+                                    ],
                                   ),
                                   const SizedBox(
-                                    width: 30,
+                                    height: 16,
                                   ),
-                                  getQrImage(
-                                      state.selectedProductCount, beansType),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              Column(
-                                children: [
-                                  Text(widget.info.description),
-                                ],
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8.0),
-                                child: Divider(
-                                  color: priceGrey,
-                                ),
-                              ),
-                              Row(
-                                children: [
+                                  Column(
+                                    children: [
+                                      Text(widget.info.description),
+                                    ],
+                                  ),
                                   const Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: FaIcon(
-                                      FontAwesomeIcons.tags,
-                                      color: secondaryGrey,
-                                      size: 15,
+                                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                                    child: Divider(
+                                      color: priceGrey,
                                     ),
                                   ),
-                                  const Text(
-                                    'CATEGORIES: ',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                  Row(
+                                    children: [
+                                      const Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: FaIcon(
+                                          FontAwesomeIcons.tags,
+                                          color: secondaryGrey,
+                                          size: 15,
+                                        ),
+                                      ),
+                                      const Text(
+                                        'CATEGORIES: ',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      ...widget.info.categories.map((e) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            child: Text(e),
+                                          )),
+                                    ],
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                                    child: Divider(
+                                      color: priceGrey,
                                     ),
                                   ),
-                                  ...widget.info.categories.map((e) => Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 4.0),
-                                        child: Text(e),
-                                      )),
                                 ],
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8.0),
-                                child: Divider(
-                                  color: priceGrey,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

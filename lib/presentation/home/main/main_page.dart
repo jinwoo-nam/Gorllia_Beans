@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:beans_instapay/presentation/home/home_event.dart';
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
@@ -14,19 +16,20 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<HomeViewModel>();
+    final length = max(MediaQuery.of(context).size.width,MediaQuery.of(context).size.height);
 
     return Stack(
       children: [
         Image(
           image: const AssetImage('img/cupscups01.jpg'),
           fit: BoxFit.cover,
-          height: MediaQuery.of(context).size.width,
-          width: MediaQuery.of(context).size.width,
+          height: length,
+          width: length,
         ),
         ConstrainedBox(
           constraints: BoxConstraints.tight(Size(
-            MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.width,
+            length,
+            length,
           )),
           child: Container(
             color: Colors.black.withOpacity(0.5),
