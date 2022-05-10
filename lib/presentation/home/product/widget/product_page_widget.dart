@@ -523,7 +523,9 @@ class _ProductListState extends State<ProductList> {
                       ? page5Width
                       : (Responsive.isPage3(context))
                           ? page3Width
-                          : 450,
+                          : (Responsive.isPage1(context))
+                              ? 380
+                              : 450,
                   enlargeCenterPage: true,
                   viewportFraction: 0.4,
                   onPageChanged: (index, reason) {
