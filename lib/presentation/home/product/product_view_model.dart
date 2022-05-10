@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:beans_instapay/domain/use_case/get_coffee_beans_info_use_case.dart';
 import 'package:beans_instapay/domain/use_case/get_drip_bag_info_use_case.dart';
 import 'package:beans_instapay/domain/use_case/get_stick_coffee_info_use_case.dart';
+import 'package:beans_instapay/presentation/home/product/drop_box_event.dart';
 import 'package:beans_instapay/presentation/home/product/product_event.dart';
 import 'package:beans_instapay/presentation/home/product/product_state.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,18 @@ class ProductViewModel with ChangeNotifier {
 
   ProductState get state => _state;
 
-  final _eventController = StreamController<ProductEvent>.broadcast();
+  final _eventController = StreamController<DropBoxEvent>.broadcast();
 
-  Stream<ProductEvent> get eventStream => _eventController.stream;
+  Stream<DropBoxEvent> get eventStream => _eventController.stream;
+
+  void onDropBoxEvent(DropBoxEvent event){
+    event.when(
+        tapped: (type){
+          _eventController.add(DropBoxEvent.tapped(type));
+        }
+    );
+
+  }
 
   void onEvent(ProductEvent event) {
     event.when(

@@ -6,5 +6,4 @@ part 'product_event.freezed.dart';
 class ProductEvent with _$ProductEvent {
   const factory ProductEvent.selectProductCount(int count) = SelectProductCount;
   const factory ProductEvent.selectProductValue(String value) = SelectProductValue;
-
 }

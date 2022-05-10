@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
@@ -33,6 +35,7 @@ class _ProductPreviewPaymentWidgetState
   CustomDropDown? beansDropDown;
   CustomDropDown? beansTypeDropDown;
   bool isBeans = false;
+  StreamSubscription? _streamSubscription;
 
   @override
   void initState() {
@@ -41,18 +44,28 @@ class _ProductPreviewPaymentWidgetState
       initValue: selectDropDownValue,
       items: normalItemsCount,
       type: DropDownValueType.int,
+      name: 'normal',
     );
     beansDropDown = CustomDropDown(
       initValue: selectDropDownValue,
       items: beansItemsCount,
       type: DropDownValueType.int,
+      name: 'beans',
     );
     beansTypeDropDown = CustomDropDown(
       initValue: selectBeansDropDownValue,
       items: beansType,
       type: DropDownValueType.string,
+      name: 'beans type',
     );
-
+    Future.microtask(() {
+      final viewModel = context.read<ProductViewModel>();
+      _streamSubscription = viewModel.eventStream.listen((event) {
+        event.when(tapped: (type) {
+          removeOverlay(type);
+        });
+      });
+    });
     super.initState();
   }
 
@@ -79,7 +92,7 @@ class _ProductPreviewPaymentWidgetState
 
     return GestureDetector(
       onTap: () {
-        removeOverlay();
+        removeOverlay('');
       },
       child: Container(
         color: Colors.black.withOpacity(0.5),
@@ -105,7 +118,7 @@ class _ProductPreviewPaymentWidgetState
                                 child: IconButton(
                                   icon: const Icon(Icons.close_outlined),
                                   onPressed: () {
-                                    removeOverlay();
+                                    removeOverlay('');
                                     Loader.appLoader.hideLoader();
                                   },
                                 ),
@@ -250,31 +263,19 @@ class _ProductPreviewPaymentWidgetState
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         vertical: 8.0),
-                                                child: GestureDetector(
-                                                    onTap: () {
-                                                      removeOverlay();
-                                                    },
-                                                    child: beansDropDown!),
+                                                child: beansDropDown!,
                                               )
                                             : Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         vertical: 8.0),
-                                                child: GestureDetector(
-                                                    onTap: () {
-                                                      removeOverlay();
-                                                    },
-                                                    child: dropDown!),
+                                                child: dropDown!,
                                               ),
                                         if (isBeans)
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
-                                            child: GestureDetector(
-                                                onTap: () {
-                                                  removeOverlay();
-                                                },
-                                                child: beansTypeDropDown!),
+                                            child: beansTypeDropDown!,
                                           )
                                       ],
                                     ),
@@ -345,15 +346,58 @@ class _ProductPreviewPaymentWidgetState
     );
   }
 
-  void removeOverlay() {
-    if (dropDown?.removeOverlay != null) {
-      dropDown?.removeOverlay!();
-    }
-    if (beansDropDown?.removeOverlay != null) {
-      beansDropDown?.removeOverlay!();
-    }
-    if (beansTypeDropDown?.removeOverlay != null) {
-      beansTypeDropDown?.removeOverlay!();
+  void removeOverlay(String type) {
+    /*
+          name: 'normal',
+    );
+    beansDropDown = CustomDropDown(
+      initValue: selectDropDownValue,
+      items: beansItemsCount,
+      type: DropDownValueType.int,
+      name: 'beans',
+    );
+    beansTypeDropDown = CustomDropDown(
+      initValue: selectBeansDropDownValue,
+      items: beansType,
+      type: DropDownValueType.string,
+      name: 'beans type',
+    * */
+    switch (type) {
+      case '':
+        if (dropDown?.removeOverlay != null) {
+          dropDown?.removeOverlay!();
+        }
+        if (beansDropDown?.removeOverlay != null) {
+          beansDropDown?.removeOverlay!();
+        }
+        if (beansTypeDropDown?.removeOverlay != null) {
+          beansTypeDropDown?.removeOverlay!();
+        }
+        break;
+      case 'normal':
+        if (beansDropDown?.removeOverlay != null) {
+          beansDropDown?.removeOverlay!();
+        }
+        if (beansTypeDropDown?.removeOverlay != null) {
+          beansTypeDropDown?.removeOverlay!();
+        }
+        break;
+      case 'beans':
+        if (dropDown?.removeOverlay != null) {
+          dropDown?.removeOverlay!();
+        }
+        if (beansTypeDropDown?.removeOverlay != null) {
+          beansTypeDropDown?.removeOverlay!();
+        }
+        break;
+      case 'beans type':
+        if (dropDown?.removeOverlay != null) {
+          dropDown?.removeOverlay!();
+        }
+        if (beansDropDown?.removeOverlay != null) {
+          beansDropDown?.removeOverlay!();
+        }
+        break;
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:beans_instapay/presentation/home/product/drop_box_event.dart';
 import 'package:beans_instapay/presentation/home/product/product_event.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
@@ -13,6 +14,7 @@ class CustomDropDown extends StatefulWidget {
   final List<String> items;
   final String initValue;
   final DropDownValueType type;
+  final String name;
   Function? removeOverlay;
 
   CustomDropDown({
@@ -20,6 +22,7 @@ class CustomDropDown extends StatefulWidget {
     required this.items,
     required this.initValue,
     required this.type,
+    required this.name,
     this.removeOverlay,
   }) : super(key: key);
 
@@ -72,6 +75,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
       child: InkWell(
         onTap: () {
           _createOverlay(viewModel);
+          viewModel.onDropBoxEvent(DropBoxEvent.tapped(widget.name));
         },
         child: CompositedTransformTarget(
           link: _layerLink,
