@@ -1,6 +1,7 @@
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/main_view_model.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader.dart';
+import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
@@ -20,19 +21,21 @@ class ProductListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<MainViewModel>();
+    final productViewModel = context.watch<ProductViewModel>();
 
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: OnHoverDetect(
         builder: (isHovered) {
-          return getProductCard(context, isHovered, viewModel);
+          return getProductCard(
+              context, isHovered, viewModel, productViewModel);
         },
       ),
     );
   }
 
-  Widget getProductCard(
-      BuildContext context, bool isHovered, MainViewModel viewModel) {
+  Widget getProductCard(BuildContext context, bool isHovered,
+      MainViewModel viewModel, ProductViewModel productViewModel) {
     int dcPrice =
         (productInfo.price * ((100 - productInfo.dcRate) / 100)) as int;
 
@@ -42,7 +45,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, 250, viewModel),
+            getProductImage(isHovered, 250, viewModel, productViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -70,7 +73,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, 250, viewModel),
+            getProductImage(isHovered, 250, viewModel, productViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -98,7 +101,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, 250, viewModel),
+            getProductImage(isHovered, 250, viewModel, productViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -126,7 +129,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, 200, viewModel),
+            getProductImage(isHovered, 200, viewModel, productViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -154,7 +157,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, 300, viewModel),
+            getProductImage(isHovered, 300, viewModel, productViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -179,14 +182,11 @@ class ProductListWidget extends StatelessWidget {
     }
   }
 
-  Widget getProductImage(
-      bool isHovered, double width, MainViewModel viewModel) {
+  Widget getProductImage(bool isHovered, double width, MainViewModel viewModel,
+      ProductViewModel productViewModel) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
-      child:
-          // (isHovered)
-          //     ?
-          Stack(
+      child: Stack(
         alignment: Alignment.center,
         children: [
           Image(
@@ -205,6 +205,7 @@ class ProductListWidget extends StatelessWidget {
                       (isHoveredInContainer) ? Colors.black : selectColor;
                   return InkWell(
                     onTap: () async {
+                      productViewModel.setProductCount(1);
                       viewModel.setProductInfo(productInfo);
                       Loader.appLoader.showLoader();
                       await Future.delayed(const Duration(seconds: 5));

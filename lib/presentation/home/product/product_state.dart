@@ -8,6 +8,8 @@ part 'product_state.g.dart';
 @freezed
 class ProductState with _$ProductState {
   factory ProductState({
+    @Default(1) int selectedProductCount,
+    @Default('') String selectedProductType,
     ProductPageInfo? dripBagPageInfo,
     ProductPageInfo? stickCoffeePageInfo,
     ProductPageInfo? coffeeBeansPageInfo,
