@@ -10,12 +10,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+enum ListWidgetType {
+  preview,
+  detail,
+}
+
 class ProductListWidget extends StatelessWidget {
   final ProductInfo productInfo;
+  final ListWidgetType listType;
 
   const ProductListWidget({
     Key? key,
     required this.productInfo,
+    this.listType = ListWidgetType.preview,
   }) : super(key: key);
 
   @override
@@ -40,12 +47,13 @@ class ProductListWidget extends StatelessWidget {
         (productInfo.price * ((100 - productInfo.dcRate) / 100)).toInt();
 
     if (Responsive.isPage1(context)) {
+      final double width = (listType == ListWidgetType.preview) ? 250 : 400;
       return SizedBox(
-        width: 250,
+        width: width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, 250, viewModel, productViewModel),
+            getProductImage(isHovered, width, viewModel, productViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -68,12 +76,14 @@ class ProductListWidget extends StatelessWidget {
         ),
       );
     } else if (Responsive.isPage2(context)) {
+      final double width = (listType == ListWidgetType.preview) ? 250 : 400;
+
       return SizedBox(
-        width: 250,
+        width: width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, 250, viewModel, productViewModel),
+            getProductImage(isHovered, width, viewModel, productViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -96,12 +106,14 @@ class ProductListWidget extends StatelessWidget {
         ),
       );
     } else if (Responsive.isPage3(context)) {
+      final double width = (listType == ListWidgetType.preview) ? 250 : 400;
+
       return SizedBox(
-        width: 250,
+        width: width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, 250, viewModel, productViewModel),
+            getProductImage(isHovered, width, viewModel, productViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -124,12 +136,14 @@ class ProductListWidget extends StatelessWidget {
         ),
       );
     } else if (Responsive.isPage4(context)) {
+      final double width = (listType == ListWidgetType.preview) ? 200 : 400;
+
       return SizedBox(
-        width: 200,
+        width: width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, 200, viewModel, productViewModel),
+            getProductImage(isHovered, width, viewModel, productViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -152,12 +166,14 @@ class ProductListWidget extends StatelessWidget {
         ),
       );
     } else {
+      final double width = (listType == ListWidgetType.preview) ? 300 : 400;
+
       return SizedBox(
-        width: 300,
+        width: width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, 300, viewModel, productViewModel),
+            getProductImage(isHovered, width, viewModel, productViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(

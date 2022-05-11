@@ -1,5 +1,5 @@
 import 'package:beans_instapay/domain/model/product_page_info.dart';
-import 'package:beans_instapay/presentation/home/product/detail/product_detail_page.dart';
+import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/presentation/home/product/widget/product_list_widget.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
@@ -8,6 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
+import 'package:provider/provider.dart';
 
 class ProductPageWidget extends StatefulWidget {
   final ProductPageInfo pageInfo;
@@ -43,9 +44,9 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
             if (Responsive.isPage1(context) ||
                 Responsive.isPage2(context) ||
                 Responsive.isPage3(context))
-              getImageComment(context),
+              getImageComment(context, widget.pageInfo),
             if (Responsive.isPage4(context) || Responsive.isPage5(context))
-              getImageComment(context),
+              getImageComment(context, widget.pageInfo),
             if (Responsive.isPage1(context) ||
                 Responsive.isPage2(context) ||
                 Responsive.isPage3(context))
@@ -230,7 +231,7 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
     }
   }
 
-  Widget getImageComment(BuildContext context) {
+  Widget getImageComment(BuildContext context, ProductPageInfo info) {
     if (Responsive.isPage1(context)) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,7 +256,9 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
               ),
             ),
           ),
-          const SeeCollection(),
+          SeeCollection(
+            info: info,
+          ),
         ],
       );
     } else if (Responsive.isPage2(context)) {
@@ -285,7 +288,9 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
                   ),
                 ),
               ),
-              const SeeCollection(),
+              SeeCollection(
+                info: info,
+              ),
             ],
           ),
         ],
@@ -320,7 +325,9 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
                 ),
                 Transform.rotate(
                   angle: math.pi / 2,
-                  child: const SeeCollection(),
+                  child: SeeCollection(
+                    info: info,
+                  ),
                 ),
               ],
             ),
@@ -371,7 +378,9 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
                     top: 150,
                     child: Transform.rotate(
                       angle: math.pi / 2,
-                      child: const SeeCollection(),
+                      child: SeeCollection(
+                        info: info,
+                      ),
                     ),
                   ),
                 ],
@@ -427,7 +436,9 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
                     top: 150,
                     child: Transform.rotate(
                       angle: math.pi / 2,
-                      child: const SeeCollection(),
+                      child: SeeCollection(
+                        info: info,
+                      ),
                     ),
                   ),
                 ],
@@ -447,18 +458,23 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
 }
 
 class SeeCollection extends StatelessWidget {
+  final ProductPageInfo info;
+
   const SeeCollection({
     Key? key,
+    required this.info,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = (context).watch<ProductViewModel>();
+
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ProductDetailPage(),
+            builder: (context) => viewModel.getProductDetailPage(info.title),
           ),
         );
       },

@@ -360,21 +360,6 @@ class _ProductPreviewPaymentWidgetState
   }
 
   void removeOverlay(String type) {
-    /*
-          name: 'normal',
-    );
-    beansDropDown = CustomDropDown(
-      initValue: selectDropDownValue,
-      items: beansItemsCount,
-      type: DropDownValueType.int,
-      name: 'beans',
-    );
-    beansTypeDropDown = CustomDropDown(
-      initValue: selectBeansDropDownValue,
-      items: beansType,
-      type: DropDownValueType.string,
-      name: 'beans type',
-    * */
     switch (type) {
       case '':
         if (dropDown?.removeOverlay != null) {
