@@ -3,17 +3,17 @@ import 'package:beans_instapay/presentation/product/widget/product_detail_page.d
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DripBagPage extends StatelessWidget {
-  const DripBagPage({Key? key}) : super(key: key);
+class CoffeeBeansDetailScreen extends StatelessWidget {
+  const CoffeeBeansDetailScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ProductDetailViewModel>();
     final state = viewModel.state;
 
-    return (state.dripBagDetailPageInfo != null)
+    return (state.coffeeBeansDetailPageInfo != null)
         ? ProductDetailPage(
-            info: state.dripBagDetailPageInfo!,
+            info: state.coffeeBeansDetailPageInfo!,
           )
         : Text('data가 없습니다');
   }

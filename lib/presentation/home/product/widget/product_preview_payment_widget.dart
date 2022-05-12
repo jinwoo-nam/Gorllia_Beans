@@ -129,11 +129,15 @@ class _ProductPreviewPaymentWidgetState
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(32.0),
+                              padding: const EdgeInsets.only(
+                                top: 55.0,
+                                bottom: 32,
+                                right: 32,
+                                left: 32,
+                              ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-
                                   Align(
                                     alignment: Alignment.topLeft,
                                     child: Text(
@@ -151,7 +155,8 @@ class _ProductPreviewPaymentWidgetState
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: Column(
@@ -160,7 +165,8 @@ class _ProductPreviewPaymentWidgetState
                                           children: [
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   '결제 금액',
@@ -182,11 +188,13 @@ class _ProductPreviewPaymentWidgetState
                                               color: priceGrey,
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 8.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     '정가',
@@ -207,11 +215,13 @@ class _ProductPreviewPaymentWidgetState
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 8.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
@@ -228,14 +238,16 @@ class _ProductPreviewPaymentWidgetState
                                                     children: [
                                                       Text(
                                                         currencyFormat(dcPrice),
-                                                        style: GoogleFonts.notoSans(
+                                                        style: GoogleFonts
+                                                            .notoSans(
                                                           fontSize: 15,
                                                           color: secondaryGrey,
                                                         ),
                                                       ),
                                                       Text(
                                                         '($dcRate% 할인)',
-                                                        style: GoogleFonts.notoSans(
+                                                        style: GoogleFonts
+                                                            .notoSans(
                                                           fontSize: 13,
                                                           color: secondaryGrey,
                                                         ),
@@ -246,11 +258,13 @@ class _ProductPreviewPaymentWidgetState
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 8.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     '배송비',
@@ -271,21 +285,22 @@ class _ProductPreviewPaymentWidgetState
                                             ),
                                             (isBeans)
                                                 ? Padding(
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                            vertical: 8.0),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 8.0),
                                                     child: beansDropDown!,
                                                   )
                                                 : Padding(
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                            vertical: 8.0),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 8.0),
                                                     child: dropDown!,
                                                   ),
                                             if (isBeans)
                                               Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    vertical: 8.0),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8.0),
                                                 child: beansTypeDropDown!,
                                               )
                                           ],
@@ -294,8 +309,8 @@ class _ProductPreviewPaymentWidgetState
                                       const SizedBox(
                                         width: 30,
                                       ),
-                                      getQrImage(
-                                          state.selectedProductCount, beansType),
+                                      getQrImage(state.selectedProductCount,
+                                          beansType),
                                     ],
                                   ),
                                   const SizedBox(
@@ -307,7 +322,8 @@ class _ProductPreviewPaymentWidgetState
                                     ],
                                   ),
                                   const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 8.0),
                                     child: Divider(
                                       color: priceGrey,
                                     ),
@@ -315,8 +331,8 @@ class _ProductPreviewPaymentWidgetState
                                   Row(
                                     children: [
                                       const Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(horizontal: 8.0),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.0),
                                         child: FaIcon(
                                           FontAwesomeIcons.tags,
                                           color: secondaryGrey,
@@ -329,15 +345,18 @@ class _ProductPreviewPaymentWidgetState
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      ...widget.info.categories.map((e) => Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            child: Text(e),
-                                          )),
+                                      ...widget.info.categories
+                                          .map((e) => Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4.0),
+                                                child: Text(e),
+                                              )),
                                     ],
                                   ),
                                   const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 8.0),
                                     child: Divider(
                                       color: priceGrey,
                                     ),

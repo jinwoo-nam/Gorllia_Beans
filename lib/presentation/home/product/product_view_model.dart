@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:beans_instapay/domain/use_case/get_coffee_beans_info_use_case.dart';
 import 'package:beans_instapay/domain/use_case/get_drip_bag_info_use_case.dart';
 import 'package:beans_instapay/domain/use_case/get_stick_coffee_info_use_case.dart';
-import 'package:beans_instapay/presentation/home/product/coffee_beans_page.dart';
 import 'package:beans_instapay/presentation/home/product/drop_box_event.dart';
 import 'package:beans_instapay/presentation/home/product/product_event.dart';
 import 'package:beans_instapay/presentation/home/product/product_state.dart';
-import 'package:beans_instapay/presentation/product/dripbag_page.dart';
-import 'package:beans_instapay/presentation/product/stick_coffee_page.dart';
+import 'package:beans_instapay/presentation/product/coffee_beans_detail_screen.dart';
+import 'package:beans_instapay/presentation/product/dripbag_detail_screen.dart';
+import 'package:beans_instapay/presentation/product/stick_coffee_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductViewModel with ChangeNotifier {
@@ -41,13 +41,13 @@ class ProductViewModel with ChangeNotifier {
   Widget getProductDetailPage(String type) {
     switch (type) {
       case '드립백':
-        return const DripBagPage();
+        return const DripBagDetailScreen();
 
       case '원두스틱 커피':
-        return const StickCoffeePage();
+        return const StickCoffeeDetailScreen();
 
       case '커피 원두':
-        return const CoffeeBeansPage();
+        return const CoffeeBeansDetailScreen();
 
       default:
         return const Text('잘못 입력되었습니다.');

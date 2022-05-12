@@ -16,7 +16,6 @@ class ProductDetailViewModel with ChangeNotifier {
   }) {
     fetchData();
   }
-
   ProductDetailState _state = ProductDetailState();
 
   ProductDetailState get state => _state;
@@ -53,4 +52,23 @@ class ProductDetailViewModel with ChangeNotifier {
     );
     notifyListeners();
   }
+
+  void setProductType(String type) {
+    if (ProductType.SingleOrigin.convertedText == type) {
+      _state = state.copyWith(
+        productType: ProductType.SingleOrigin,
+      );
+    } else if (ProductType.Decaf.convertedText == type) {
+      _state = state.copyWith(
+        productType: ProductType.Decaf,
+      );
+    } else {
+      _state = state.copyWith(
+        productType: ProductType.All,
+      );
+    }
+
+    notifyListeners();
+  }
+
 }
