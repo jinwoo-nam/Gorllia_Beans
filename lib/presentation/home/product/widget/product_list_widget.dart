@@ -77,7 +77,6 @@ class ProductListWidget extends StatelessWidget {
       );
     } else if (Responsive.isPage2(context)) {
       final double width = (listType == ListWidgetType.preview) ? 250 : 400;
-
       return SizedBox(
         width: width,
         child: Column(

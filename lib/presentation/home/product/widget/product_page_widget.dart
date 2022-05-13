@@ -471,12 +471,17 @@ class SeeCollection extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => viewModel.getProductDetailPage(info.title),
-          ),
-        );
+        switch (info.title) {
+          case '드립백':
+            Navigator.pushNamed(context, '/detail/dripbag');
+            break;
+          case '원두스틱 커피':
+            Navigator.pushNamed(context, '/detail/stick');
+            break;
+          case '커피 원두':
+            Navigator.pushNamed(context, '/detail/beans');
+            break;
+        }
       },
       child: OnHoverDetect(
         builder: (isHovered) {

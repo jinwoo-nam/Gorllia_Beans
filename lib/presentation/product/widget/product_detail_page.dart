@@ -1,4 +1,5 @@
 import 'package:beans_instapay/domain/model/product_detail_page_info.dart';
+import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/presentation/home/contact/contact_page.dart';
 import 'package:beans_instapay/presentation/home/footer/footer_page.dart';
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
@@ -25,10 +26,22 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+  double bodyPadding = 16;
   bool hoverState = false;
+  bool isCategoryClick = false;
 
   @override
   Widget build(BuildContext context) {
+    if (Responsive.isPage1(context)) {
+      bodyPadding = 32;
+    } else if (Responsive.isPage2(context) || Responsive.isPage3(context)) {
+      bodyPadding = 32;
+    } else if (Responsive.isPage4(context)) {
+      bodyPadding = 50;
+    } else if (Responsive.isPage5(context)) {
+      bodyPadding = 200 * ((MediaQuery.of(context).size.width - 1200) / 720);
+    }
+
     final homeViewModel = context.watch<HomeViewModel>();
     final viewModel = context.watch<ProductDetailViewModel>();
     final double lastAppbarWidth =
@@ -40,9 +53,130 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     }
 
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            OnHoverDetect(
+              builder: (isHovered) {
+                return ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/');
+                  },
+                  mouseCursor: SystemMouseCursors.click,
+                  title: Text(
+                    'HOME',
+                    style: TextStyle(
+                      color: secondaryGrey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              },
+            ),
+            const Divider(
+              height: 1,
+              color: fontColorGrey,
+            ),
+            ListTile(
+              onTap: () {
+                setState(() {
+                  isCategoryClick = !isCategoryClick;
+                });
+              },
+              mouseCursor: SystemMouseCursors.click,
+              title: const Text(
+                'CATEGORY',
+                style: TextStyle(
+                  color: secondaryGrey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: const Icon(Icons.keyboard_arrow_down),
+            ),
+            const Divider(
+              height: 1,
+              color: fontColorGrey,
+            ),
+            if (isCategoryClick)
+              Column(
+                children: [
+                  ListTile(
+                    tileColor: Colors.grey.withOpacity(0.5),
+                    mouseCursor: SystemMouseCursors.click,
+                    onTap: () {
+                      Navigator.pushNamed(context, '/detail/beans');
+                    },
+                    title: Text(
+                      'COFFEE BEANS',
+                      style: TextStyle(
+                        color: secondaryGrey,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: fontColorGrey,
+                  ),
+                  ListTile(
+                    tileColor: Colors.grey.withOpacity(0.5),
+                    mouseCursor: SystemMouseCursors.click,
+                    onTap: () {
+                      Navigator.pushNamed(context, '/detail/dripbag');
+                    },
+                    title: Text(
+                      'FEDORA DRIPBAG',
+                      style: TextStyle(
+                        color: secondaryGrey,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: fontColorGrey,
+                  ),
+                  ListTile(
+                    tileColor: Colors.grey.withOpacity(0.5),
+                    mouseCursor: SystemMouseCursors.click,
+                    onTap: () {
+                      Navigator.pushNamed(context, '/detail/stick');
+                    },
+                    title: Text(
+                      'STICK COFFEE',
+                      style: TextStyle(
+                        color: secondaryGrey,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: fontColorGrey,
+                  ),
+                ],
+              ),
+            const ListTile(
+              mouseCursor: SystemMouseCursors.click,
+              title: Text(
+                'INSTAPAY',
+                style: TextStyle(
+                  color: secondaryGrey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              color: fontColorGrey,
+            ),
+          ],
+        ),
+      ),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(appBarHeight),
         child: AppBar(
+          iconTheme: const IconThemeData(color: Colors.black),
           //toolbarHeight: 90,
           centerTitle: false,
           automaticallyImplyLeading: false,
@@ -51,7 +185,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           title: InkWell(
             overlayColor: MaterialStateProperty.all(Colors.transparent),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, '/');
             },
             child: const Image(
               image: AssetImage('img/GB_widelogo_brown.png'),
@@ -65,11 +199,20 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 Responsive.isPage3(context))
               GestureDetector(
                 onTap: () {},
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Icon(
-                    Icons.menu,
-                    color: Colors.black,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Builder(
+                    builder: (context) {
+                      return IconButton(
+                        icon: const Icon(
+                          Icons.menu,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          Scaffold.of(context).openDrawer();
+                        },
+                      );
+                    },
                   ),
                 ),
               ),
@@ -82,7 +225,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       builder: (isHovered) {
                         final color = isHovered ? selectColor : Colors.black;
                         return TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/');
+                          },
                           style: ButtonStyle(
                             overlayColor:
                                 MaterialStateProperty.all(Colors.transparent),
@@ -104,7 +249,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       builder: (isHovered) {
                         final color = isHovered ? selectColor : Colors.black;
                         return TextButton(
-                          onHover: (state){
+                          onHover: (state) {
                             setHoverState(state);
                           },
                           onPressed: () {},
@@ -210,34 +355,68 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 const SizedBox(
                   height: 50,
                 ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
-                            child: Row(
-                              children: widget.info.categories
-                                  .map((e) => Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: InkWell(
-                                          onTap: () {
-                                            viewModel.setProductType(e);
-                                          },
-                                          child: getProductType(e, viewModel),
-                                        ),
-                                      ))
-                                  .toList(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: bodyPadding),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30.0),
+                              child: Row(
+                                children: widget.info.categories
+                                    .map((e) => Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              viewModel.setProductType(e);
+                                            },
+                                            child: getProductType(e, viewModel),
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
                             ),
-                          ),
-                          ...getProductListWidgetList(viewModel),
-                        ]),
+                            if (Responsive.isPage1(context))
+                              ...getProductListWidgetList(viewModel),
+                          ]),
+                    ),
                   ),
                 ),
+                if (Responsive.isPage2(context) || Responsive.isPage3(context))
+                  Padding(
+                    padding: EdgeInsets.all(bodyPadding),
+                    child: GridView.count(
+                      shrinkWrap: true,
+                      crossAxisCount: 2,
+                      childAspectRatio: 1 / 2,
+                      children: getProductListWidgetList(viewModel),
+                    ),
+                  ),
+                if (Responsive.isPage4(context))
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: bodyPadding),
+                    child: GridView.count(
+                      shrinkWrap: true,
+                      crossAxisCount: 4,
+                      childAspectRatio: 1 / 2,
+                      children: getProductListWidgetList(viewModel),
+                    ),
+                  ),
+                if (Responsive.isPage5(context))
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: bodyPadding),
+                    child: GridView.count(
+                      shrinkWrap: true,
+                      crossAxisCount: 4,
+                      childAspectRatio: 1 / 2,
+                      children: getProductListWidgetList(viewModel),
+                    ),
+                  ),
                 ConstrainedBox(
                   constraints: BoxConstraints(
                     maxHeight: homeViewModel.getCalcContactPageHeight(context),
@@ -284,20 +463,20 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
                         child: Text(
                           'Coffee Beans',
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
                         child: Text(
                           'Fedora Dripbag',
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
                         child: Text(
                           'Stick Coffee',
                         ),
@@ -324,13 +503,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     if (widget.info.categories.length > 1) {
       if (viewModel.state.productType == ProductType.All) {
         return widget.info.productInfo.map((e) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32.0),
-            child: ProductListWidget(
-              productInfo: e,
-              listType: ListWidgetType.detail,
-            ),
-          );
+          return getProductList(e);
         }).toList();
       } else {
         return widget.info.productInfo
@@ -339,27 +512,28 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   viewModel.state.productType.convertedText);
             })
             .map(
-              (e) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32.0),
-                child: ProductListWidget(
-                  productInfo: e,
-                  listType: ListWidgetType.detail,
-                ),
-              ),
+              (e) => getProductList(e),
             )
             .toList();
       }
     } else {
       return widget.info.productInfo.map((e) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32.0),
-          child: ProductListWidget(
-            productInfo: e,
-            listType: ListWidgetType.detail,
-          ),
-        );
+        return getProductList(e);
       }).toList();
     }
+  }
+
+  Padding getProductList(ProductInfo info) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 32.0,
+        horizontal: 15,
+      ),
+      child: ProductListWidget(
+        productInfo: info,
+        listType: ListWidgetType.detail,
+      ),
+    );
   }
 
   Widget getProductType(String value, ProductDetailViewModel viewModel) {
