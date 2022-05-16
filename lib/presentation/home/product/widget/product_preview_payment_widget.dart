@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader.dart';
+import 'package:beans_instapay/presentation/home/overlay/loader_detail.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/presentation/home/product/widget/custom_drop_down.dart';
 import 'package:flutter/material.dart';
@@ -124,6 +125,7 @@ class _ProductPreviewPaymentWidgetState
                                   onTap: () {
                                     removeOverlay('');
                                     Loader.appLoader.hideLoader();
+                                    LoaderDetail.appLoader.hideLoader();
                                   },
                                 ),
                               ),

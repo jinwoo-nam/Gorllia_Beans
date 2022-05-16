@@ -1,8 +1,10 @@
+import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/domain/use_case/details/get_coffee_beans_detail_info_use_case.dart';
 import 'package:beans_instapay/domain/use_case/details/get_drip_bag_detail_info_use_case.dart';
 import 'package:beans_instapay/domain/use_case/details/get_stick_coffee_detail_info_use_case.dart';
 import 'package:beans_instapay/presentation/product/product_detail_state.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetailViewModel with ChangeNotifier {
   final GetDripBagDetailInfoUseCase getDripBagDetail;
@@ -71,4 +73,14 @@ class ProductDetailViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void setProductInfo(ProductInfo info) {
+    _state = state.copyWith(
+      productInfo: info,
+    );
+    notifyListeners();
+  }
+
+  void launchURL(Uri query) async {
+    if (!await launchUrl(query)) throw 'Could not launch $query';
+  }
 }

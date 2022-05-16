@@ -1,4 +1,5 @@
 import 'package:beans_instapay/di/provider_setup.dart';
+import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/main_state.dart';
 import 'package:beans_instapay/main_view_model.dart';
 import 'package:beans_instapay/presentation/home/home_screen.dart';
@@ -21,16 +22,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<MainViewModel>();
-    final state = viewModel.state;
-
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => MainScreen(state: state,),
-        '/detail/beans' : (context) => const CoffeeBeansDetailScreen(),
-        '/detail/stick' : (context) => const StickCoffeeDetailScreen(),
-        '/detail/dripbag' : (context) => const DripBagDetailScreen(),
+        '/': (context) {
+          final viewModel = context.watch<MainViewModel>();
+          final state = viewModel.state;
+
+          if (state.productInfo == null) {
+          } else {
+          }
+          return Stack(
+            children: [
+              const HomeScreen(),
+              OverlayView(
+                info: state.productInfo,
+              ),
+            ],
+          );
+        },
+        '/detail/beans': (context) => const CoffeeBeansDetailScreen(),
+        '/detail/stick': (context) => const StickCoffeeDetailScreen(),
+        '/detail/dripbag': (context) => const DripBagDetailScreen(),
       },
       title: '"글과 향을 담다" - Gorilla Beans',
       theme: ThemeData(
@@ -44,10 +57,10 @@ class MyApp extends StatelessWidget {
 class MainScreen extends StatelessWidget {
   const MainScreen({
     Key? key,
-    required this.state,
+    required this.info,
   }) : super(key: key);
 
-  final MainState state;
+  final ProductInfo? info;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +68,7 @@ class MainScreen extends StatelessWidget {
       children: [
         const HomeScreen(),
         OverlayView(
-          info: state.productInfo,
+          info: info,
         ),
       ],
     );

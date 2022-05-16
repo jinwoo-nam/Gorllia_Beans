@@ -1,3 +1,4 @@
+import 'package:beans_instapay/presentation/home/overlay/overlay_view_detail.dart';
 import 'package:beans_instapay/presentation/product/product_detail_veiw_model.dart';
 import 'package:beans_instapay/presentation/product/widget/product_detail_page.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,16 @@ class DripBagDetailScreen extends StatelessWidget {
     final state = viewModel.state;
 
     return (state.dripBagDetailPageInfo != null)
-        ? ProductDetailPage(
-            info: state.dripBagDetailPageInfo!,
-          )
+        ? Stack(
+          children: [
+            ProductDetailPage(
+                info: state.dripBagDetailPageInfo!,
+              ),
+            OverlayViewDetail(
+              info: state.productInfo,
+            ),
+          ],
+        )
         : Text('data가 없습니다');
   }
 }

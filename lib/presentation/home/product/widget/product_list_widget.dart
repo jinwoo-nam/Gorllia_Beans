@@ -1,7 +1,9 @@
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/main_view_model.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader.dart';
+import 'package:beans_instapay/presentation/home/overlay/loader_detail.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
+import 'package:beans_instapay/presentation/product/product_detail_veiw_model.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
@@ -29,20 +31,25 @@ class ProductListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = context.watch<MainViewModel>();
     final productViewModel = context.watch<ProductViewModel>();
+    final productDetailViewModel = context.watch<ProductDetailViewModel>();
 
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: OnHoverDetect(
         builder: (isHovered) {
-          return getProductCard(
-              context, isHovered, viewModel, productViewModel);
+          return getProductCard(context, isHovered, viewModel, productViewModel,
+              productDetailViewModel);
         },
       ),
     );
   }
 
-  Widget getProductCard(BuildContext context, bool isHovered,
-      MainViewModel viewModel, ProductViewModel productViewModel) {
+  Widget getProductCard(
+      BuildContext context,
+      bool isHovered,
+      MainViewModel viewModel,
+      ProductViewModel productViewModel,
+      ProductDetailViewModel productDetailViewModel) {
     int dcPrice =
         (productInfo.price * ((100 - productInfo.dcRate) / 100)).toInt();
 
@@ -53,7 +60,8 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, width, viewModel, productViewModel),
+            getProductImage(isHovered, width, viewModel, productViewModel,
+                productDetailViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -82,7 +90,8 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, width, viewModel, productViewModel),
+            getProductImage(isHovered, width, viewModel, productViewModel,
+                productDetailViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -112,7 +121,8 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, width, viewModel, productViewModel),
+            getProductImage(isHovered, width, viewModel, productViewModel,
+                productDetailViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -142,7 +152,8 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, width, viewModel, productViewModel),
+            getProductImage(isHovered, width, viewModel, productViewModel,
+                productDetailViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -172,7 +183,8 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, width, viewModel, productViewModel),
+            getProductImage(isHovered, width, viewModel, productViewModel,
+                productDetailViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -197,8 +209,12 @@ class ProductListWidget extends StatelessWidget {
     }
   }
 
-  Widget getProductImage(bool isHovered, double width, MainViewModel viewModel,
-      ProductViewModel productViewModel) {
+  Widget getProductImage(
+      bool isHovered,
+      double width,
+      MainViewModel viewModel,
+      ProductViewModel productViewModel,
+      ProductDetailViewModel productDetailViewModel) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Stack(
@@ -210,20 +226,27 @@ class ProductListWidget extends StatelessWidget {
           ),
           AnimatedPositioned(
             bottom: (isHovered) ? 0 : -50,
-            duration: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 200),
             child: AnimatedOpacity(
               opacity: isHovered ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 400),
+              duration: const Duration(milliseconds: 200),
               child: OnHoverDetect(
                 builder: (isHoveredInContainer) {
                   final color =
                       (isHoveredInContainer) ? Colors.black : selectColor;
                   return InkWell(
                     onTap: () async {
-                      productViewModel.setProductCount(1);
-                      viewModel.setProductInfo(productInfo);
-                      Loader.appLoader.showLoader();
-                      await Future.delayed(const Duration(seconds: 5));
+                      if (listType == ListWidgetType.preview) {
+                        productViewModel.setProductCount(1);
+                        viewModel.setProductInfo(productInfo);
+                        Loader.appLoader.showLoader();
+                        await Future.delayed(const Duration(seconds: 5));
+                      } else {
+                        productViewModel.setProductCount(1);
+                        productDetailViewModel.setProductInfo(productInfo);
+                        LoaderDetail.appLoader.showLoader();
+                        await Future.delayed(const Duration(seconds: 5));
+                      }
                     },
                     child: Container(
                       alignment: Alignment.center,

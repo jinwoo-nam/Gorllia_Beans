@@ -1,4 +1,5 @@
 import 'package:beans_instapay/domain/model/product_detail_page_info.dart';
+import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -13,6 +14,7 @@ class ProductDetailState with _$ProductDetailState {
     ProductDetailPageInfo? stickCoffeeDetailPageInfo,
     ProductDetailPageInfo? coffeeBeansDetailPageInfo,
     @Default(ProductType.All) ProductType productType,
+    ProductInfo? productInfo,
   }) = _ProductDetailState;
 
   factory ProductDetailState.fromJson(Map<String, dynamic> json) =>

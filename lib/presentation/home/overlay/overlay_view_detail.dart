@@ -1,12 +1,12 @@
 import 'package:beans_instapay/domain/model/product_info.dart';
-import 'package:beans_instapay/presentation/home/overlay/loader.dart';
+import 'package:beans_instapay/presentation/home/overlay/loader_detail.dart';
 import 'package:beans_instapay/presentation/home/product/widget/product_preview_payment_widget.dart';
 import 'package:flutter/material.dart';
 
-class OverlayView extends StatelessWidget {
+class OverlayViewDetail extends StatelessWidget {
   final ProductInfo? info;
 
-  const OverlayView({
+  const OverlayViewDetail({
     Key? key,
     required this.info,
   }) : super(key: key);
@@ -14,7 +14,7 @@ class OverlayView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
-      valueListenable: Loader.appLoader.loaderShowingNotifier,
+      valueListenable: LoaderDetail.appLoader.loaderShowingNotifier,
       builder: (context, value, child) {
         if (value) {
           return ProductPreviewPaymentWidget(
