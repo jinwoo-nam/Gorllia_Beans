@@ -6,9 +6,9 @@ import 'package:beans_instapay/domain/use_case/get_stick_coffee_info_use_case.da
 import 'package:beans_instapay/presentation/home/product/drop_box_event.dart';
 import 'package:beans_instapay/presentation/home/product/product_event.dart';
 import 'package:beans_instapay/presentation/home/product/product_state.dart';
-import 'package:beans_instapay/presentation/product/coffee_beans_detail_screen.dart';
-import 'package:beans_instapay/presentation/product/dripbag_detail_screen.dart';
-import 'package:beans_instapay/presentation/product/stick_coffee_detail_screen.dart';
+import 'package:beans_instapay/presentation/product/detail/coffee_beans_detail_screen.dart';
+import 'package:beans_instapay/presentation/product/detail/dripbag_detail_screen.dart';
+import 'package:beans_instapay/presentation/product/detail/stick_coffee_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductViewModel with ChangeNotifier {

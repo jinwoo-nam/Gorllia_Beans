@@ -4,9 +4,9 @@ import 'package:beans_instapay/main_state.dart';
 import 'package:beans_instapay/main_view_model.dart';
 import 'package:beans_instapay/presentation/home/home_screen.dart';
 import 'package:beans_instapay/presentation/home/overlay/overlay_view.dart';
-import 'package:beans_instapay/presentation/product/coffee_beans_detail_screen.dart';
-import 'package:beans_instapay/presentation/product/dripbag_detail_screen.dart';
-import 'package:beans_instapay/presentation/product/stick_coffee_detail_screen.dart';
+import 'package:beans_instapay/presentation/product/detail/coffee_beans_detail_screen.dart';
+import 'package:beans_instapay/presentation/product/detail/dripbag_detail_screen.dart';
+import 'package:beans_instapay/presentation/product/detail/stick_coffee_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/detail/beans': (context) => const CoffeeBeansDetailScreen(),
         '/detail/stick': (context) => const StickCoffeeDetailScreen(),
         '/detail/dripbag': (context) => const DripBagDetailScreen(),
+        '/intro/beans/': (context) => const DripBagDetailScreen(),
       },
       title: '"글과 향을 담다" - Gorilla Beans',
       theme: ThemeData(

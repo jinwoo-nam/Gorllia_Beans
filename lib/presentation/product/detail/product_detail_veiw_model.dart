@@ -2,7 +2,7 @@ import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/domain/use_case/details/get_coffee_beans_detail_info_use_case.dart';
 import 'package:beans_instapay/domain/use_case/details/get_drip_bag_detail_info_use_case.dart';
 import 'package:beans_instapay/domain/use_case/details/get_stick_coffee_detail_info_use_case.dart';
-import 'package:beans_instapay/presentation/product/product_detail_state.dart';
+import 'package:beans_instapay/presentation/product/detail/product_detail_state.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 

@@ -1,5 +1,5 @@
 import 'package:beans_instapay/presentation/home/overlay/overlay_view_detail.dart';
-import 'package:beans_instapay/presentation/product/product_detail_veiw_model.dart';
+import 'package:beans_instapay/presentation/product/detail/product_detail_veiw_model.dart';
 import 'package:beans_instapay/presentation/product/widget/product_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,11 +1,8 @@
-import 'package:beans_instapay/domain/model/product_detail_page_info.dart';
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/presentation/home/contact/contact_page.dart';
 import 'package:beans_instapay/presentation/home/footer/footer_page.dart';
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
-import 'package:beans_instapay/presentation/home/product/widget/product_list_widget.dart';
-import 'package:beans_instapay/presentation/product/detail/product_detail_state.dart';
-import 'package:beans_instapay/presentation/product/detail/product_detail_veiw_model.dart';
+import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
@@ -13,22 +10,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const String homePageUrl = 'https://www.instapay.kr/';
 
-class ProductDetailPage extends StatefulWidget {
-  final ProductDetailPageInfo info;
+class ProductIntroPage extends StatefulWidget {
+  final ProductInfo info;
 
-  const ProductDetailPage({
+  const ProductIntroPage({
     Key? key,
     required this.info,
   }) : super(key: key);
 
   @override
-  State<ProductDetailPage> createState() => _ProductDetailPageState();
+  State<ProductIntroPage> createState() => _ProductIntroPageState();
 }
 
-class _ProductDetailPageState extends State<ProductDetailPage> {
+class _ProductIntroPageState extends State<ProductIntroPage> {
   double bodyPadding = 16;
   bool hoverState = false;
   bool isCategoryClick = false;
@@ -42,6 +40,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final int dcPrice =
+        (widget.info.price * ((100 - widget.info.dcRate) / 100)).ceil();
+
     if (Responsive.isPage1(context)) {
       bodyPadding = 32;
     } else if (Responsive.isPage2(context) || Responsive.isPage3(context)) {
@@ -53,7 +54,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     }
 
     final homeViewModel = context.watch<HomeViewModel>();
-    final viewModel = context.watch<ProductDetailViewModel>();
+    final viewModel = context.watch<ProductViewModel>();
     final double lastAppbarWidth =
         150 * ((MediaQuery.of(context).size.width - 1200) / 720);
     double appBarHeight = 70;
@@ -61,7 +62,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     if (Responsive.isPage5(context)) {
       categoryWidth += lastAppbarWidth;
     }
-
+    final category = widget.info.categories[0];
+    String title = '';
+    switch (category) {
+      case 'DRIPBAG':
+        title = 'Fedora Dripbag';
+        break;
+      case 'STICK':
+        title = 'Stick Coffee';
+        break;
+      case 'BEANS':
+        title = 'Coffee Beans';
+        break;
+    }
     return GestureDetector(
       onTap: () {
         if (hoverState == true) {
@@ -175,7 +188,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ListTile(
                 onTap: () {
                   final uri = Uri.parse(homePageUrl);
-                  viewModel.launchURL(uri);
+                  launchURL(uri);
                 },
                 mouseCursor: SystemMouseCursors.click,
                 title: const Text(
@@ -303,7 +316,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           return TextButton(
                             onPressed: () {
                               final uri = Uri.parse(homePageUrl);
-                              viewModel.launchURL(uri);
+                              launchURL(uri);
                             },
                             style: ButtonStyle(
                               overlayColor:
@@ -353,7 +366,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 16.0),
                                 child: Text(
-                                  widget.info.title,
+                                  title,
                                   style: GoogleFonts.notoSans(
                                       color: Colors.white,
                                       fontSize: 30,
@@ -361,7 +374,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 ),
                               ),
                               Text(
-                                widget.info.description,
+                                'Home > $category > ${widget.info.name}',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.notoSans(
                                   color: Colors.white70,
@@ -380,68 +393,135 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: bodyPadding),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30.0),
-                                child: Row(
-                                  children: widget.info.categories
-                                      .map((e) => Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: InkWell(
-                                              onTap: () {
-                                                viewModel.setProductType(e);
-                                              },
-                                              child:
-                                                  getProductType(e, viewModel),
-                                            ),
-                                          ))
-                                      .toList(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image(
+                              image: AssetImage(widget.info.imageUrl),
+                              fit: BoxFit.cover,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16.0),
+                              child: Text(
+                                widget.info.name,
+                                textAlign: TextAlign.start,
+                                style: GoogleFonts.notoSans(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              if (Responsive.isPage1(context))
-                                ...getProductListWidgetList(viewModel),
-                            ]),
-                      ),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  currencyFormat(widget.info.price),
+                                  style: GoogleFonts.notoSans(
+                                    fontSize: 22,
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 30.0),
+                                  child: Text(
+                                    currencyFormat(dcPrice),
+                                    style: GoogleFonts.notoSans(
+                                      fontSize: 22,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Padding(padding: EdgeInsets.all(20)),
+                            Text(
+                              widget.info.description,
+                              style: GoogleFonts.notoSans(
+                                fontSize: 15,
+                              ),
+                            ),
+                            const Padding(padding: EdgeInsets.all(20)),
+                            Row(
+                              children: [
+                                Text('Cup-Note : '),
+                                Text(widget.info.cupNote),
+                              ],
+                            ),
+
+                            Row(
+                              children: [
+                                Text('신맛 : '),
+                                Text('${widget.info.sourness}'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('단맛 : '),
+                                Text('${widget.info.sweet}'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('쓴맛 : '),
+                                Text('${widget.info.bitterness}'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('바디감 : '),
+                                Builder(builder: (_) {
+                                  if (widget.info.bodyTaste == 5) {
+                                    return const Icon(Icons.star);
+                                  } else if (widget.info.bodyTaste == 4) {
+                                    return Text('4');
+                                  } else if (widget.info.bodyTaste == 3) {
+                                    return Text('3');
+                                  } else if (widget.info.bodyTaste == 2) {
+                                    return Text('2');
+                                  } else {
+                                    return Text('1');
+                                  }
+                                }),
+                              ],
+                            ),
+
+                            // if (Responsive.isPage1(context))
+                            //   ...getProductListWidgetList(viewModel),
+                          ]),
                     ),
                   ),
-                  if (Responsive.isPage2(context) ||
-                      Responsive.isPage3(context))
-                    Padding(
-                      padding: EdgeInsets.all(bodyPadding),
-                      child: GridView.count(
-                        shrinkWrap: true,
-                        crossAxisCount: 2,
-                        childAspectRatio: 1 / 2,
-                        children: getProductListWidgetList(viewModel),
-                      ),
-                    ),
-                  if (Responsive.isPage4(context))
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: bodyPadding),
-                      child: GridView.count(
-                        shrinkWrap: true,
-                        crossAxisCount: 4,
-                        childAspectRatio: 1 / 2,
-                        children: getProductListWidgetList(viewModel),
-                      ),
-                    ),
-                  if (Responsive.isPage5(context))
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: bodyPadding),
-                      child: GridView.count(
-                        shrinkWrap: true,
-                        crossAxisCount: 4,
-                        childAspectRatio: 1 / 2,
-                        children: getProductListWidgetList(viewModel),
-                      ),
-                    ),
+                  // if (Responsive.isPage2(context) ||
+                  //     Responsive.isPage3(context))
+                  //   Padding(
+                  //     padding: EdgeInsets.all(bodyPadding),
+                  //     child: GridView.count(
+                  //       shrinkWrap: true,
+                  //       crossAxisCount: 2,
+                  //       childAspectRatio: 1 / 2,
+                  //       children: getProductListWidgetList(viewModel),
+                  //     ),
+                  //   ),
+                  // if (Responsive.isPage4(context))
+                  //   Padding(
+                  //     padding: EdgeInsets.symmetric(horizontal: bodyPadding),
+                  //     child: GridView.count(
+                  //       shrinkWrap: true,
+                  //       crossAxisCount: 4,
+                  //       childAspectRatio: 1 / 2,
+                  //       children: getProductListWidgetList(viewModel),
+                  //     ),
+                  //   ),
+                  // if (Responsive.isPage5(context))
+                  //   Padding(
+                  //     padding: EdgeInsets.symmetric(horizontal: bodyPadding),
+                  //     child: GridView.count(
+                  //       shrinkWrap: true,
+                  //       crossAxisCount: 4,
+                  //       childAspectRatio: 1 / 2,
+                  //       children: getProductListWidgetList(viewModel),
+                  //     ),
+                  //   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
                       maxHeight:
@@ -564,53 +644,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     });
   }
 
-  List<Widget> getProductListWidgetList(ProductDetailViewModel viewModel) {
-    if (widget.info.categories.length > 1) {
-      if (viewModel.state.productType == ProductType.All) {
-        return widget.info.productInfo.map((e) {
-          return getProductList(e);
-        }).toList();
-      } else {
-        return widget.info.productInfo
-            .where((element) {
-              return (element.categories[1] ==
-                  viewModel.state.productType.convertedText);
-            })
-            .map(
-              (e) => getProductList(e),
-            )
-            .toList();
-      }
-    } else {
-      return widget.info.productInfo.map((e) {
-        return getProductList(e);
-      }).toList();
-    }
+  void launchURL(Uri query) async {
+    if (!await launchUrl(query)) throw 'Could not launch $query';
   }
 
-  Padding getProductList(ProductInfo info) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 32.0,
-        horizontal: 15,
-      ),
-      child: ProductListWidget(
-        productInfo: info,
-        listType: ListWidgetType.detail,
-      ),
-    );
-  }
-
-  Widget getProductType(String value, ProductDetailViewModel viewModel) {
-    var fontWeight = FontWeight.normal;
-
-    if (viewModel.state.productType.convertedText == value) {
-      fontWeight = FontWeight.bold;
-    }
-
-    return Text(
-      value,
-      style: TextStyle(fontWeight: fontWeight),
-    );
+  String currencyFormat(int price) {
+    var format = NumberFormat('###,###,### 원');
+    return format.format(price);
   }
 }

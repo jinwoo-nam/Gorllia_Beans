@@ -18,6 +18,12 @@ class ProductInfo with _$ProductInfo {
     required String qrImage_3,
     required String qrImage_5,
     required String qrImage_10,
+    required int sourness,
+    required int sweet,
+    required int bitterness,
+    required int bodyTaste,
+
+
     String? dripQrImage_1,
     String? dripQrImage_2,
     String? dripQrImage_3,

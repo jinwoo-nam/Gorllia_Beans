@@ -3,7 +3,8 @@ import 'package:beans_instapay/main_view_model.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader_detail.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
-import 'package:beans_instapay/presentation/product/product_detail_veiw_model.dart';
+import 'package:beans_instapay/presentation/product/detail/product_detail_veiw_model.dart';
+import 'package:beans_instapay/presentation/product/widget/product_intro_page.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
@@ -60,7 +61,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, width, viewModel, productViewModel,
+            getProductImage(context,isHovered, width, viewModel, productViewModel,
                 productDetailViewModel),
             Text(
               productInfo.name,
@@ -90,7 +91,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, width, viewModel, productViewModel,
+            getProductImage(context,isHovered, width, viewModel, productViewModel,
                 productDetailViewModel),
             Text(
               productInfo.name,
@@ -121,7 +122,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, width, viewModel, productViewModel,
+            getProductImage(context,isHovered, width, viewModel, productViewModel,
                 productDetailViewModel),
             Text(
               productInfo.name,
@@ -152,7 +153,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, width, viewModel, productViewModel,
+            getProductImage(context,isHovered, width, viewModel, productViewModel,
                 productDetailViewModel),
             Text(
               productInfo.name,
@@ -183,7 +184,7 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(isHovered, width, viewModel, productViewModel,
+            getProductImage(context,isHovered, width, viewModel, productViewModel,
                 productDetailViewModel),
             Text(
               productInfo.name,
@@ -210,89 +211,104 @@ class ProductListWidget extends StatelessWidget {
   }
 
   Widget getProductImage(
+      BuildContext context,
       bool isHovered,
       double width,
       MainViewModel viewModel,
       ProductViewModel productViewModel,
       ProductDetailViewModel productDetailViewModel) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Image(
-            image: AssetImage(productInfo.imageUrl),
-            fit: BoxFit.cover,
-          ),
-          AnimatedPositioned(
-            bottom: (isHovered) ? 0 : -50,
-            duration: const Duration(milliseconds: 200),
-            child: AnimatedOpacity(
-              opacity: isHovered ? 1.0 : 0.0,
+    return InkWell(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ProductIntroPage(info: productInfo,)),
+        );
+
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image(
+              image: AssetImage(productInfo.imageUrl),
+              fit: BoxFit.cover,
+            ),
+            AnimatedPositioned(
+              bottom: (isHovered) ? 0 : -50,
               duration: const Duration(milliseconds: 200),
-              child: OnHoverDetect(
-                builder: (isHoveredInContainer) {
-                  final color =
-                      (isHoveredInContainer) ? Colors.black : selectColor;
-                  return InkWell(
-                    onTap: () async {
-                      if (listType == ListWidgetType.preview) {
-                        productViewModel.setProductCount(1);
-                        viewModel.setProductInfo(productInfo);
-                        Loader.appLoader.showLoader();
-                        await Future.delayed(const Duration(seconds: 5));
-                      } else {
-                        productViewModel.setProductCount(1);
-                        productDetailViewModel.setProductInfo(productInfo);
-                        LoaderDetail.appLoader.showLoader();
-                        await Future.delayed(const Duration(seconds: 5));
-                      }
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: width,
-                      height: 50,
-                      color: color,
-                      child: Text(
-                        '구매하기',
-                        style: GoogleFonts.notoSans(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+              child: AnimatedOpacity(
+                opacity: isHovered ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 200),
+                child: OnHoverDetect(
+                  builder: (isHoveredInContainer) {
+                    final color =
+                        (isHoveredInContainer) ? Colors.black : selectColor;
+                    return InkWell(
+                      onTap: () async {
+                        if (listType == ListWidgetType.preview) {
+                          productViewModel.setProductCount(1);
+                          viewModel.setProductInfo(productInfo);
+                          Loader.appLoader.showLoader();
+                          await Future.delayed(const Duration(seconds: 5));
+                        } else {
+                          productViewModel.setProductCount(1);
+                          productDetailViewModel.setProductInfo(productInfo);
+                          LoaderDetail.appLoader.showLoader();
+                          await Future.delayed(const Duration(seconds: 5));
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: width,
+                        height: 50,
+                        color: color,
+                        child: Text(
+                          '구매하기',
+                          style: GoogleFonts.notoSans(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-          AnimatedOpacity(
-            opacity: isHovered ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 400),
-            child: AnimatedScale(
-              duration: const Duration(milliseconds: 300),
-              scale: (isHovered) ? 1 : 1.5,
-              child: OnHoverDetect(
-                builder: (isButtonHovered) {
-                  final color = (isButtonHovered) ? selectColor : Colors.white;
-                  return ElevatedButton(
-                    onPressed: () {},
-                    child: const Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(50, 50),
-                      shape: const CircleBorder(),
-                      primary: color,
-                    ),
-                  );
-                },
+            AnimatedOpacity(
+              opacity: isHovered ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 400),
+              child: AnimatedScale(
+                duration: const Duration(milliseconds: 300),
+                scale: (isHovered) ? 1 : 1.5,
+                child: OnHoverDetect(
+                  builder: (isButtonHovered) {
+                    final color = (isButtonHovered) ? selectColor : Colors.white;
+                    return ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProductIntroPage(info: productInfo,)),
+                        );
+                      },
+                      child: const Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(50, 50),
+                        shape: const CircleBorder(),
+                        primary: color,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
