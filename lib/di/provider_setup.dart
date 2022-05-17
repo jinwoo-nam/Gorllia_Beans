@@ -10,6 +10,7 @@ import 'package:beans_instapay/main_view_model.dart';
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/presentation/product/detail/product_detail_veiw_model.dart';
+import 'package:beans_instapay/presentation/product/widget/product_intro_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -30,6 +31,9 @@ Future<List<SingleChildWidget>> getProviders() async {
     ),
     ChangeNotifierProvider<MainViewModel>(
       create: (context) => MainViewModel(),
+    ),
+    ChangeNotifierProvider<ProductIntroViewModel>(
+      create: (context) => ProductIntroViewModel(),
     ),
     ChangeNotifierProvider<ProductDetailViewModel>(
       create: (context) => ProductDetailViewModel(

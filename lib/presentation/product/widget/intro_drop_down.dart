@@ -1,6 +1,7 @@
 import 'package:beans_instapay/presentation/home/product/drop_box_event.dart';
 import 'package:beans_instapay/presentation/home/product/product_event.dart';
-import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
+import 'package:beans_instapay/presentation/product/widget/product_intro_view_model.dart';
+
 import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ enum DropDownValueType {
   int,
 }
 
-class CustomDropDown extends StatefulWidget {
+class IntroDropDown extends StatefulWidget {
   final List<String> items;
   final String initValue;
   final DropDownValueType type;
@@ -18,7 +19,7 @@ class CustomDropDown extends StatefulWidget {
   Function? removeOverlay;
   Function? onEvent;
 
-  CustomDropDown({
+  IntroDropDown({
     Key? key,
     required this.items,
     required this.initValue,
@@ -29,10 +30,10 @@ class CustomDropDown extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomDropDown> createState() => _CustomDropDownState();
+  State<IntroDropDown> createState() => _CustomDropDownState();
 }
 
-class _CustomDropDownState extends State<CustomDropDown> {
+class _CustomDropDownState extends State<IntroDropDown> {
   String _dropdownValue = '';
 
   OverlayEntry? _overlayEntry;
@@ -40,7 +41,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
   final double _dropdownWidth = 300;
   final double _dropdownHeight = 48;
 
-  void _createOverlay(ProductViewModel viewModel) {
+  void _createOverlay(ProductIntroViewModel viewModel) {
     if (_overlayEntry == null) {
       _overlayEntry = _customDropdown(viewModel);
       Overlay.of(context)?.insert(_overlayEntry!);
@@ -71,7 +72,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = (context).watch<ProductViewModel>();
+    final viewModel = (context).watch<ProductIntroViewModel>();
 
     return Center(
       child: InkWell(
@@ -123,7 +124,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
     );
   }
 
-  OverlayEntry _customDropdown(ProductViewModel viewModel) {
+  OverlayEntry _customDropdown(ProductIntroViewModel viewModel) {
     return OverlayEntry(
       maintainState: true,
       builder: (context) => Positioned(
@@ -146,9 +147,9 @@ class _CustomDropDownState extends State<CustomDropDown> {
                 itemCount: widget.items.length,
                 itemBuilder: (context, index) {
                   final weight =
-                      (widget.items.elementAt(index) == _dropdownValue)
-                          ? FontWeight.bold
-                          : FontWeight.normal;
+                  (widget.items.elementAt(index) == _dropdownValue)
+                      ? FontWeight.bold
+                      : FontWeight.normal;
                   return InkWell(
                     onTap: () {
                       setState(() {

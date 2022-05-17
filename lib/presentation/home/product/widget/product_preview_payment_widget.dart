@@ -38,8 +38,8 @@ class _ProductPreviewPaymentWidgetState
   bool isBeans = false;
   StreamSubscription? _streamSubscription;
 
-  @override
-  void initState() {
+    @override
+    void initState() {
     isBeans = (widget.info.categories[0] == 'BEANS');
     dropDown = CustomDropDown(
       initValue: selectDropDownValue,
