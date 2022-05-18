@@ -441,12 +441,113 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 4,
-                                    child: OnHoverDetect(
+                              if (Responsive.isPage1(context))
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      flex: 4,
+                                      child: OnHoverDetect(
+                                        builder: (isHovered) {
+                                          final color = isHovered
+                                              ? selectColor
+                                              : Colors.white60;
+                                          return InkWell(
+                                            onTap: () {
+                                              removeOverlay('');
+                                              Navigator.pushNamed(context, '/');
+                                            },
+                                            child: Text(
+                                              'Home',
+                                              textAlign: TextAlign.right,
+                                              style: GoogleFonts.notoSans(
+                                                color: color,
+                                                fontSize: 15,
+                                                //fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        ' > ',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.notoSans(
+                                          color: Colors.white60,
+                                          fontSize: 15,
+                                          //fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    OnHoverDetect(
+                                      builder: (isHovered) {
+                                        final color = isHovered
+                                            ? selectColor
+                                            : Colors.white60;
+                                        return InkWell(
+                                          onTap: () {
+                                            switch (category) {
+                                              case 'DRIPBAG':
+                                                removeOverlay('');
+                                                Navigator.pushNamed(
+                                                    context, '/detail/dripbag');
+                                                break;
+                                              case 'STICK':
+                                                removeOverlay('');
+                                                Navigator.pushNamed(
+                                                    context, '/detail/stick');
+                                                break;
+                                              case 'BEANS':
+                                                removeOverlay('');
+                                                Navigator.pushNamed(
+                                                    context, '/detail/beans');
+                                                break;
+                                            }
+                                          },
+                                          child: Text(
+                                            '$category',
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.notoSans(
+                                              color: color,
+                                              fontSize: 15,
+                                              //fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        ' > ',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.notoSans(
+                                          color: Colors.white60,
+                                          fontSize: 15,
+                                          //fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 13,
+                                      child: Text(
+                                        widget.info.name,
+                                        textAlign: TextAlign.left,
+                                        style: GoogleFonts.notoSans(
+                                          color: Colors.white70,
+                                          fontSize: 15,
+                                          //fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              if(!Responsive.isPage1(context))
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    OnHoverDetect(
                                       builder: (isHovered) {
                                         final color = isHovered
                                             ? selectColor
@@ -468,9 +569,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                         );
                                       },
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
+                                    Text(
                                       ' > ',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.notoSans(
@@ -479,46 +578,44 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                         //fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ),
-                                  OnHoverDetect(
-                                    builder: (isHovered) {
-                                      final color = isHovered
-                                          ? selectColor
-                                          : Colors.white60;
-                                      return InkWell(
-                                        onTap: () {
-                                          switch (category) {
-                                            case 'DRIPBAG':
-                                              removeOverlay('');
-                                              Navigator.pushNamed(
-                                                  context, '/detail/dripbag');
-                                              break;
-                                            case 'STICK':
-                                              removeOverlay('');
-                                              Navigator.pushNamed(
-                                                  context, '/detail/stick');
-                                              break;
-                                            case 'BEANS':
-                                              removeOverlay('');
-                                              Navigator.pushNamed(
-                                                  context, '/detail/beans');
-                                              break;
-                                          }
-                                        },
-                                        child: Text(
-                                          '$category',
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.notoSans(
-                                            color: color,
-                                            fontSize: 15,
-                                            //fontWeight: FontWeight.bold,
+                                    OnHoverDetect(
+                                      builder: (isHovered) {
+                                        final color = isHovered
+                                            ? selectColor
+                                            : Colors.white60;
+                                        return InkWell(
+                                          onTap: () {
+                                            switch (category) {
+                                              case 'DRIPBAG':
+                                                removeOverlay('');
+                                                Navigator.pushNamed(
+                                                    context, '/detail/dripbag');
+                                                break;
+                                              case 'STICK':
+                                                removeOverlay('');
+                                                Navigator.pushNamed(
+                                                    context, '/detail/stick');
+                                                break;
+                                              case 'BEANS':
+                                                removeOverlay('');
+                                                Navigator.pushNamed(
+                                                    context, '/detail/beans');
+                                                break;
+                                            }
+                                          },
+                                          child: Text(
+                                            '$category',
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.notoSans(
+                                              color: color,
+                                              fontSize: 15,
+                                              //fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  Expanded(
-                                    child: Text(
+                                        );
+                                      },
+                                    ),
+                                    Text(
                                       ' > ',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.notoSans(
@@ -527,10 +624,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                         //fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    flex: 13,
-                                    child: Text(
+                                    Text(
                                       widget.info.name,
                                       textAlign: TextAlign.left,
                                       style: GoogleFonts.notoSans(
@@ -539,9 +633,8 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                         //fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
                             ],
                           ),
                         ),
