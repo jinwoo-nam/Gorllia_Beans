@@ -1,3 +1,4 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'product_info.freezed.dart';
 part 'product_info.g.dart';

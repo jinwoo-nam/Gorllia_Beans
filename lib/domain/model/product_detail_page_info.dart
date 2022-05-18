@@ -1,3 +1,4 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
