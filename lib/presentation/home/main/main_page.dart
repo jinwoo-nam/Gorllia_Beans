@@ -56,7 +56,7 @@ class MainPage extends StatelessWidget {
                         viewModel.onEvent(const HomeEvent.moveToDripBag());
                       },
                       child: Container(
-                        width: 290,
+                        width: 330,
                         margin: const EdgeInsets.symmetric(
                           vertical: 20.0,
                           horizontal: 50,
@@ -75,19 +75,27 @@ class MainPage extends StatelessWidget {
                           ),
                         ),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              '최고급 드립백 커피를 만나보세요',
-                              style: GoogleFonts.notoSans(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                            Expanded(
+                              flex: 7,
+                              child: Text(
+                                '최고급 드립백 커피를 만나보세요',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.notoSans(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                            const Icon(
-                              Icons.arrow_right,
-                              color: Colors.white,
-                              size: 22,
+                            Expanded(
+                              flex: 1,
+                              child: const Icon(
+                                Icons.arrow_right,
+                                color: Colors.white,
+                                size: 22,
+                              ),
                             )
                           ],
                         ),

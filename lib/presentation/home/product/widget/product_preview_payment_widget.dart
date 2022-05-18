@@ -5,6 +5,7 @@ import 'package:beans_instapay/presentation/home/overlay/loader.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader_detail.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/presentation/home/product/widget/custom_drop_down.dart';
+import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -90,6 +91,11 @@ class _ProductPreviewPaymentWidgetState
         : 0;
     final totalPrice = (dcPrice * state.selectedProductCount) + shippingFee;
     final String beansType = state.selectedProductType;
+    final double width = (Responsive.isPage1(context)) ? 400 : 600;
+    final double height = (Responsive.isPage1(context)) ? 600 : 700;
+
+    final double fontSize1 = (Responsive.isPage1(context)) ? 15 : 17;
+    final double fontSize2 = (Responsive.isPage1(context)) ? 16 : 21;
 
     return GestureDetector(
       onTap: () {
@@ -101,8 +107,8 @@ class _ProductPreviewPaymentWidgetState
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: SizedBox(
-              width: 600,
-              height: 700,
+              width: width,
+              height: height,
               child: SingleChildScrollView(
                 physics: const NeverScrollableScrollPhysics(),
                 child: Row(
@@ -173,14 +179,14 @@ class _ProductPreviewPaymentWidgetState
                                                 Text(
                                                   '결제 금액',
                                                   style: GoogleFonts.notoSans(
-                                                    fontSize: 17,
+                                                    fontSize: fontSize1,
                                                     color: priceGrey,
                                                   ),
                                                 ),
                                                 Text(
                                                   currencyFormat(totalPrice),
                                                   style: GoogleFonts.notoSans(
-                                                    fontSize: 21,
+                                                    fontSize: fontSize2,
                                                     color: secondaryGrey,
                                                   ),
                                                 ),
@@ -421,21 +427,24 @@ class _ProductPreviewPaymentWidgetState
   }
 
   Widget getQrImage(int count, String beansType) {
+      final double width = (Responsive.isPage1(context)) ? 130 : 180;
+      final double height = (Responsive.isPage1(context)) ? 130 : 180;
+
     switch (count) {
       case 1:
         if (beansType == '분쇄(드립용)') {
           return Image(
             image: AssetImage(widget.info.dripQrImage_1!),
             fit: BoxFit.cover,
-            width: 180,
-            height: 180,
+            width: width,
+            height: height,
           );
         } else {
           return Image(
             image: AssetImage(widget.info.qrImage_1),
             fit: BoxFit.cover,
-            width: 180,
-            height: 180,
+            width: width,
+            height: height,
           );
         }
       case 2:
@@ -443,37 +452,37 @@ class _ProductPreviewPaymentWidgetState
           return Image(
             image: AssetImage(widget.info.dripQrImage_2!),
             fit: BoxFit.cover,
-            width: 180,
-            height: 180,
+            width: width,
+            height: height,
           );
         } else {
           return Image(
             image: AssetImage(widget.info.qrImage_2),
             fit: BoxFit.cover,
-            width: 180,
-            height: 180,
+            width: width,
+            height: height,
           );
         }
       case 3:
         return Image(
           image: AssetImage(widget.info.qrImage_3),
           fit: BoxFit.cover,
-          width: 180,
-          height: 180,
+          width: width,
+          height: height,
         );
       case 5:
         return Image(
           image: AssetImage(widget.info.qrImage_5),
           fit: BoxFit.cover,
-          width: 180,
-          height: 180,
+          width: width,
+          height: height,
         );
       case 10:
         return Image(
           image: AssetImage(widget.info.qrImage_10),
           fit: BoxFit.cover,
-          width: 180,
-          height: 180,
+          width: width,
+          height: height,
         );
       default:
         return const Text('Image가 없습니다.');

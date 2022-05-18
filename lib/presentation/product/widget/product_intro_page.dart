@@ -444,33 +444,40 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  OnHoverDetect(
-                                    builder: (isHovered) {
-                                      final color = isHovered
-                                          ? selectColor
-                                          : Colors.white60;
-                                      return InkWell(
-                                        onTap: () {
-                                          removeOverlay('');
-                                          Navigator.pushNamed(context, '/');
-                                        },
-                                        child: Text(
-                                          'Home',
-                                          style: GoogleFonts.notoSans(
-                                            color: color,
-                                            fontSize: 15,
-                                            //fontWeight: FontWeight.bold,
+                                  Expanded(
+                                    flex: 4,
+                                    child: OnHoverDetect(
+                                      builder: (isHovered) {
+                                        final color = isHovered
+                                            ? selectColor
+                                            : Colors.white60;
+                                        return InkWell(
+                                          onTap: () {
+                                            removeOverlay('');
+                                            Navigator.pushNamed(context, '/');
+                                          },
+                                          child: Text(
+                                            'Home',
+                                            textAlign: TextAlign.right,
+                                            style: GoogleFonts.notoSans(
+                                              color: color,
+                                              fontSize: 15,
+                                              //fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                   ),
-                                  Text(
-                                    ' > ',
-                                    style: GoogleFonts.notoSans(
-                                      color: Colors.white60,
-                                      fontSize: 15,
-                                      //fontWeight: FontWeight.bold,
+                                  Expanded(
+                                    child: Text(
+                                      ' > ',
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.notoSans(
+                                        color: Colors.white60,
+                                        fontSize: 15,
+                                        //fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                   OnHoverDetect(
@@ -478,7 +485,6 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                       final color = isHovered
                                           ? selectColor
                                           : Colors.white60;
-
                                       return InkWell(
                                         onTap: () {
                                           switch (category) {
@@ -501,6 +507,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                         },
                                         child: Text(
                                           '$category',
+                                          textAlign: TextAlign.center,
                                           style: GoogleFonts.notoSans(
                                             color: color,
                                             fontSize: 15,
@@ -510,20 +517,27 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                       );
                                     },
                                   ),
-                                  Text(
-                                    ' > ',
-                                    style: GoogleFonts.notoSans(
-                                      color: Colors.white60,
-                                      fontSize: 15,
-                                      //fontWeight: FontWeight.bold,
+                                  Expanded(
+                                    child: Text(
+                                      ' > ',
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.notoSans(
+                                        color: Colors.white60,
+                                        fontSize: 15,
+                                        //fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    widget.info.name,
-                                    style: GoogleFonts.notoSans(
-                                      color: Colors.white70,
-                                      fontSize: 15,
-                                      //fontWeight: FontWeight.bold,
+                                  Expanded(
+                                    flex: 13,
+                                    child: Text(
+                                      widget.info.name,
+                                      textAlign: TextAlign.left,
+                                      style: GoogleFonts.notoSans(
+                                        color: Colors.white70,
+                                        fontSize: 15,
+                                        //fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -559,13 +573,13 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                   Expanded(
                                     flex: 3,
                                     child: getDescription(dcPrice, totalPrice,
-                                        shippingFee, state),
+                                        shippingFee, state, introViewModel),
                                   ),
                               ],
                             ),
                             if (Responsive.isPage1(context))
-                              getDescription(
-                                  dcPrice, totalPrice, shippingFee, state),
+                              getDescription(dcPrice, totalPrice, shippingFee,
+                                  state, introViewModel),
                           ]),
                     ),
                   ),
@@ -688,8 +702,8 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
     );
   }
 
-  Widget getDescription(
-      int dcPrice, int totalPrice, int shippingFee, ProductIntroState state) {
+  Widget getDescription(int dcPrice, int totalPrice, int shippingFee,
+      ProductIntroState state, ProductIntroViewModel introViewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -815,6 +829,10 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
               onTap: () {
                 setState(() {
                   buyBtnShow = !buyBtnShow;
+                  if (buyBtnShow) {
+                    introViewModel.setProductValue('원두 상태(홀빈)');
+                    introViewModel.setProductCount(1);
+                  }
                 });
               },
               child: (buyBtnShow)

@@ -11,7 +11,6 @@ import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 const String homePageUrl = 'https://www.instapay.kr/';

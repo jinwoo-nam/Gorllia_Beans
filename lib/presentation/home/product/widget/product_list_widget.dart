@@ -5,6 +5,7 @@ import 'package:beans_instapay/presentation/home/overlay/loader_detail.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/presentation/product/detail/product_detail_veiw_model.dart';
 import 'package:beans_instapay/presentation/product/widget/product_intro_page.dart';
+import 'package:beans_instapay/presentation/product/widget/product_intro_view_model.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
@@ -33,13 +34,14 @@ class ProductListWidget extends StatelessWidget {
     final viewModel = context.watch<MainViewModel>();
     final productViewModel = context.watch<ProductViewModel>();
     final productDetailViewModel = context.watch<ProductDetailViewModel>();
+    final introViewModel = context.watch<ProductIntroViewModel>();
 
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: OnHoverDetect(
         builder: (isHovered) {
           return getProductCard(context, isHovered, viewModel, productViewModel,
-              productDetailViewModel);
+              productDetailViewModel, introViewModel);
         },
       ),
     );
@@ -50,7 +52,8 @@ class ProductListWidget extends StatelessWidget {
       bool isHovered,
       MainViewModel viewModel,
       ProductViewModel productViewModel,
-      ProductDetailViewModel productDetailViewModel) {
+      ProductDetailViewModel productDetailViewModel,
+      ProductIntroViewModel introViewModel) {
     int dcPrice =
         (productInfo.price * ((100 - productInfo.dcRate) / 100)).toInt();
 
@@ -61,8 +64,8 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(context,isHovered, width, viewModel, productViewModel,
-                productDetailViewModel),
+            getProductImage(context, isHovered, width, viewModel,
+                productViewModel, productDetailViewModel, introViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -91,8 +94,8 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(context,isHovered, width, viewModel, productViewModel,
-                productDetailViewModel),
+            getProductImage(context, isHovered, width, viewModel,
+                productViewModel, productDetailViewModel, introViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -122,8 +125,8 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(context,isHovered, width, viewModel, productViewModel,
-                productDetailViewModel),
+            getProductImage(context, isHovered, width, viewModel,
+                productViewModel, productDetailViewModel, introViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -153,8 +156,8 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(context,isHovered, width, viewModel, productViewModel,
-                productDetailViewModel),
+            getProductImage(context, isHovered, width, viewModel,
+                productViewModel, productDetailViewModel, introViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -184,8 +187,8 @@ class ProductListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProductImage(context,isHovered, width, viewModel, productViewModel,
-                productDetailViewModel),
+            getProductImage(context, isHovered, width, viewModel,
+                productViewModel, productDetailViewModel, introViewModel),
             Text(
               productInfo.name,
               style: GoogleFonts.notoSans(
@@ -211,19 +214,25 @@ class ProductListWidget extends StatelessWidget {
   }
 
   Widget getProductImage(
-      BuildContext context,
-      bool isHovered,
-      double width,
-      MainViewModel viewModel,
-      ProductViewModel productViewModel,
-      ProductDetailViewModel productDetailViewModel) {
+    BuildContext context,
+    bool isHovered,
+    double width,
+    MainViewModel viewModel,
+    ProductViewModel productViewModel,
+    ProductDetailViewModel productDetailViewModel,
+    ProductIntroViewModel introViewModel,
+  ) {
     return InkWell(
-      onTap: (){
+      onTap: () {
+        introViewModel.setProductValue('원두 상태(홀빈)');
+        introViewModel.setProductCount(1);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ProductIntroPage(info: productInfo,)),
+          MaterialPageRoute(
+              builder: (context) => ProductIntroPage(
+                    info: productInfo,
+                  )),
         );
-
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 16.0),
@@ -247,11 +256,13 @@ class ProductListWidget extends StatelessWidget {
                     return InkWell(
                       onTap: () async {
                         if (listType == ListWidgetType.preview) {
+                          productViewModel.setProductValue('원두 상태(홀빈)');
                           productViewModel.setProductCount(1);
                           viewModel.setProductInfo(productInfo);
                           Loader.appLoader.showLoader();
                           await Future.delayed(const Duration(seconds: 5));
                         } else {
+                          productViewModel.setProductValue('원두 상태(홀빈)');
                           productViewModel.setProductCount(1);
                           productDetailViewModel.setProductInfo(productInfo);
                           LoaderDetail.appLoader.showLoader();
@@ -285,12 +296,18 @@ class ProductListWidget extends StatelessWidget {
                 scale: (isHovered) ? 1 : 1.5,
                 child: OnHoverDetect(
                   builder: (isButtonHovered) {
-                    final color = (isButtonHovered) ? selectColor : Colors.white;
+                    final color =
+                        (isButtonHovered) ? selectColor : Colors.white;
                     return ElevatedButton(
                       onPressed: () {
+                        introViewModel.setProductValue('원두 상태(홀빈)');
+                        introViewModel.setProductCount(1);
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ProductIntroPage(info: productInfo,)),
+                          MaterialPageRoute(
+                              builder: (context) => ProductIntroPage(
+                                    info: productInfo,
+                                  )),
                         );
                       },
                       child: const Icon(
