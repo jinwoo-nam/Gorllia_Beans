@@ -531,7 +531,7 @@ class _ProductListState extends State<ProductList> {
   Widget build(BuildContext context) {
     double page5Width = 450 + ((MediaQuery.of(context).size.width - 1200) / 9);
     double page3Width = 450 + ((MediaQuery.of(context).size.width - 730) / 5);
-
+    double viewPortFraction =  Responsive.isPage3(context) ? 0.3 : 0.4;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -548,7 +548,7 @@ class _ProductListState extends State<ProductList> {
                               ? 380
                               : 450,
                   enlargeCenterPage: true,
-                  viewportFraction: 0.4,
+                  viewportFraction: viewPortFraction,
                   onPageChanged: (index, reason) {
                     setState(() {
                       _current = index;
