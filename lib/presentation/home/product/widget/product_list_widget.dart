@@ -88,7 +88,7 @@ class ProductListWidget extends StatelessWidget {
         ),
       );
     } else if (Responsive.isPage2(context)) {
-      final double width = (listType == ListWidgetType.preview) ? 250 : 400;
+      final double width = (listType == ListWidgetType.preview) ? 300 : 400;
       return SizedBox(
         width: width,
         child: Column(
@@ -118,8 +118,7 @@ class ProductListWidget extends StatelessWidget {
         ),
       );
     } else if (Responsive.isPage3(context)) {
-      final double width = (listType == ListWidgetType.preview) ? 250 : 400;
-
+      final double width = (listType == ListWidgetType.preview) ? 350 : 400;
       return SizedBox(
         width: width,
         child: Column(

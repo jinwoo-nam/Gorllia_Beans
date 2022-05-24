@@ -531,7 +531,20 @@ class _ProductListState extends State<ProductList> {
   Widget build(BuildContext context) {
     double page5Width = 450 + ((MediaQuery.of(context).size.width - 1200) / 9);
     double page3Width = 450 + ((MediaQuery.of(context).size.width - 730) / 5);
-    double viewPortFraction =  Responsive.isPage3(context) ? 0.3 : 0.4;
+    double viewPortFraction = 0.33;
+    double sideButtonPadding = 85;
+    if (Responsive.isPage1(context)) {
+      sideButtonPadding = 70 + ((MediaQuery.of(context).size.width - 350) / 10);
+    } else if (Responsive.isPage2(context)) {
+      sideButtonPadding = 70 + ((MediaQuery.of(context).size.width - 350) / 10);
+    } else if (Responsive.isPage3(context)) {
+      sideButtonPadding = 70 + ((MediaQuery.of(context).size.width - 350) / 10);
+    } else if (Responsive.isPage4(context)) {
+      sideButtonPadding = 40 + ((MediaQuery.of(context).size.width - 400) / 10);
+    } else if (Responsive.isPage5(context)) {
+      sideButtonPadding = 40 + ((MediaQuery.of(context).size.width - 400) / 15);
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -547,7 +560,7 @@ class _ProductListState extends State<ProductList> {
                           : (Responsive.isPage1(context))
                               ? 380
                               : 450,
-                  enlargeCenterPage: true,
+                  enlargeCenterPage: false,
                   viewportFraction: viewPortFraction,
                   onPageChanged: (index, reason) {
                     setState(() {
@@ -569,7 +582,7 @@ class _ProductListState extends State<ProductList> {
             Align(
               alignment: Alignment.topRight,
               child: Padding(
-                padding: const EdgeInsets.only(top: 150.0),
+                padding: EdgeInsets.only(top: sideButtonPadding),
                 child: InkWell(
                   onTap: () {
                     widget.widget.scrollController.nextPage();
@@ -596,7 +609,7 @@ class _ProductListState extends State<ProductList> {
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
-                padding: const EdgeInsets.only(top: 150.0),
+                padding: EdgeInsets.only(top: sideButtonPadding),
                 child: InkWell(
                   onTap: () {
                     widget.widget.scrollController.previousPage();
@@ -643,7 +656,7 @@ class _ProductListState extends State<ProductList> {
               ),
             );
           }).toList(),
-        )
+        ),
       ],
     );
   }
