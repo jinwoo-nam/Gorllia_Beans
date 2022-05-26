@@ -11,7 +11,7 @@ enum DropDownValueType {
   int,
 }
 
-class IntroDropDown extends StatefulWidget {
+class CartDropDown extends StatefulWidget {
   final List<String> items;
   final String initValue;
   final DropDownValueType type;
@@ -19,7 +19,7 @@ class IntroDropDown extends StatefulWidget {
   Function? removeOverlay;
   Function? onEvent;
 
-  IntroDropDown({
+  CartDropDown({
     Key? key,
     required this.items,
     required this.initValue,
@@ -30,20 +30,20 @@ class IntroDropDown extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<IntroDropDown> createState() => _IntroDropDownState();
+  State<CartDropDown> createState() => _CartDropDownState();
 }
 
-class _IntroDropDownState extends State<IntroDropDown> {
+class _CartDropDownState extends State<CartDropDown> {
   String _dropdownValue = '';
 
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
-  final double _dropdownWidth = 300;
-  final double _dropdownHeight = 48;
+  final double _dropdownWidth = 150;
+  final double _dropdownHeight = 30;
 
   void _createOverlay(ProductIntroViewModel viewModel) {
     if (_overlayEntry == null) {
-      _overlayEntry = _introDropdown(viewModel);
+      _overlayEntry = _cartDropdown(viewModel);
       Overlay.of(context)?.insert(_overlayEntry!);
     } else {
       removeOverlay();
@@ -124,7 +124,7 @@ class _IntroDropDownState extends State<IntroDropDown> {
     );
   }
 
-  OverlayEntry _introDropdown(ProductIntroViewModel viewModel) {
+  OverlayEntry _cartDropdown(ProductIntroViewModel viewModel) {
     return OverlayEntry(
       maintainState: true,
       builder: (context) => Positioned(

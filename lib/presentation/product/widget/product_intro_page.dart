@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:beans_instapay/domain/model/cart_info.dart';
 import 'package:beans_instapay/domain/model/product_info.dart';
+import 'package:beans_instapay/presentation/cart/cart_view_model.dart';
 import 'package:beans_instapay/presentation/home/contact/contact_page.dart';
 import 'package:beans_instapay/presentation/home/footer/footer_page.dart';
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
@@ -9,8 +11,10 @@ import 'package:beans_instapay/presentation/product/widget/product_intro_state.d
 import 'package:beans_instapay/presentation/product/widget/product_intro_view_model.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
+import 'package:beans_instapay/ui/constant.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -50,8 +54,95 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
 
   bool buyBtnShow = false;
 
+  late FToast fToast;
+
+  late Widget toast;
+
+  _removeToast() {
+    fToast.removeCustomToast();
+  }
+
+  _showToast() {
+    _removeToast();
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 4),
+    );
+  }
+
   @override
   void initState() {
+    fToast = FToast();
+    fToast.init(globalKey.currentState!.context);
+
+    toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: selectColor,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.check),
+          const SizedBox(
+            width: 12.0,
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '장바구니에 상품이 추가되었습니다.',
+                  style: GoogleFonts.notoSans(
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        _removeToast();
+                        Navigator.pushNamed(context, '/cart');
+                      },
+                      child: Text(
+                        '장바구니로 이동 ',
+                        style: GoogleFonts.notoSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/cart');
+                      },
+                      child: const FaIcon(
+                        FontAwesomeIcons.circleArrowRight,
+                        color: Colors.white,
+                        size: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
     isBeans = (widget.info.categories[0] == 'BEANS');
     dropDown = IntroDropDown(
       initValue: selectDropDownValue,
@@ -93,7 +184,8 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
   Widget build(BuildContext context) {
     final introViewModel = (context).watch<ProductIntroViewModel>();
     final homeViewModel = context.watch<HomeViewModel>();
-    //final viewModel = context.watch<ProductViewModel>();
+    final cartViewModel = context.watch<CartViewModel>();
+    final itemCount = cartViewModel.state.cartInfo.length;
 
     final state = introViewModel.state;
 
@@ -252,6 +344,38 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                 ),
               ListTile(
                 onTap: () {
+                  Navigator.pushNamed(context, '/cart');
+                },
+                mouseCursor: SystemMouseCursors.click,
+                title: Row(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: Text(
+                        'CART',
+                        style: TextStyle(
+                          color: secondaryGrey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: secondaryGrey.withOpacity(0.3),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text('$itemCount'),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(
+                height: 1,
+                color: fontColorGrey,
+              ),
+              ListTile(
+                onTap: () {
                   final uri = Uri.parse(homePageUrl);
                   launchURL(uri);
                 },
@@ -369,6 +493,48 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                 Icon(
                                   Icons.keyboard_arrow_down,
                                   color: color,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        width: 25,
+                      ),
+                      OnHoverDetect(
+                        builder: (isHovered) {
+                          final color = isHovered ? selectColor : Colors.black;
+                          return TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/cart');
+                            },
+                            style: ButtonStyle(
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.transparent),
+                            ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Text(
+                                    'CART',
+                                    style: TextStyle(
+                                      color: color,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    color: secondaryGrey.withOpacity(0.3),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Text(
+                                    '$itemCount',
+                                    style: const TextStyle(color: Colors.black),
+                                  ),
                                 ),
                               ],
                             ),
@@ -507,7 +673,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                             }
                                           },
                                           child: Text(
-                                            '$category',
+                                            category,
                                             textAlign: TextAlign.center,
                                             style: GoogleFonts.notoSans(
                                               color: color,
@@ -543,7 +709,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                     ),
                                   ],
                                 ),
-                              if(!Responsive.isPage1(context))
+                              if (!Responsive.isPage1(context))
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -604,7 +770,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                             }
                                           },
                                           child: Text(
-                                            '$category',
+                                            category,
                                             textAlign: TextAlign.center,
                                             style: GoogleFonts.notoSans(
                                               color: color,
@@ -665,14 +831,19 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                 if (!Responsive.isPage1(context))
                                   Expanded(
                                     flex: 3,
-                                    child: getDescription(dcPrice, totalPrice,
-                                        shippingFee, state, introViewModel),
+                                    child: getDescription(
+                                        dcPrice,
+                                        totalPrice,
+                                        shippingFee,
+                                        state,
+                                        introViewModel,
+                                        cartViewModel),
                                   ),
                               ],
                             ),
                             if (Responsive.isPage1(context))
                               getDescription(dcPrice, totalPrice, shippingFee,
-                                  state, introViewModel),
+                                  state, introViewModel, cartViewModel),
                           ]),
                     ),
                   ),
@@ -795,8 +966,13 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
     );
   }
 
-  Widget getDescription(int dcPrice, int totalPrice, int shippingFee,
-      ProductIntroState state, ProductIntroViewModel introViewModel) {
+  Widget getDescription(
+      int dcPrice,
+      int totalPrice,
+      int shippingFee,
+      ProductIntroState state,
+      ProductIntroViewModel introViewModel,
+      CartViewModel cartViewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -914,56 +1090,103 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
           ],
         ),
         const Padding(padding: EdgeInsets.all(25)),
-        OnHoverDetect(
-          builder: (isHovered) {
-            final color = isHovered ? Colors.black : selectColor;
+        Row(
+          children: [
+            OnHoverDetect(
+              builder: (isHovered) {
+                final color = isHovered ? Colors.black : selectColor;
 
-            return InkWell(
-              onTap: () {
-                setState(() {
-                  buyBtnShow = !buyBtnShow;
-                  if (buyBtnShow) {
-                    introViewModel.setProductValue('원두 상태(홀빈)');
-                    introViewModel.setProductCount(1);
-                  }
-                });
-              },
-              child: (buyBtnShow)
-                  ? Container(
-                      width: 60,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: selectColor,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '닫기',
-                          style: GoogleFonts.notoSans(
-                              color: selectColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    )
-                  : Container(
-                      width: 80,
-                      height: 45,
-                      color: color,
-                      child: Center(
-                        child: Text(
-                          '구매하기',
-                          style: GoogleFonts.notoSans(
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      buyBtnShow = !buyBtnShow;
+                      if (buyBtnShow) {
+                        introViewModel.setProductValue('원두 상태(홀빈)');
+                        introViewModel.setProductCount(1);
+                      }
+                    });
+                  },
+                  child: (buyBtnShow)
+                      ? Container(
+                          width: 60,
+                          height: 55,
+                          decoration: BoxDecoration(
                             color: Colors.white,
-                            fontSize: 15,
+                            border: Border.all(
+                              color: selectColor,
+                            ),
                           ),
+                          child: Center(
+                            child: Text(
+                              '닫기',
+                              style: GoogleFonts.notoSans(
+                                  color: selectColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          width: 95,
+                          height: 55,
+                          color: color,
+                          child: Center(
+                            child: Text(
+                              '구매하기',
+                              style: GoogleFonts.notoSans(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                );
+              },
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            OnHoverDetect(
+              builder: (isHovered) {
+                final color = isHovered ? Colors.black : selectColor;
+                return InkWell(
+                  onTap: () {
+                    if (!isBeans) {
+                      cartViewModel.addCart(CartInfo(
+                          productInfo: widget.info,
+                          count: state.selectedProductCount));
+                    } else {
+                      final type = (state.selectedProductType == '원두 상태(홀빈)')
+                          ? BeanType.Whole
+                          : BeanType.Drip;
+                      cartViewModel.addCart(
+                        CartInfo(
+                          productInfo: widget.info,
+                          count: state.selectedProductCount,
+                          beanType: type,
+                        ),
+                      );
+                    }
+                    _showToast();
+                  },
+                  child: Container(
+                    width: 95,
+                    height: 55,
+                    color: color,
+                    child: Center(
+                      child: Text(
+                        '장바구니 담기',
+                        style: GoogleFonts.notoSans(
+                          color: Colors.white,
+                          fontSize: 15,
                         ),
                       ),
                     ),
-            );
-          },
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         const Padding(padding: EdgeInsets.all(25)),
         if (buyBtnShow)

@@ -44,7 +44,12 @@ dependencies:
   carousel_slider: ^4.1.1
   url_launcher: ^6.1.0
   intl: ^0.17.0
-
+  fluttertoast: ^8.0.9
+#  dropdown_search: ^4.0.1
+  dropdown_search:
+    git:
+      url: https://github.com/jinwoo-nam/searchable_dropdown.git
+      ref: master
 dev_dependencies:
   flutter_test:
     sdk: flutter

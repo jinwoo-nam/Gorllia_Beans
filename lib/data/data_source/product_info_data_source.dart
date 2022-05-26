@@ -64,6 +64,7 @@ List<ProductInfo> dripBagProductInfo = [
     sweet: 5,
     bitterness: 5,
     bodyTaste: 5,
+    isBean:false,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_dripbagEY.jpg',
@@ -84,6 +85,7 @@ List<ProductInfo> dripBagProductInfo = [
     sweet: 3,
     bitterness: 2,
     bodyTaste: 2,
+    isBean:false,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_dripbagGA.jpg',
@@ -104,6 +106,7 @@ List<ProductInfo> dripBagProductInfo = [
     sweet: 4,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:false,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_dripbagCT.jpg',
@@ -124,6 +127,7 @@ List<ProductInfo> dripBagProductInfo = [
     sweet: 4,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:false,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_dripbagCS.jpg',
@@ -144,6 +148,7 @@ List<ProductInfo> dripBagProductInfo = [
     sweet: 4,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:false,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_dripbagKA.jpg',
@@ -164,6 +169,7 @@ List<ProductInfo> dripBagProductInfo = [
     sweet: 3,
     bitterness: 2,
     bodyTaste: 5,
+    isBean:false,
   ),
 ];
 
@@ -202,6 +208,7 @@ List<ProductInfo> stickCoffeeProductInfo = [
     sweet: 5,
     bitterness: 2,
     bodyTaste: 2,
+    isBean:false,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_stickTP_30.jpg',
@@ -222,6 +229,7 @@ List<ProductInfo> stickCoffeeProductInfo = [
     sweet: 5,
     bitterness: 2,
     bodyTaste: 2,
+    isBean:false,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_stickYI_100.jpg',
@@ -242,6 +250,7 @@ List<ProductInfo> stickCoffeeProductInfo = [
     sweet: 5,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:false,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_stickYI_30.jpg',
@@ -262,6 +271,7 @@ List<ProductInfo> stickCoffeeProductInfo = [
     sweet: 5,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:false,
   ),
 ];
 
@@ -305,6 +315,7 @@ List<ProductInfo> coffeeBeansProductInfo = [
     sweet: 4,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:true,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_beanBSE.jpg',
@@ -330,6 +341,7 @@ List<ProductInfo> coffeeBeansProductInfo = [
     sweet: 3,
     bitterness: 3,
     bodyTaste: 4,
+    isBean:true,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_beanEY2.jpg',
@@ -355,6 +367,7 @@ List<ProductInfo> coffeeBeansProductInfo = [
     sweet: 3,
     bitterness: 2,
     bodyTaste: 2,
+    isBean:true,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_beanKAA.jpg',
@@ -380,6 +393,7 @@ List<ProductInfo> coffeeBeansProductInfo = [
     sweet: 3,
     bitterness: 2,
     bodyTaste: 5,
+    isBean:true,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_beanCSN.jpg',
@@ -405,6 +419,7 @@ List<ProductInfo> coffeeBeansProductInfo = [
     sweet: 4,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:true,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_decafGSH.jpg',
@@ -430,6 +445,7 @@ List<ProductInfo> coffeeBeansProductInfo = [
     sweet: 3,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:true,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_decafBSN.jpg',
@@ -455,6 +471,7 @@ List<ProductInfo> coffeeBeansProductInfo = [
     sweet: 3,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:true,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_decafGSH.jpg',
@@ -480,6 +497,7 @@ List<ProductInfo> coffeeBeansProductInfo = [
     sweet: 3,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:true,
   ),
   ProductInfo(
     imageUrl: 'img/shop/product/thumb_decafCMS.jpg',
@@ -505,5 +523,6 @@ List<ProductInfo> coffeeBeansProductInfo = [
     sweet: 3,
     bitterness: 3,
     bodyTaste: 3,
+    isBean:true,
   ),
 ];

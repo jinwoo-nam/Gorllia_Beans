@@ -23,7 +23,7 @@ class ProductInfo with _$ProductInfo {
     required int sweet,
     required int bitterness,
     required int bodyTaste,
-
+    required bool isBean,
 
     String? dripQrImage_1,
     String? dripQrImage_2,

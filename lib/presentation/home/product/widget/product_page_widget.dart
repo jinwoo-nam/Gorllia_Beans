@@ -6,6 +6,7 @@ import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
 import 'package:provider/provider.dart';
@@ -37,6 +38,36 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (widget.pageInfo.title == '드립백')
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 25.0, horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/cart');
+                      },
+                      child: Text(
+                        '장바구니로 이동 ',
+                        style: GoogleFonts.notoSans(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/cart');
+                      },
+                      child: const FaIcon(
+                        FontAwesomeIcons.circleArrowRight,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             if (Responsive.isPage1(context) ||
                 Responsive.isPage2(context) ||
                 Responsive.isPage3(context))

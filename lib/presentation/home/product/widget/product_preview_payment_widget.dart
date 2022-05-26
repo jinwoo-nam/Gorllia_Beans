@@ -1,12 +1,17 @@
 import 'dart:async';
 
+import 'package:beans_instapay/domain/model/cart_info.dart';
 import 'package:beans_instapay/domain/model/product_info.dart';
+import 'package:beans_instapay/presentation/cart/cart_view_model.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader_detail.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/presentation/home/product/widget/custom_drop_down.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
+import 'package:beans_instapay/ui/constant.dart';
+import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -28,6 +33,24 @@ class ProductPreviewPaymentWidget extends StatefulWidget {
 
 class _ProductPreviewPaymentWidgetState
     extends State<ProductPreviewPaymentWidget> {
+  late FToast fToast;
+
+  late Widget toast;
+
+  _removeToast() {
+    fToast.removeCustomToast();
+  }
+
+  _showToast() {
+    _removeToast();
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 4),
+    );
+  }
+
   List<String> normalItemsCount = ['1', '2', '3', '5', '10'];
   List<String> beansItemsCount = ['1', '2'];
   List<String> beansType = ['원두 상태(홀빈)', '분쇄(드립용)'];
@@ -39,8 +62,80 @@ class _ProductPreviewPaymentWidgetState
   bool isBeans = false;
   StreamSubscription? _streamSubscription;
 
-    @override
-    void initState() {
+  @override
+  void initState() {
+    fToast = FToast();
+    fToast.init(globalKey.currentState!.context);
+
+    toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: selectColor,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.check),
+          const SizedBox(
+            width: 12.0,
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '장바구니에 상품이 추가되었습니다.',
+                  style: GoogleFonts.notoSans(
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        _removeToast();
+                        removeOverlay('');
+                        Loader.appLoader.hideLoader();
+                        LoaderDetail.appLoader.hideLoader();
+                        Navigator.pushNamed(context, '/cart');
+                      },
+                      child: Text(
+                        '장바구니로 이동 ',
+                        style: GoogleFonts.notoSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/cart');
+                      },
+                      child: const FaIcon(
+                        FontAwesomeIcons.circleArrowRight,
+                        color: Colors.white,
+                        size: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
     isBeans = (widget.info.categories[0] == 'BEANS');
     dropDown = CustomDropDown(
       initValue: selectDropDownValue,
@@ -80,6 +175,8 @@ class _ProductPreviewPaymentWidgetState
   Widget build(BuildContext context) {
     final viewModel = (context).watch<ProductViewModel>();
     final state = viewModel.state;
+    final cartViewModel = (context).watch<CartViewModel>();
+
     double dcRate = widget.info.dcRate;
     if (isBeans && state.selectedProductCount != 1) {
       dcRate = 30.0;
@@ -129,6 +226,7 @@ class _ProductPreviewPaymentWidgetState
                                     size: 25,
                                   ),
                                   onTap: () {
+                                    _removeToast();
                                     removeOverlay('');
                                     Loader.appLoader.hideLoader();
                                     LoaderDetail.appLoader.hideLoader();
@@ -317,8 +415,76 @@ class _ProductPreviewPaymentWidgetState
                                       const SizedBox(
                                         width: 30,
                                       ),
-                                      getQrImage(state.selectedProductCount,
-                                          beansType),
+                                      Column(
+                                        children: [
+                                          getQrImage(state.selectedProductCount,
+                                              beansType),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            child: Theme(
+                                              data: ThemeData(
+                                                splashColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                              ),
+                                              child: OnHoverDetect(
+                                                builder: (isHovered) {
+                                                  final color = (isHovered)
+                                                      ? Colors.black
+                                                      : selectColor;
+                                                  return ElevatedButton(
+                                                    onPressed: () {
+                                                      if (!isBeans) {
+                                                        cartViewModel.addCart(
+                                                            CartInfo(
+                                                                productInfo:
+                                                                    widget.info,
+                                                                count: state
+                                                                    .selectedProductCount));
+                                                      } else {
+                                                        final type =
+                                                            (state.selectedProductType ==
+                                                                    '원두 상태(홀빈)')
+                                                                ? BeanType.Whole
+                                                                : BeanType.Drip;
+                                                        cartViewModel.addCart(
+                                                          CartInfo(
+                                                            productInfo:
+                                                                widget.info,
+                                                            count: state
+                                                                .selectedProductCount,
+                                                            beanType: type,
+                                                          ),
+                                                        );
+                                                      }
+                                                      _showToast();
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10.0,
+                                                          vertical: 15.0),
+                                                      primary: color,
+                                                      splashFactory: NoSplash
+                                                          .splashFactory,
+                                                      elevation: 0,
+                                                    ),
+                                                    child: Text(
+                                                      '장바구니 담기',
+                                                      style:
+                                                          GoogleFonts.notoSans(
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                   const SizedBox(
@@ -427,8 +593,8 @@ class _ProductPreviewPaymentWidgetState
   }
 
   Widget getQrImage(int count, String beansType) {
-      final double width = (Responsive.isPage1(context)) ? 130 : 180;
-      final double height = (Responsive.isPage1(context)) ? 130 : 180;
+    final double width = (Responsive.isPage1(context)) ? 130 : 180;
+    final double height = (Responsive.isPage1(context)) ? 130 : 180;
 
     switch (count) {
       case 1:
