@@ -1,5 +1,7 @@
 import 'package:beans_instapay/presentation/cart/cart_view_model.dart';
 import 'package:beans_instapay/presentation/cart/widget/cart_info_list.dart';
+import 'package:beans_instapay/presentation/components/app_bar_widget.dart';
+import 'package:beans_instapay/presentation/components/drawer_widget.dart';
 import 'package:beans_instapay/presentation/home/contact/contact_page.dart';
 import 'package:beans_instapay/presentation/home/footer/footer_page.dart';
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
@@ -7,17 +9,13 @@ import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../responsive/responsive.dart';
 import 'package:provider/provider.dart';
 
-import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../ui/color.dart';
-
-const String homePageUrl = 'https://www.instapay.kr/';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -88,8 +86,8 @@ class _CartPageState extends State<CartPage> {
     // final homeViewModel = context.watch<HomeViewModel>();
     final double lastAppbarWidth =
         150 * ((MediaQuery.of(context).size.width - 1200) / 720);
-    double appBarHeight = 70;
     double categoryWidth = 150;
+    double appBarHeight = 70;
     if (Responsive.isPage5(context)) {
       categoryWidth += lastAppbarWidth;
     }
@@ -101,339 +99,14 @@ class _CartPageState extends State<CartPage> {
         }
       },
       child: Scaffold(
-        drawer: Drawer(
-          child: ListView(
-            controller: controller,
-            children: [
-              OnHoverDetect(
-                builder: (isHovered) {
-                  return ListTile(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/');
-                    },
-                    mouseCursor: SystemMouseCursors.click,
-                    title: const Text(
-                      'HOME',
-                      style: TextStyle(
-                        color: secondaryGrey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                },
-              ),
-              const Divider(
-                height: 1,
-                color: fontColorGrey,
-              ),
-              ListTile(
-                onTap: () {
-                  setState(() {
-                    isCategoryClick = !isCategoryClick;
-                  });
-                },
-                mouseCursor: SystemMouseCursors.click,
-                title: const Text(
-                  'CATEGORY',
-                  style: TextStyle(
-                    color: secondaryGrey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                trailing: const Icon(Icons.keyboard_arrow_down),
-              ),
-              const Divider(
-                height: 1,
-                color: fontColorGrey,
-              ),
-              if (isCategoryClick)
-                Column(
-                  children: [
-                    ListTile(
-                      tileColor: Colors.grey.withOpacity(0.5),
-                      mouseCursor: SystemMouseCursors.click,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/detail/beans');
-                      },
-                      title: const Text(
-                        'COFFEE BEANS',
-                        style: TextStyle(
-                          color: secondaryGrey,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                    const Divider(
-                      height: 1,
-                      color: fontColorGrey,
-                    ),
-                    ListTile(
-                      tileColor: Colors.grey.withOpacity(0.5),
-                      mouseCursor: SystemMouseCursors.click,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/detail/dripbag');
-                      },
-                      title: const Text(
-                        'FEDORA DRIPBAG',
-                        style: TextStyle(
-                          color: secondaryGrey,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                    const Divider(
-                      height: 1,
-                      color: fontColorGrey,
-                    ),
-                    ListTile(
-                      tileColor: Colors.grey.withOpacity(0.5),
-                      mouseCursor: SystemMouseCursors.click,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/detail/stick');
-                      },
-                      title: const Text(
-                        'STICK COFFEE',
-                        style: TextStyle(
-                          color: secondaryGrey,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                    const Divider(
-                      height: 1,
-                      color: fontColorGrey,
-                    ),
-                  ],
-                ),
-              ListTile(
-                onTap: () {
-                  Navigator.pushNamed(context, '/cart');
-                },
-                mouseCursor: SystemMouseCursors.click,
-                title: Row(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: Text(
-                        'CART',
-                        style: TextStyle(
-                          color: secondaryGrey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: secondaryGrey.withOpacity(0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text('$itemCount'),
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(
-                height: 1,
-                color: fontColorGrey,
-              ),
-              ListTile(
-                onTap: () {
-                  final uri = Uri.parse(homePageUrl);
-                  launchURL(uri);
-                },
-                mouseCursor: SystemMouseCursors.click,
-                title: const Text(
-                  'INSTAPAY',
-                  style: TextStyle(
-                    color: secondaryGrey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const Divider(
-                height: 1,
-                color: fontColorGrey,
-              ),
-            ],
-          ),
+        drawer: DrawerWidget(
+          itemCount: itemCount,
         ),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(appBarHeight),
-          child: AppBar(
-            iconTheme: const IconThemeData(color: Colors.black),
-            //toolbarHeight: 90,
-            centerTitle: false,
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            title: InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-              child: const Image(
-                image: AssetImage('img/GB_widelogo_brown.png'),
-                fit: BoxFit.cover,
-                width: 190,
-              ),
-            ),
-            actions: [
-              if (Responsive.isPage1(context) ||
-                  Responsive.isPage2(context) ||
-                  Responsive.isPage3(context))
-                GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Builder(
-                      builder: (context) {
-                        return IconButton(
-                          icon: const Icon(
-                            Icons.menu,
-                            color: Colors.black,
-                          ),
-                          onPressed: () {
-                            Scaffold.of(context).openDrawer();
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              if (Responsive.isPage4(context) || Responsive.isPage5(context))
-                Padding(
-                  padding: const EdgeInsets.only(right: 70.0),
-                  child: Row(
-                    children: [
-                      OnHoverDetect(
-                        builder: (isHovered) {
-                          final color = isHovered ? selectColor : Colors.black;
-                          return TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/');
-                            },
-                            style: ButtonStyle(
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Text(
-                              'HOME',
-                              style: TextStyle(
-                                color: color,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        width: 25,
-                      ),
-                      OnHoverDetect(
-                        builder: (isHovered) {
-                          final color = isHovered ? selectColor : Colors.black;
-                          return TextButton(
-                            onPressed: () {
-                              changeHoverState();
-                            },
-                            style: ButtonStyle(
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'CATEGORY',
-                                  style: TextStyle(
-                                    color: color,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: color,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        width: 25,
-                      ),
-                      OnHoverDetect(
-                        builder: (isHovered) {
-                          final color = isHovered ? selectColor : Colors.black;
-                          return TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/cart');
-                            },
-                            style: ButtonStyle(
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: Text(
-                                    'CART',
-                                    style: TextStyle(
-                                      color: color,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(6),
-                                  decoration: BoxDecoration(
-                                    color: secondaryGrey.withOpacity(0.3),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Text(
-                                    '$itemCount',
-                                    style: const TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        width: 25,
-                      ),
-                      OnHoverDetect(
-                        builder: (isHovered) {
-                          final color = isHovered ? selectColor : Colors.black;
-                          return TextButton(
-                            onPressed: () {
-                              final uri = Uri.parse(homePageUrl);
-                              launchURL(uri);
-                            },
-                            style: ButtonStyle(
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Text(
-                              'INSTAPAY',
-                              style: TextStyle(
-                                color: color,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      if (Responsive.isPage5(context))
-                        SizedBox(
-                          width: lastAppbarWidth,
-                        ),
-                    ],
-                  ),
-                ),
-            ],
+          child: AppBarWidget(
+            itemCount: itemCount,
+            changeHoverState: changeHoverState,
           ),
         ),
         body: Stack(
@@ -568,8 +241,8 @@ class _CartPageState extends State<CartPage> {
                                         ),
                                         if (kIsWeb)
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 20.0),
+                                            padding: const EdgeInsets.only(
+                                                top: 20.0),
                                             child: Container(
                                               width: 120,
                                               height: 120,
@@ -615,8 +288,10 @@ class _CartPageState extends State<CartPage> {
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: homeViewModel.getCalcContactPageHeight(context),
-                      minHeight: homeViewModel.getCalcContactPageHeight(context),
+                      maxHeight:
+                          homeViewModel.getCalcContactPageHeight(context),
+                      minHeight:
+                          homeViewModel.getCalcContactPageHeight(context),
                     ),
                     child: const ContactPage(),
                   ),
@@ -670,7 +345,7 @@ class _CartPageState extends State<CartPage> {
                               child: OnHoverDetect(
                                 builder: (isHovered) {
                                   final color =
-                                  (isHovered) ? selectColor : Colors.black;
+                                      (isHovered) ? selectColor : Colors.black;
                                   return Text(
                                     'Coffee Beans',
                                     style: TextStyle(color: color),
@@ -688,7 +363,7 @@ class _CartPageState extends State<CartPage> {
                               child: OnHoverDetect(
                                 builder: (isHovered) {
                                   final color =
-                                  (isHovered) ? selectColor : Colors.black;
+                                      (isHovered) ? selectColor : Colors.black;
                                   return Text(
                                     'Fedora Dripbag',
                                     style: TextStyle(color: color),
@@ -706,7 +381,7 @@ class _CartPageState extends State<CartPage> {
                               child: OnHoverDetect(
                                 builder: (isHovered) {
                                   final color =
-                                  (isHovered) ? selectColor : Colors.black;
+                                      (isHovered) ? selectColor : Colors.black;
                                   return Text(
                                     'Stick Coffee',
                                     style: TextStyle(color: color),
@@ -736,9 +411,5 @@ class _CartPageState extends State<CartPage> {
   String currencyFormat(int price) {
     var format = NumberFormat('###,###,### 원');
     return format.format(price);
-  }
-
-  void launchURL(Uri query) async {
-    if (!await launchUrl(query)) throw 'Could not launch $query';
   }
 }

@@ -1,12 +1,9 @@
-import 'dart:async';
-
 import 'package:beans_instapay/domain/model/cart_info.dart';
 import 'package:beans_instapay/domain/use_case/cart/add_cart_data_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/delete_cart_data_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/get_cart_data_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/update_cart_data_use_case.dart';
 import 'package:beans_instapay/presentation/cart/cart_state.dart';
-import 'package:beans_instapay/presentation/home/product/drop_box_event.dart';
 import 'package:flutter/material.dart';
 
 class CartViewModel with ChangeNotifier {
@@ -31,13 +28,13 @@ class CartViewModel with ChangeNotifier {
   void fetchData() async {
     final cart = await getCartData();
 
-    cart.when(success: (data) {
-      _state = state.copyWith(
-        cartInfo: data,
-      );
-    }, error: (String message) {
-      print('error');
-    });
+    cart.when(
+        success: (data) {
+          _state = state.copyWith(
+            cartInfo: data,
+          );
+        },
+        error: (String message) {});
     notifyListeners();
   }
 
@@ -67,5 +64,4 @@ class CartViewModel with ChangeNotifier {
     }
     return sum;
   }
-
 }

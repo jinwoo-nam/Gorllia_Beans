@@ -8,7 +8,6 @@ import 'package:beans_instapay/presentation/home/product/coffee_beans_page.dart'
 import 'package:beans_instapay/presentation/home/product/dripbag_page.dart';
 import 'package:beans_instapay/presentation/home/product/stick_coffee_page.dart';
 import 'package:beans_instapay/ui/color.dart';
-import 'package:beans_instapay/ui/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

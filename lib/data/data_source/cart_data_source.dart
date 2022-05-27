@@ -1,6 +1,5 @@
 import 'package:beans_instapay/core/result.dart';
 import 'package:beans_instapay/domain/model/cart_info.dart';
-import 'package:beans_instapay/domain/model/product_info.dart';
 
 class CartDataSource {
   Future<Result<List<CartInfo>>> getCartData() async {

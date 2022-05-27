@@ -1,16 +1,11 @@
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
+import 'package:beans_instapay/ui/constant.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-const String homePageUrl = 'https://www.instapay.kr/';
-const String bookSearchUrl = 'https://book.instapay.kr/';
-const String instaBooksUrl = 'https://book.instapay.kr/gbb/';
-const String blogUrl = 'https://blog.naver.com/instapay_official';
-const String helpUrl = 'https://book.instapay.kr/help.php';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({Key? key}) : super(key: key);

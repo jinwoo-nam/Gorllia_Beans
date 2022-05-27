@@ -1,4 +1,3 @@
-import 'package:beans_instapay/domain/model/cart_info.dart';
 import 'package:beans_instapay/domain/repository/cart_repository.dart';
 
 class DeleteCartDataUseCase {

@@ -1,6 +1,8 @@
 import 'package:beans_instapay/domain/model/product_detail_page_info.dart';
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/presentation/cart/cart_view_model.dart';
+import 'package:beans_instapay/presentation/components/app_bar_widget.dart';
+import 'package:beans_instapay/presentation/components/drawer_widget.dart';
 import 'package:beans_instapay/presentation/home/contact/contact_page.dart';
 import 'package:beans_instapay/presentation/home/footer/footer_page.dart';
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
@@ -13,8 +15,6 @@ import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-const String homePageUrl = 'https://www.instapay.kr/';
 
 class ProductDetailPage extends StatefulWidget {
   final ProductDetailPageInfo info;
@@ -31,7 +31,6 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   double bodyPadding = 16;
   bool hoverState = false;
-  bool isCategoryClick = false;
   final controller = ScrollController();
 
   @override
@@ -72,338 +71,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         }
       },
       child: Scaffold(
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              OnHoverDetect(
-                builder: (isHovered) {
-                  return ListTile(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/');
-                    },
-                    mouseCursor: SystemMouseCursors.click,
-                    title: const Text(
-                      'HOME',
-                      style: TextStyle(
-                        color: secondaryGrey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                },
-              ),
-              const Divider(
-                height: 1,
-                color: fontColorGrey,
-              ),
-              ListTile(
-                onTap: () {
-                  setState(() {
-                    isCategoryClick = !isCategoryClick;
-                  });
-                },
-                mouseCursor: SystemMouseCursors.click,
-                title: const Text(
-                  'CATEGORY',
-                  style: TextStyle(
-                    color: secondaryGrey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                trailing: const Icon(Icons.keyboard_arrow_down),
-              ),
-              const Divider(
-                height: 1,
-                color: fontColorGrey,
-              ),
-              if (isCategoryClick)
-                Column(
-                  children: [
-                    ListTile(
-                      tileColor: Colors.grey.withOpacity(0.5),
-                      mouseCursor: SystemMouseCursors.click,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/detail/beans');
-                      },
-                      title: const Text(
-                        'COFFEE BEANS',
-                        style: TextStyle(
-                          color: secondaryGrey,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                    const Divider(
-                      height: 1,
-                      color: fontColorGrey,
-                    ),
-                    ListTile(
-                      tileColor: Colors.grey.withOpacity(0.5),
-                      mouseCursor: SystemMouseCursors.click,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/detail/dripbag');
-                      },
-                      title: const Text(
-                        'FEDORA DRIPBAG',
-                        style: TextStyle(
-                          color: secondaryGrey,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                    const Divider(
-                      height: 1,
-                      color: fontColorGrey,
-                    ),
-                    ListTile(
-                      tileColor: Colors.grey.withOpacity(0.5),
-                      mouseCursor: SystemMouseCursors.click,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/detail/stick');
-                      },
-                      title: const Text(
-                        'STICK COFFEE',
-                        style: TextStyle(
-                          color: secondaryGrey,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                    const Divider(
-                      height: 1,
-                      color: fontColorGrey,
-                    ),
-                  ],
-                ),
-              ListTile(
-                onTap: () {
-                  Navigator.pushNamed(context, '/cart');
-                },
-                mouseCursor: SystemMouseCursors.click,
-                title: Row(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: Text(
-                        'CART',
-                        style: TextStyle(
-                          color: secondaryGrey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: secondaryGrey.withOpacity(0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text('$itemCount'),
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(
-                height: 1,
-                color: fontColorGrey,
-              ),
-              ListTile(
-                onTap: () {
-                  final uri = Uri.parse(homePageUrl);
-                  viewModel.launchURL(uri);
-                },
-                mouseCursor: SystemMouseCursors.click,
-                title: const Text(
-                  'INSTAPAY',
-                  style: TextStyle(
-                    color: secondaryGrey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const Divider(
-                height: 1,
-                color: fontColorGrey,
-              ),
-            ],
-          ),
+        drawer: DrawerWidget(
+          itemCount: itemCount,
         ),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(appBarHeight),
-          child: AppBar(
-            iconTheme: const IconThemeData(color: Colors.black),
-            //toolbarHeight: 90,
-            centerTitle: false,
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            title: InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-              child: const Image(
-                image: AssetImage('img/GB_widelogo_brown.png'),
-                fit: BoxFit.cover,
-                width: 190,
-              ),
-            ),
-            actions: [
-              if (Responsive.isPage1(context) ||
-                  Responsive.isPage2(context) ||
-                  Responsive.isPage3(context))
-                GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Builder(
-                      builder: (context) {
-                        return IconButton(
-                          icon: const Icon(
-                            Icons.menu,
-                            color: Colors.black,
-                          ),
-                          onPressed: () {
-                            Scaffold.of(context).openDrawer();
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              if (Responsive.isPage4(context) || Responsive.isPage5(context))
-                Padding(
-                  padding: const EdgeInsets.only(right: 70.0),
-                  child: Row(
-                    children: [
-                      OnHoverDetect(
-                        builder: (isHovered) {
-                          final color = isHovered ? selectColor : Colors.black;
-                          return TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/');
-                            },
-                            style: ButtonStyle(
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Text(
-                              'HOME',
-                              style: TextStyle(
-                                color: color,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        width: 25,
-                      ),
-                      OnHoverDetect(
-                        builder: (isHovered) {
-                          final color = isHovered ? selectColor : Colors.black;
-                          return TextButton(
-                            onPressed: () {
-                              changeHoverState();
-                            },
-                            style: ButtonStyle(
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'CATEGORY',
-                                  style: TextStyle(
-                                    color: color,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: color,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        width: 25,
-                      ),
-                      OnHoverDetect(
-                        builder: (isHovered) {
-                          final color = isHovered ? selectColor : Colors.black;
-                          return TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/cart');
-                            },
-                            style: ButtonStyle(
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: Text(
-                                    'CART',
-                                    style: TextStyle(
-                                      color: color,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(6),
-                                  decoration: BoxDecoration(
-                                    color: secondaryGrey.withOpacity(0.3),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Text(
-                                    '$itemCount',
-                                    style: const TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        width: 25,
-                      ),
-                      OnHoverDetect(
-                        builder: (isHovered) {
-                          final color = isHovered ? selectColor : Colors.black;
-                          return TextButton(
-                            onPressed: () {
-                              final uri = Uri.parse(homePageUrl);
-                              viewModel.launchURL(uri);
-                            },
-                            style: ButtonStyle(
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Text(
-                              'INSTAPAY',
-                              style: TextStyle(
-                                color: color,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      if (Responsive.isPage5(context))
-                        SizedBox(
-                          width: lastAppbarWidth,
-                        ),
-                    ],
-                  ),
-                ),
-            ],
+          child: AppBarWidget(
+            itemCount: itemCount,
+            changeHoverState: changeHoverState,
           ),
         ),
         body: Stack(

@@ -1,6 +1,5 @@
 import 'package:beans_instapay/di/provider_setup.dart';
 import 'package:beans_instapay/domain/model/product_info.dart';
-import 'package:beans_instapay/main_state.dart';
 import 'package:beans_instapay/main_view_model.dart';
 import 'package:beans_instapay/presentation/cart/cart_page.dart';
 import 'package:beans_instapay/presentation/home/home_screen.dart';

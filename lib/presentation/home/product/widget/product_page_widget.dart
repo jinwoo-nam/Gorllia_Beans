@@ -1,5 +1,4 @@
 import 'package:beans_instapay/domain/model/product_page_info.dart';
-import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
 import 'package:beans_instapay/presentation/home/product/widget/product_list_widget.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
-import 'package:provider/provider.dart';
 
 class ProductPageWidget extends StatefulWidget {
   final ProductPageInfo pageInfo;
@@ -498,8 +496,6 @@ class SeeCollection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = (context).watch<ProductViewModel>();
-
     return InkWell(
       onTap: () {
         switch (info.title) {

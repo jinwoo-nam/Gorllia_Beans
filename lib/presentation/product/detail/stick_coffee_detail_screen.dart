@@ -23,6 +23,6 @@ class StickCoffeeDetailScreen extends StatelessWidget {
               ),
             ],
           )
-        : Text('data가 없습니다');
+        : const Text('data가 없습니다');
   }
 }
