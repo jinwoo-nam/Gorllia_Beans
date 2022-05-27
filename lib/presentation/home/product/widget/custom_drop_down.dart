@@ -89,7 +89,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
               border: Border.all(
                 color: Colors.grey,
               ),
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: BorderRadius.zero,
             ),
             child: Stack(
               children: [
@@ -134,12 +134,12 @@ class _CustomDropDownState extends State<CustomDropDown> {
           child: Material(
             color: Colors.white,
             child: Container(
-              height: (22.0 * widget.items.length) +
-                  (21 * (widget.items.length - 1)) +
-                  20,
+              height: (widget.items.length > 5)
+                  ? (22.0 * 5) + (21 * (5 - 1)) + 20
+                  : (22.0 * widget.items.length) + (21 * (widget.items.length - 1)) + 20,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.zero,
               ),
               child: ListView.separated(
                 physics: const ClampingScrollPhysics(),

@@ -36,8 +36,30 @@ class ProductIntroPage extends StatefulWidget {
 }
 
 class _ProductIntroPageState extends State<ProductIntroPage> {
-  List<String> normalItemsCount = ['1', '2', '3', '5', '10'];
-  List<String> beansItemsCount = ['1', '2'];
+  List<String> normalItemsCount = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10'
+  ];
+  List<String> beansItemsCount = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10'
+  ];
   List<String> beansType = ['원두 상태(홀빈)', '분쇄(드립용)'];
   var selectDropDownValue = '1';
   var selectBeansDropDownValue = '원두 상태(홀빈)';
@@ -56,17 +78,17 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
 
   late FToast fToast;
 
-  late Widget toast;
+  late Widget toast, toastWarn;
 
   _removeToast() {
     fToast.removeCustomToast();
   }
 
-  _showToast() {
+  _showToast(bool countOverflow) {
     _removeToast();
 
     fToast.showToast(
-      child: toast,
+      child: countOverflow ? toastWarn : toast,
       gravity: ToastGravity.BOTTOM,
       toastDuration: const Duration(seconds: 4),
     );
@@ -79,8 +101,8 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
 
     toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.zero,
         color: selectColor,
       ),
       child: Row(
@@ -102,10 +124,77 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(
                   color: Colors.black,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.zero,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        _removeToast();
+                        Navigator.pushNamed(context, '/cart');
+                      },
+                      child: Text(
+                        '장바구니로 이동 ',
+                        style: GoogleFonts.notoSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/cart');
+                      },
+                      child: const FaIcon(
+                        FontAwesomeIcons.circleArrowRight,
+                        color: Colors.white,
+                        size: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    toastWarn = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.zero,
+        color: selectColor,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.warning_amber_outlined),
+          const SizedBox(
+            width: 12.0,
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '상품을 10개 이상 담을 수 없습니다.',
+                  style: GoogleFonts.notoSans(
+                    fontSize: 14,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.zero,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -779,8 +868,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                   },
                   child: (buyBtnShow)
                       ? Container(
-                          width: 60,
-                          height: 55,
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -798,8 +886,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                           ),
                         )
                       : Container(
-                          width: 95,
-                          height: 55,
+                          padding: const EdgeInsets.all(16),
                           color: color,
                           child: Center(
                             child: Text(
@@ -820,17 +907,18 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
             OnHoverDetect(
               builder: (isHovered) {
                 final color = isHovered ? Colors.black : selectColor;
+                bool countOverflow;
                 return InkWell(
-                  onTap: () {
+                  onTap: () async {
                     if (!isBeans) {
-                      cartViewModel.addCart(CartInfo(
+                      countOverflow = await cartViewModel.addCart(CartInfo(
                           productInfo: widget.info,
                           count: state.selectedProductCount));
                     } else {
                       final type = (state.selectedProductType == '원두 상태(홀빈)')
                           ? BeanType.Whole
                           : BeanType.Drip;
-                      cartViewModel.addCart(
+                      countOverflow = await cartViewModel.addCart(
                         CartInfo(
                           productInfo: widget.info,
                           count: state.selectedProductCount,
@@ -838,11 +926,10 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                         ),
                       );
                     }
-                    _showToast();
+                    _showToast(countOverflow);
                   },
                   child: Container(
-                    width: 95,
-                    height: 55,
+                    padding: const EdgeInsets.all(16),
                     color: color,
                     child: Center(
                       child: Text(
@@ -1136,28 +1223,91 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
           );
         }
       case 3:
-        return Image(
-          image: AssetImage(widget.info.qrImage_3),
-          fit: BoxFit.cover,
-          width: 180,
-          height: 180,
-        );
+        if (widget.info.qrImage_3 == '') {
+          return Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Container(
+              width: 180,
+              height: 180,
+              decoration: BoxDecoration(
+                border: Border.all(),
+              ),
+              child: const Center(
+                child: Text('QR'),
+              ),
+            ),
+          );
+        } else {
+          return Image(
+            image: AssetImage(widget.info.qrImage_3),
+            fit: BoxFit.cover,
+            width: 180,
+            height: 180,
+          );
+        }
+
       case 5:
-        return Image(
-          image: AssetImage(widget.info.qrImage_5),
-          fit: BoxFit.cover,
-          width: 180,
-          height: 180,
-        );
+        if (widget.info.qrImage_5 == '') {
+          return Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Container(
+              width: 180,
+              height: 180,
+              decoration: BoxDecoration(
+                border: Border.all(),
+              ),
+              child: const Center(
+                child: Text('QR'),
+              ),
+            ),
+          );
+        } else {
+          return Image(
+            image: AssetImage(widget.info.qrImage_5),
+            fit: BoxFit.cover,
+            width: 180,
+            height: 180,
+          );
+        }
+
       case 10:
-        return Image(
-          image: AssetImage(widget.info.qrImage_10),
-          fit: BoxFit.cover,
-          width: 180,
-          height: 180,
-        );
+        if (widget.info.qrImage_10 == '') {
+          return Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Container(
+              width: 180,
+              height: 180,
+              decoration: BoxDecoration(
+                border: Border.all(),
+              ),
+              child: const Center(
+                child: Text('QR'),
+              ),
+            ),
+          );
+        } else {
+          return Image(
+            image: AssetImage(widget.info.qrImage_10),
+            fit: BoxFit.cover,
+            width: 180,
+            height: 180,
+          );
+        }
+
       default:
-        return const Text('Image가 없습니다.');
+        return Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Container(
+            width: 180,
+            height: 180,
+            decoration: BoxDecoration(
+              border: Border.all(),
+            ),
+            child: const Center(
+              child: Text('QR'),
+            ),
+          ),
+        );
     }
   }
 

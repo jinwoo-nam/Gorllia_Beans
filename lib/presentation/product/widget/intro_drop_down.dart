@@ -90,7 +90,7 @@ class _IntroDropDownState extends State<IntroDropDown> {
               border: Border.all(
                 color: Colors.grey,
               ),
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: BorderRadius.zero,
             ),
             child: Stack(
               children: [
@@ -135,21 +135,21 @@ class _IntroDropDownState extends State<IntroDropDown> {
           child: Material(
             color: Colors.white,
             child: Container(
-              height: (22.0 * widget.items.length) +
-                  (21 * (widget.items.length - 1)) +
-                  20,
+              height: (widget.items.length > 5)
+                  ? (22.0 * 5) + (21 * (5 - 1)) + 20
+                  : (22.0 * widget.items.length) + (21 * (widget.items.length - 1)) + 20,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.zero,
               ),
               child: ListView.separated(
                 physics: const ClampingScrollPhysics(),
                 itemCount: widget.items.length,
                 itemBuilder: (context, index) {
                   final weight =
-                  (widget.items.elementAt(index) == _dropdownValue)
-                      ? FontWeight.bold
-                      : FontWeight.normal;
+                      (widget.items.elementAt(index) == _dropdownValue)
+                          ? FontWeight.bold
+                          : FontWeight.normal;
                   return InkWell(
                     onTap: () {
                       setState(() {

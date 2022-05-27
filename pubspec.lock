@@ -63,7 +63,7 @@ packages:
       name: build_resolvers
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.8"
+    version: "2.0.9"
   build_runner:
     dependency: "direct dev"
     description:
@@ -181,7 +181,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: da6391c77e03dfebadc883a4ded937308aee93d9
+      resolved-ref: "22b4ea266ce2d1c4dc165de7c09b139976fc4079"
       url: "https://github.com/jinwoo-nam/searchable_dropdown.git"
     source: git
     version: "4.0.1"

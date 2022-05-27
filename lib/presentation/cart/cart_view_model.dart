@@ -38,9 +38,46 @@ class CartViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void addCart(CartInfo cart) async {
-    await addCartData(cart);
+  Future<bool> addCart(CartInfo cart) async {
+    bool check = false;
+    bool countOverflow = false;
+    int newCount = 0;
+    for (int i = 0; i < _state.cartInfo.length; i++) {
+      if (_state.cartInfo[i].productInfo.name == cart.productInfo.name) {
+        if (cart.productInfo.isBean == false) {
+          check = true;
+          if (_state.cartInfo[i].count + cart.count > 10) {
+            newCount = 10;
+            countOverflow = true;
+          } else {
+            newCount = _state.cartInfo[i].count + cart.count;
+          }
+          updateCart(
+              i, CartInfo(productInfo: cart.productInfo, count: newCount));
+          break;
+        } else if (cart.beanType == _state.cartInfo[i].beanType) {
+          check = true;
+          if (_state.cartInfo[i].count + cart.count > 10) {
+            newCount = 10;
+            countOverflow = true;
+          } else {
+            newCount = _state.cartInfo[i].count + cart.count;
+          }
+          updateCart(
+              i,
+              CartInfo(
+                  productInfo: cart.productInfo,
+                  count: newCount,
+                  beanType: cart.beanType));
+          break;
+        }
+      }
+    }
+    if (check == false) {
+      await addCartData(cart);
+    }
     notifyListeners();
+    return countOverflow;
   }
 
   void deleteCart(int index) async {

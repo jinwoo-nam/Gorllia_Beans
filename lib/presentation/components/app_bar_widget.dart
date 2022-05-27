@@ -6,7 +6,7 @@ import '../../ui/color.dart';
 import '../../ui/constant.dart';
 import '../../ui/on_hover_detect.dart';
 
-class AppBarWidget extends StatelessWidget{
+class AppBarWidget extends StatelessWidget {
   final int itemCount;
   final Function changeHoverState;
   final Function(String)? removeOverlay;
@@ -18,12 +18,10 @@ class AppBarWidget extends StatelessWidget{
     this.removeOverlay,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     final double lastAppbarWidth =
         150 * ((MediaQuery.of(context).size.width - 1200) / 720);
-
 
     return AppBar(
       iconTheme: const IconThemeData(color: Colors.black),
@@ -34,7 +32,7 @@ class AppBarWidget extends StatelessWidget{
       title: InkWell(
         overlayColor: MaterialStateProperty.all(Colors.transparent),
         onTap: () {
-          if(removeOverlay != null){
+          if (removeOverlay != null) {
             removeOverlay!('');
           }
           Navigator.pushNamed(context, '/');
@@ -55,17 +53,60 @@ class AppBarWidget extends StatelessWidget{
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Builder(
                 builder: (context) {
-                  return IconButton(
-                    icon: const Icon(
-                      Icons.menu,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      if(removeOverlay != null){
-                        removeOverlay!('');
-                      }
-                      Scaffold.of(context).openDrawer();
-                    },
+                  return Row(
+                    children: [
+                      OnHoverDetect(
+                        builder: (isHovered) {
+                          final color = isHovered ? selectColor : Colors.black;
+                          return TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/cart');
+                            },
+                            style: ButtonStyle(
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.transparent),
+                            ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Text(
+                                    'CART',
+                                    style: TextStyle(
+                                      color: color,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    color: secondaryGrey.withOpacity(0.3),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Text(
+                                    '$itemCount',
+                                    style: const TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.menu,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          if (removeOverlay != null) {
+                            removeOverlay!('');
+                          }
+                          Scaffold.of(context).openDrawer();
+                        },
+                      ),
+                    ],
                   );
                 },
               ),
@@ -81,7 +122,7 @@ class AppBarWidget extends StatelessWidget{
                     final color = isHovered ? selectColor : Colors.black;
                     return TextButton(
                       onPressed: () {
-                        if(removeOverlay != null){
+                        if (removeOverlay != null) {
                           removeOverlay!('');
                         }
                         Navigator.pushNamed(context, '/');

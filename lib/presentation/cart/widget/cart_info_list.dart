@@ -157,8 +157,9 @@ class _CartInfoListState extends State<CartInfoList> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: DropdownSearch(
-                          items: const [1, 2, 3, 5, 10],
+                          items: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                           selectedItem: widget.cartInfo.count,
+                          menuHeight: (27.0 * 5) + (21 * (5 - 1)) + 20,
                           onChanged: (val) {
                             widget.onChanged(
                               widget.index,
@@ -184,7 +185,8 @@ class _CartInfoListState extends State<CartInfoList> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: DropdownSearch(
-                              items: const [1, 2],
+                              items: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                              menuHeight: (27.0 * 5) + (21 * (5 - 1)) + 20,
                               selectedItem: widget.cartInfo.count,
                               onChanged: (val) {
                                 widget.onChanged(
@@ -209,6 +211,7 @@ class _CartInfoListState extends State<CartInfoList> {
                             ),
                             child: DropdownSearch(
                               items: const ['원두상태(홀빈)', '분쇄(드립용)'],
+                              menuHeight: (27.0 * 2) + (21 * (2 - 1)) + 20,
                               selectedItem: type,
                               onChanged: (val) {
                                 BeanType beanType = (val == '원두상태(홀빈)')

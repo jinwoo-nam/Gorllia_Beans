@@ -16,7 +16,8 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<HomeViewModel>();
-    final length = max(MediaQuery.of(context).size.width,MediaQuery.of(context).size.height);
+    final length = max(
+        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
 
     return Stack(
       children: [
@@ -71,7 +72,7 @@ class MainPage extends StatelessWidget {
                             color: Colors.white,
                           ),
                           borderRadius: const BorderRadius.all(
-                            Radius.circular(10.0), // POINT
+                            Radius.zero,
                           ),
                         ),
                         child: Row(
@@ -89,9 +90,9 @@ class MainPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Expanded(
+                            const Expanded(
                               flex: 1,
-                              child: const Icon(
+                              child: Icon(
                                 Icons.arrow_right,
                                 color: Colors.white,
                                 size: 22,
