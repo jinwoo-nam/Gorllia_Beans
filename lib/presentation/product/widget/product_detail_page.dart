@@ -60,7 +60,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     final double lastAppbarWidth =
         150 * ((MediaQuery.of(context).size.width - 1200) / 720);
     double appBarHeight = 70;
-    double categoryWidth = 50;
+    double categoryWidth = 150;
     if (Responsive.isPage5(context)) {
       categoryWidth += lastAppbarWidth;
     }

@@ -34,6 +34,7 @@ class _CartPageState extends State<CartPage> {
   bool isCategoryClick = false;
 
   final controller = ScrollController();
+  final mainController = ScrollController();
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _CartPageState extends State<CartPage> {
   @override
   void dispose() {
     controller.dispose();
+    mainController.dispose();
     super.dispose();
   }
 
@@ -52,6 +54,9 @@ class _CartPageState extends State<CartPage> {
     final viewModel = context.watch<CartViewModel>();
     final state = viewModel.state;
     final itemCount = state.cartInfo.length;
+    double mainWidth = 500;
+    double summaryPadding = 100;
+    double fontSize = 18;
     int index = -1;
 
     int sumOfProduct = viewModel.getSumOfProduct();
@@ -60,22 +65,34 @@ class _CartPageState extends State<CartPage> {
 
     if (Responsive.isPage1(context)) {
       bodyPadding = 32;
+      mainWidth = 500;
+      summaryPadding = 100;
+      fontSize = 18;
     } else if (Responsive.isPage2(context) || Responsive.isPage3(context)) {
       bodyPadding = 32;
+      mainWidth = 650;
+      summaryPadding = 150;
+      fontSize = 20;
     } else if (Responsive.isPage4(context)) {
       bodyPadding = 50;
+      mainWidth = 750;
+      summaryPadding = 200;
+      fontSize = 22;
     } else if (Responsive.isPage5(context)) {
       bodyPadding = 200 * ((MediaQuery.of(context).size.width - 1200) / 720);
+      mainWidth = 850;
+      summaryPadding = 200;
+      fontSize = 24;
     }
 
     // final homeViewModel = context.watch<HomeViewModel>();
     final double lastAppbarWidth =
         150 * ((MediaQuery.of(context).size.width - 1200) / 720);
     double appBarHeight = 70;
-    // double categoryWidth = 50;
-    // if (Responsive.isPage5(context)) {
-    //   categoryWidth += lastAppbarWidth;
-    // }
+    double categoryWidth = 150;
+    if (Responsive.isPage5(context)) {
+      categoryWidth += lastAppbarWidth;
+    }
 
     return GestureDetector(
       onTap: () {
@@ -86,6 +103,7 @@ class _CartPageState extends State<CartPage> {
       child: Scaffold(
         drawer: Drawer(
           child: ListView(
+            controller: controller,
             children: [
               OnHoverDetect(
                 builder: (isHovered) {
@@ -418,192 +436,292 @@ class _CartPageState extends State<CartPage> {
             ],
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Center(
-                  child: SizedBox(
-                    width: 500,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text(
-                            '장바구니',
-                            style: GoogleFonts.notoSans(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        if (state.cartInfo.isEmpty)
-                          Center(
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                maxHeight: 400,
-                                minHeight: 400,
-                              ),
-                              child: Column(
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 40.0,
-                                      bottom: 20,
-                                    ),
-                                    child: Text(
-                                      '장바구니에 담긴 상품이 없습니다.',
-                                    ),
-                                  ),
-                                  Text(
-                                    '상품을 담아주세요.',
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        else
-                          ListView(
-                            shrinkWrap: true,
-                            children: [
-                              ...state.cartInfo.map((cart) {
-                                index += 1;
-                                return CartInfoList(
-                                  cartInfo: cart,
-                                  index: index,
-                                  onChanged: viewModel.updateCart,
-                                  onDelete: viewModel.deleteCart,
-                                );
-                              }).toList(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 25.0,
-                                  horizontal: 100,
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              controller: mainController,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: SizedBox(
+                        width: mainWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: Text(
+                                '장바구니',
+                                style: GoogleFonts.notoSans(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '합계 : ',
-                                          style: GoogleFonts.notoSans(
-                                            color: fontColorGrey,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                        Text(
-                                          currencyFormat(sumOfProduct),
-                                          style: GoogleFonts.notoSans(
-                                            color: fontColorGrey,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '배송비 : ',
-                                          style: GoogleFonts.notoSans(
-                                            color: fontColorGrey,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                        Text(
-                                          currencyFormat(shipmentFee),
-                                          style: GoogleFonts.notoSans(
-                                            color: fontColorGrey,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '결제 금액 : ',
-                                          style: GoogleFonts.notoSans(
-                                            color: fontColorGrey,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                        Text(
-                                          currencyFormat(totalPrice),
-                                          style: GoogleFonts.notoSans(
-                                            color: fontColorGrey,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    if (kIsWeb)
+                              ),
+                            ),
+                            if (state.cartInfo.isEmpty)
+                              Center(
+                                child: ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    maxHeight: 400,
+                                    minHeight: 400,
+                                  ),
+                                  child: Column(
+                                    children: const [
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 20.0),
-                                        child: Container(
-                                          width: 120,
-                                          height: 120,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(),
-                                          ),
-                                          child: const Center(
-                                            child: Text('QR'),
-                                          ),
+                                        padding: EdgeInsets.only(
+                                          top: 40.0,
+                                          bottom: 20,
+                                        ),
+                                        child: Text(
+                                          '장바구니에 담긴 상품이 없습니다.',
                                         ),
                                       ),
-                                    if (!kIsWeb)
-                                      InkWell(
-                                        onTap: () {},
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20.0),
-                                          child: Container(
-                                            width: 90,
-                                            height: 55,
-                                            color: selectColor,
-                                            child: Center(
-                                              child: Text(
-                                                '결제하기',
-                                                style: GoogleFonts.notoSans(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
+                                      Text(
+                                        '상품을 담아주세요.',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            else
+                              ListView(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: [
+                                  ...state.cartInfo.map((cart) {
+                                    index += 1;
+                                    return CartInfoList(
+                                      cartInfo: cart,
+                                      index: index,
+                                      onChanged: viewModel.updateCart,
+                                      onDelete: viewModel.deleteCart,
+                                    );
+                                  }).toList(),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 25.0,
+                                      horizontal: summaryPadding,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '합계 : ',
+                                              style: GoogleFonts.notoSans(
+                                                color: fontColorGrey,
+                                                fontSize: fontSize,
+                                              ),
+                                            ),
+                                            Text(
+                                              currencyFormat(sumOfProduct),
+                                              style: GoogleFonts.notoSans(
+                                                color: fontColorGrey,
+                                                fontSize: fontSize,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '배송비 : ',
+                                              style: GoogleFonts.notoSans(
+                                                color: fontColorGrey,
+                                                fontSize: fontSize,
+                                              ),
+                                            ),
+                                            Text(
+                                              currencyFormat(shipmentFee),
+                                              style: GoogleFonts.notoSans(
+                                                color: fontColorGrey,
+                                                fontSize: fontSize,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '결제 금액 : ',
+                                              style: GoogleFonts.notoSans(
+                                                color: fontColorGrey,
+                                                fontSize: fontSize,
+                                              ),
+                                            ),
+                                            Text(
+                                              currencyFormat(totalPrice),
+                                              style: GoogleFonts.notoSans(
+                                                color: fontColorGrey,
+                                                fontSize: fontSize,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        if (kIsWeb)
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 20.0),
+                                            child: Container(
+                                              width: 120,
+                                              height: 120,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(),
+                                              ),
+                                              child: const Center(
+                                                child: Text('QR'),
+                                              ),
+                                            ),
+                                          ),
+                                        if (!kIsWeb)
+                                          InkWell(
+                                            onTap: () {},
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 20.0),
+                                              child: Container(
+                                                width: 90,
+                                                height: 55,
+                                                color: selectColor,
+                                                child: Center(
+                                                  child: Text(
+                                                    '결제하기',
+                                                    style: GoogleFonts.notoSans(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: homeViewModel.getCalcContactPageHeight(context),
+                      minHeight: homeViewModel.getCalcContactPageHeight(context),
+                    ),
+                    child: const ContactPage(),
+                  ),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 120),
+                    child: const FooterPage(),
+                  ),
+                ],
+              ),
+            ),
+            if (hoverState)
+              Positioned(
+                right: categoryWidth,
+                top: 2,
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: 280,
+                    height: 180,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black38,
+                          offset: Offset(
+                            5.0,
+                            5.0,
                           ),
+                          blurRadius: 10.0,
+                          spreadRadius: 2.0,
+                        ), //BoxShadow
+                        BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(0.0, 0.0),
+                          blurRadius: 0.0,
+                          spreadRadius: 0.0,
+                        ), //BoxShadow
                       ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/detail/beans');
+                              },
+                              child: OnHoverDetect(
+                                builder: (isHovered) {
+                                  final color =
+                                  (isHovered) ? selectColor : Colors.black;
+                                  return Text(
+                                    'Coffee Beans',
+                                    style: TextStyle(color: color),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/detail/dripbag');
+                              },
+                              child: OnHoverDetect(
+                                builder: (isHovered) {
+                                  final color =
+                                  (isHovered) ? selectColor : Colors.black;
+                                  return Text(
+                                    'Fedora Dripbag',
+                                    style: TextStyle(color: color),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/detail/stick');
+                              },
+                              child: OnHoverDetect(
+                                builder: (isHovered) {
+                                  final color =
+                                  (isHovered) ? selectColor : Colors.black;
+                                  return Text(
+                                    'Stick Coffee',
+                                    style: TextStyle(color: color),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: homeViewModel.getCalcContactPageHeight(context),
-                  minHeight: homeViewModel.getCalcContactPageHeight(context),
-                ),
-                child: const ContactPage(),
-              ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 120),
-                child: const FooterPage(),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:beans_instapay/domain/model/cart_info.dart';
+import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -45,10 +46,36 @@ class _CartInfoListState extends State<CartInfoList> {
             ((100 - widget.cartInfo.productInfo.dcRate) / 100))
         .ceil();
 
-    final shippingFee = (dcPrice * widget.cartInfo.count < 20000)
-        ? widget.cartInfo.productInfo.shippingFee
-        : 0;
-    final totalPrice = (dcPrice * widget.cartInfo.count) + shippingFee;
+    double imageHeight = 90;
+    double fontSize1 = 15;
+    double fontSize2 = 14;
+    double titleWidth = 250;
+    double iconSize = 23;
+    if (Responsive.isPage1(context)) {
+      imageHeight = 90;
+      fontSize1 = 15;
+      fontSize2 = 14;
+      titleWidth = 250;
+      iconSize = 23;
+    } else if (Responsive.isPage2(context)) {
+      imageHeight = 120;
+      fontSize1 = 17;
+      fontSize2 = 16;
+      titleWidth = 300;
+      iconSize = 27;
+    } else if (Responsive.isPage3(context)) {
+      imageHeight = 150;
+      fontSize1 = 20;
+      fontSize2 = 18;
+      titleWidth = 350;
+      iconSize = 32;
+    } else if (Responsive.isPage4or5(context)) {
+      imageHeight = 200;
+      fontSize1 = 20;
+      fontSize2 = 18;
+      titleWidth = 450;
+      iconSize = 32;
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,9 +89,10 @@ class _CartInfoListState extends State<CartInfoList> {
                 onTap: () {
                   widget.onDelete(widget.index);
                 },
-                child: const FaIcon(
+                child: FaIcon(
                   FontAwesomeIcons.circleMinus,
                   color: selectColor,
+                  size: iconSize,
                 ),
               ),
             ),
@@ -72,7 +100,7 @@ class _CartInfoListState extends State<CartInfoList> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Image(
                 image: AssetImage(widget.cartInfo.productInfo.imageUrl),
-                height: 90,
+                height: imageHeight,
               ),
             ),
             SizedBox(
@@ -81,14 +109,14 @@ class _CartInfoListState extends State<CartInfoList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 250,
+                    width: titleWidth,
                     child: Text(
                       widget.cartInfo.productInfo.name,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: GoogleFonts.notoSans(
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontSize: fontSize1,
                       ),
                     ),
                   ),
@@ -100,7 +128,7 @@ class _CartInfoListState extends State<CartInfoList> {
                         Text(
                           currencyFormat(widget.cartInfo.productInfo.price),
                           style: GoogleFonts.notoSans(
-                            fontSize: 14,
+                            fontSize: fontSize2,
                             decoration: TextDecoration.lineThrough,
                             color: fontColorGrey,
                             fontWeight: FontWeight.bold,
@@ -112,7 +140,7 @@ class _CartInfoListState extends State<CartInfoList> {
                         Text(
                           currencyFormat(dcPrice),
                           style: GoogleFonts.notoSans(
-                            fontSize: 14,
+                            fontSize: fontSize2,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
