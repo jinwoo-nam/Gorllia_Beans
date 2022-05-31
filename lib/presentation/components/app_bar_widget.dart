@@ -1,3 +1,4 @@
+import 'package:beans_instapay/presentation/components/temp/notice_sample.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -232,6 +233,33 @@ class AppBarWidget extends StatelessWidget {
                       ),
                       child: Text(
                         'INSTAPAY',
+                        style: TextStyle(
+                          color: color,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  width: 25,
+                ),
+                OnHoverDetect(
+                  builder: (isHovered) {
+                    final color = isHovered ? selectColor : Colors.black;
+                    return TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const NoticeSample()),
+                        );
+                      },
+                      style: ButtonStyle(
+                        overlayColor:
+                        MaterialStateProperty.all(Colors.transparent),
+                      ),
+                      child: Text(
+                        'NOTICE',
                         style: TextStyle(
                           color: color,
                           fontWeight: FontWeight.bold,
