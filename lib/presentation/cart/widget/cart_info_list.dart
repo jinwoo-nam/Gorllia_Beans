@@ -49,13 +49,13 @@ class _CartInfoListState extends State<CartInfoList> {
     double imageHeight = 90;
     double fontSize1 = 15;
     double fontSize2 = 14;
-    double titleWidth = 250;
+    double titleWidth = 150;
     double iconSize = 23;
     if (Responsive.isPage1(context)) {
       imageHeight = 90;
       fontSize1 = 15;
       fontSize2 = 14;
-      titleWidth = 250;
+      titleWidth = 150;
       iconSize = 23;
     } else if (Responsive.isPage2(context)) {
       imageHeight = 120;
