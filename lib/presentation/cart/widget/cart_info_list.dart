@@ -154,7 +154,7 @@ class _CartInfoListState extends State<CartInfoList> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
-                        width: 160,
+                        width: 150,
                         height: 40,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -182,7 +182,7 @@ class _CartInfoListState extends State<CartInfoList> {
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Container(
-                            width: 160,
+                            width: 150,
                             height: 40,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -207,7 +207,7 @@ class _CartInfoListState extends State<CartInfoList> {
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Container(
-                            width: 160,
+                            width: 150,
                             height: 40,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),

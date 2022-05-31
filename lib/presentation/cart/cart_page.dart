@@ -53,7 +53,7 @@ class _CartPageState extends State<CartPage> {
     final state = viewModel.state;
     final itemCount = state.cartInfo.length;
     double mainWidth = 500;
-    double summaryPadding = 70;
+    double summaryPadding = 50;
     double fontSize = 18;
     int index = -1;
 
@@ -65,21 +65,24 @@ class _CartPageState extends State<CartPage> {
       bodyPadding = 32;
       mainWidth = 500;
       fontSize = 18;
+      summaryPadding=50;
     } else if (Responsive.isPage2(context) || Responsive.isPage3(context)) {
       bodyPadding = 32;
       mainWidth = 650;
       fontSize = 20;
+      summaryPadding = 60;
     } else if (Responsive.isPage4(context)) {
       bodyPadding = 50;
       mainWidth = 750;
       fontSize = 22;
+      summaryPadding = 65;
     } else if (Responsive.isPage5(context)) {
       bodyPadding = 200 * ((MediaQuery.of(context).size.width - 1200) / 720);
       mainWidth = 850;
       fontSize = 24;
+      summaryPadding = 65;
     }
 
-    // final homeViewModel = context.watch<HomeViewModel>();
     final double lastAppbarWidth =
         150 * ((MediaQuery.of(context).size.width - 1200) / 720);
     double categoryWidth = 150;
