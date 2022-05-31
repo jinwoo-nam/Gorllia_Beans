@@ -53,7 +53,7 @@ class _CartPageState extends State<CartPage> {
     final state = viewModel.state;
     final itemCount = state.cartInfo.length;
     double mainWidth = 500;
-    double summaryPadding = 100;
+    double summaryPadding = 70;
     double fontSize = 18;
     int index = -1;
 
@@ -64,22 +64,18 @@ class _CartPageState extends State<CartPage> {
     if (Responsive.isPage1(context)) {
       bodyPadding = 32;
       mainWidth = 500;
-      summaryPadding = 100;
       fontSize = 18;
     } else if (Responsive.isPage2(context) || Responsive.isPage3(context)) {
       bodyPadding = 32;
       mainWidth = 650;
-      summaryPadding = 150;
       fontSize = 20;
     } else if (Responsive.isPage4(context)) {
       bodyPadding = 50;
       mainWidth = 750;
-      summaryPadding = 200;
       fontSize = 22;
     } else if (Responsive.isPage5(context)) {
       bodyPadding = 200 * ((MediaQuery.of(context).size.width - 1200) / 720);
       mainWidth = 850;
-      summaryPadding = 200;
       fontSize = 24;
     }
 
@@ -186,14 +182,14 @@ class _CartPageState extends State<CartPage> {
                                             Text(
                                               '합계 : ',
                                               style: GoogleFonts.notoSans(
-                                                color: fontColorGrey,
+                                                color: const Color(0xffaaaaaa),
                                                 fontSize: fontSize,
                                               ),
                                             ),
                                             Text(
                                               currencyFormat(sumOfProduct),
                                               style: GoogleFonts.notoSans(
-                                                color: fontColorGrey,
+                                                color: const Color(0xff666666),
                                                 fontSize: fontSize,
                                               ),
                                             ),
@@ -206,14 +202,14 @@ class _CartPageState extends State<CartPage> {
                                             Text(
                                               '배송비 : ',
                                               style: GoogleFonts.notoSans(
-                                                color: fontColorGrey,
+                                                color: const Color(0xffaaaaaa),
                                                 fontSize: fontSize,
                                               ),
                                             ),
                                             Text(
                                               currencyFormat(shipmentFee),
                                               style: GoogleFonts.notoSans(
-                                                color: fontColorGrey,
+                                                color: const Color(0xff666666),
                                                 fontSize: fontSize,
                                               ),
                                             ),
@@ -226,14 +222,14 @@ class _CartPageState extends State<CartPage> {
                                             Text(
                                               '결제 금액 : ',
                                               style: GoogleFonts.notoSans(
-                                                color: fontColorGrey,
+                                                color: const Color(0xffaaaaaa),
                                                 fontSize: fontSize,
                                               ),
                                             ),
                                             Text(
                                               currencyFormat(totalPrice),
                                               style: GoogleFonts.notoSans(
-                                                color: fontColorGrey,
+                                                color: const Color(0xff666666),
                                                 fontSize: fontSize,
                                               ),
                                             ),

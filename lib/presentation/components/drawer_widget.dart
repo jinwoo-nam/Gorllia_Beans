@@ -8,12 +8,10 @@ import '../../ui/constant.dart';
 
 class DrawerWidget extends StatefulWidget {
   final int itemCount;
-  final Function(String)? removeOverlay;
 
   const DrawerWidget({
     Key? key,
     required this.itemCount,
-    this.removeOverlay,
   }) : super(key: key);
 
   @override
@@ -32,9 +30,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             builder: (isHovered) {
               return ListTile(
                 onTap: () {
-                  if(widget.removeOverlay != null){
-                    widget.removeOverlay!('');
-                  }
                   Navigator.pushNamed(context, '/');
                 },
                 mouseCursor: SystemMouseCursors.click,
@@ -54,9 +49,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              if(widget.removeOverlay != null){
-                widget.removeOverlay!('');
-              }
               setState(() {
                 isCategoryClick = !isCategoryClick;
               });
@@ -82,9 +74,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   tileColor: Colors.grey.withOpacity(0.5),
                   mouseCursor: SystemMouseCursors.click,
                   onTap: () {
-                    if(widget.removeOverlay != null){
-                      widget.removeOverlay!('');
-                    }
                     Navigator.pushNamed(context, '/detail/beans');
                   },
                   title: const Text(
@@ -103,9 +92,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   tileColor: Colors.grey.withOpacity(0.5),
                   mouseCursor: SystemMouseCursors.click,
                   onTap: () {
-                    if(widget.removeOverlay != null){
-                      widget.removeOverlay!('');
-                    }
                     Navigator.pushNamed(context, '/detail/dripbag');
                   },
                   title: const Text(
@@ -124,9 +110,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   tileColor: Colors.grey.withOpacity(0.5),
                   mouseCursor: SystemMouseCursors.click,
                   onTap: () {
-                    if(widget.removeOverlay != null){
-                      widget.removeOverlay!('');
-                    }
                     Navigator.pushNamed(context, '/detail/stick');
                   },
                   title: const Text(
@@ -145,9 +128,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
           ListTile(
             onTap: () {
-              if(widget.removeOverlay != null){
-                widget.removeOverlay!('');
-              }
               Navigator.pushNamed(context, '/cart');
             },
             mouseCursor: SystemMouseCursors.click,
@@ -180,9 +160,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              if(widget.removeOverlay != null){
-                widget.removeOverlay!('');
-              }
               final uri = Uri.parse(homePageUrl);
               launchURL(uri);
             },
@@ -201,9 +178,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              if(widget.removeOverlay != null){
-                widget.removeOverlay!('');
-              }
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const NoticeSample()),

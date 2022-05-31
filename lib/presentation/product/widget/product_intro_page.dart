@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:beans_instapay/domain/model/cart_info.dart';
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/presentation/cart/cart_view_model.dart';
@@ -8,13 +6,14 @@ import 'package:beans_instapay/presentation/components/drawer_widget.dart';
 import 'package:beans_instapay/presentation/home/contact/contact_page.dart';
 import 'package:beans_instapay/presentation/home/footer/footer_page.dart';
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
-import 'package:beans_instapay/presentation/product/widget/intro_drop_down.dart';
+import 'package:beans_instapay/presentation/home/product/product_event.dart';
 import 'package:beans_instapay/presentation/product/widget/product_intro_state.dart';
 import 'package:beans_instapay/presentation/product/widget/product_intro_view_model.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/constant.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,39 +35,7 @@ class ProductIntroPage extends StatefulWidget {
 }
 
 class _ProductIntroPageState extends State<ProductIntroPage> {
-  List<String> normalItemsCount = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10'
-  ];
-  List<String> beansItemsCount = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10'
-  ];
-  List<String> beansType = ['원두 상태(홀빈)', '분쇄(드립용)'];
-  var selectDropDownValue = '1';
-  var selectBeansDropDownValue = '원두 상태(홀빈)';
-  IntroDropDown? dropDown;
-  IntroDropDown? beansDropDown;
-  IntroDropDown? beansTypeDropDown;
   bool isBeans = false;
-  StreamSubscription? _streamSubscription;
-
   double bodyPadding = 16;
   bool hoverState = false;
   bool isCategoryClick = false;
@@ -233,33 +200,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
     );
 
     isBeans = (widget.info.categories[0] == 'BEANS');
-    dropDown = IntroDropDown(
-      initValue: selectDropDownValue,
-      items: normalItemsCount,
-      type: DropDownValueType.int,
-      name: 'normal',
-    );
-    beansDropDown = IntroDropDown(
-      initValue: selectDropDownValue,
-      items: beansItemsCount,
-      type: DropDownValueType.int,
-      name: 'beans',
-    );
-    beansTypeDropDown = IntroDropDown(
-      initValue: selectBeansDropDownValue,
-      items: beansType,
-      type: DropDownValueType.string,
-      name: 'beans type',
-    );
 
-    Future.microtask(() {
-      final viewModel = context.read<ProductIntroViewModel>();
-      _streamSubscription = viewModel.eventStream.listen((event) {
-        event.when(tapped: (type) {
-          removeOverlay(type);
-        });
-      });
-    });
     super.initState();
   }
 
@@ -321,19 +262,16 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
         if (hoverState == true) {
           changeHoverState();
         }
-        removeOverlay('');
       },
       child: Scaffold(
         drawer: DrawerWidget(
           itemCount: itemCount,
-          removeOverlay: removeOverlay,
         ),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(appBarHeight),
           child: AppBarWidget(
             itemCount: itemCount,
             changeHoverState: changeHoverState,
-            removeOverlay: removeOverlay,
           ),
         ),
         body: Stack(
@@ -380,7 +318,6 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                               : Colors.white60;
                                           return InkWell(
                                             onTap: () {
-                                              removeOverlay('');
                                               Navigator.pushNamed(context, '/');
                                             },
                                             child: Text(
@@ -416,17 +353,14 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                           onTap: () {
                                             switch (category) {
                                               case 'DRIPBAG':
-                                                removeOverlay('');
                                                 Navigator.pushNamed(
                                                     context, '/detail/dripbag');
                                                 break;
                                               case 'STICK':
-                                                removeOverlay('');
                                                 Navigator.pushNamed(
                                                     context, '/detail/stick');
                                                 break;
                                               case 'BEANS':
-                                                removeOverlay('');
                                                 Navigator.pushNamed(
                                                     context, '/detail/beans');
                                                 break;
@@ -480,7 +414,6 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                             : Colors.white60;
                                         return InkWell(
                                           onTap: () {
-                                            removeOverlay('');
                                             Navigator.pushNamed(context, '/');
                                           },
                                           child: Text(
@@ -513,17 +446,14 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                                           onTap: () {
                                             switch (category) {
                                               case 'DRIPBAG':
-                                                removeOverlay('');
                                                 Navigator.pushNamed(
                                                     context, '/detail/dripbag');
                                                 break;
                                               case 'STICK':
-                                                removeOverlay('');
                                                 Navigator.pushNamed(
                                                     context, '/detail/stick');
                                                 break;
                                               case 'BEANS':
-                                                removeOverlay('');
                                                 Navigator.pushNamed(
                                                     context, '/detail/beans');
                                                 break;
@@ -661,7 +591,6 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                             padding: const EdgeInsets.all(16.0),
                             child: InkWell(
                               onTap: () {
-                                removeOverlay('');
                                 Navigator.pushNamed(context, '/detail/beans');
                               },
                               child: OnHoverDetect(
@@ -680,7 +609,6 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                             padding: const EdgeInsets.all(16.0),
                             child: InkWell(
                               onTap: () {
-                                removeOverlay('');
                                 Navigator.pushNamed(context, '/detail/dripbag');
                               },
                               child: OnHoverDetect(
@@ -699,7 +627,6 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                             padding: const EdgeInsets.all(16.0),
                             child: InkWell(
                               onTap: () {
-                                removeOverlay('');
                                 Navigator.pushNamed(context, '/detail/stick');
                               },
                               child: OnHoverDetect(
@@ -1045,19 +972,32 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                   )
                 ],
               ),
-              (isBeans)
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: beansDropDown!,
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: dropDown!,
-                    ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: DropdownSearch(
+                  items: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                  menuHeight: (27.0 * 5) + (21 * (5 - 1)) + 20,
+                  selectedItem: 1,
+                  onChanged: (val) {
+                    introViewModel
+                        .onEvent(ProductEvent.selectProductCount(val as int));
+                  },
+                  dropdownSearchTextAlign: TextAlign.center,
+                ),
+              ),
               if (isBeans)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: beansTypeDropDown!,
+                  child: DropdownSearch(
+                    items: const ['원두 상태(홀빈)', '분쇄(드립용)'],
+                    menuHeight: (27.0 * 2) + (21 * (2 - 1)) + 20,
+                    selectedItem: '원두 상태(홀빈)',
+                    onChanged: (val) {
+                      introViewModel.onEvent(
+                          ProductEvent.selectProductValue(val as String));
+                    },
+                    dropdownSearchTextAlign: TextAlign.center,
+                  ),
                 ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -1146,46 +1086,6 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
       height: 250,
       fit: BoxFit.cover,
     );
-  }
-
-  void removeOverlay(String type) {
-    switch (type) {
-      case '':
-        if (dropDown?.removeOverlay != null) {
-          dropDown?.removeOverlay!();
-        }
-        if (beansDropDown?.removeOverlay != null) {
-          beansDropDown?.removeOverlay!();
-        }
-        if (beansTypeDropDown?.removeOverlay != null) {
-          beansTypeDropDown?.removeOverlay!();
-        }
-        break;
-      case 'normal':
-        if (beansDropDown?.removeOverlay != null) {
-          beansDropDown?.removeOverlay!();
-        }
-        if (beansTypeDropDown?.removeOverlay != null) {
-          beansTypeDropDown?.removeOverlay!();
-        }
-        break;
-      case 'beans':
-        if (dropDown?.removeOverlay != null) {
-          dropDown?.removeOverlay!();
-        }
-        if (beansTypeDropDown?.removeOverlay != null) {
-          beansTypeDropDown?.removeOverlay!();
-        }
-        break;
-      case 'beans type':
-        if (dropDown?.removeOverlay != null) {
-          dropDown?.removeOverlay!();
-        }
-        if (beansDropDown?.removeOverlay != null) {
-          beansDropDown?.removeOverlay!();
-        }
-        break;
-    }
   }
 
   Widget getQrImage(int count, String beansType) {

@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(appBarHeight),
           child: Visibility(
-            visible: scrollOffset > viewModel.getCalcMainHeight(context),
+            visible: scrollOffset > 150,
             child: AppBarWidget(
               itemCount: itemCount,
               changeHoverState: changeHoverState,

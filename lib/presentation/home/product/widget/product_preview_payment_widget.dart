@@ -1,15 +1,14 @@
-import 'dart:async';
-
 import 'package:beans_instapay/domain/model/cart_info.dart';
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/presentation/cart/cart_view_model.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader.dart';
 import 'package:beans_instapay/presentation/home/overlay/loader_detail.dart';
+import 'package:beans_instapay/presentation/home/product/product_event.dart';
 import 'package:beans_instapay/presentation/home/product/product_view_model.dart';
-import 'package:beans_instapay/presentation/home/product/widget/custom_drop_down.dart';
 import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/constant.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -51,38 +50,7 @@ class _ProductPreviewPaymentWidgetState
     );
   }
 
-  List<String> normalItemsCount = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10'
-  ];
-  List<String> beansItemsCount = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10'
-  ];
-  List<String> beansType = ['원두 상태(홀빈)', '분쇄(드립용)'];
-  var selectDropDownValue = '1';
-  var selectBeansDropDownValue = '원두 상태(홀빈)';
-  CustomDropDown? dropDown;
-  CustomDropDown? beansDropDown;
-  CustomDropDown? beansTypeDropDown;
   bool isBeans = false;
-  StreamSubscription? _streamSubscription;
 
   @override
   void initState() {
@@ -125,7 +93,6 @@ class _ProductPreviewPaymentWidgetState
                     InkWell(
                       onTap: () {
                         _removeToast();
-                        removeOverlay('');
                         Loader.appLoader.hideLoader();
                         LoaderDetail.appLoader.hideLoader();
                         Navigator.pushNamed(context, '/cart');
@@ -226,32 +193,7 @@ class _ProductPreviewPaymentWidgetState
     );
 
     isBeans = (widget.info.categories[0] == 'BEANS');
-    dropDown = CustomDropDown(
-      initValue: selectDropDownValue,
-      items: normalItemsCount,
-      type: DropDownValueType.int,
-      name: 'normal',
-    );
-    beansDropDown = CustomDropDown(
-      initValue: selectDropDownValue,
-      items: beansItemsCount,
-      type: DropDownValueType.int,
-      name: 'beans',
-    );
-    beansTypeDropDown = CustomDropDown(
-      initValue: selectBeansDropDownValue,
-      items: beansType,
-      type: DropDownValueType.string,
-      name: 'beans type',
-    );
-    Future.microtask(() {
-      final viewModel = context.read<ProductViewModel>();
-      _streamSubscription = viewModel.eventStream.listen((event) {
-        event.when(tapped: (type) {
-          removeOverlay(type);
-        });
-      });
-    });
+
     super.initState();
   }
 
@@ -283,424 +225,402 @@ class _ProductPreviewPaymentWidgetState
     final double fontSize1 = (Responsive.isPage1(context)) ? 15 : 17;
     final double fontSize2 = (Responsive.isPage1(context)) ? 16 : 21;
 
-    return GestureDetector(
-      onTap: () {
-        removeOverlay('');
-      },
-      child: Container(
-        color: Colors.black.withOpacity(0.5),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: SizedBox(
-              width: width,
-              height: height,
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Card(
-                        child: Stack(
-                          children: [
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                color: selectColor,
-                                child: InkWell(
-                                  child: const Icon(
-                                    Icons.close_outlined,
-                                    color: Colors.white,
-                                    size: 25,
-                                  ),
-                                  onTap: () {
-                                    _removeToast();
-                                    removeOverlay('');
-                                    Loader.appLoader.hideLoader();
-                                    LoaderDetail.appLoader.hideLoader();
-                                  },
+    return Container(
+      color: Colors.black.withOpacity(0.5),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: SizedBox(
+            width: width,
+            height: height,
+            child: SingleChildScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Card(
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              color: selectColor,
+                              child: InkWell(
+                                child: const Icon(
+                                  Icons.close_outlined,
+                                  color: Colors.white,
+                                  size: 25,
                                 ),
+                                onTap: () {
+                                  _removeToast();
+                                  Loader.appLoader.hideLoader();
+                                  LoaderDetail.appLoader.hideLoader();
+                                },
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 55.0,
-                                bottom: 32,
-                                right: 32,
-                                left: 32,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      widget.info.name,
-                                      style: GoogleFonts.notoSans(
-                                        fontSize: 21,
-                                        height: 1.5,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 55.0,
+                              bottom: 32,
+                              right: 32,
+                              left: 32,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    widget.info.name,
+                                    style: GoogleFonts.notoSans(
+                                      fontSize: 21,
+                                      height: 1.5,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '결제 금액',
+                                                style: GoogleFonts.notoSans(
+                                                  fontSize: fontSize1,
+                                                  color:
+                                                      const Color(0xffaaaaaa),
+                                                ),
+                                              ),
+                                              Text(
+                                                currencyFormat(totalPrice),
+                                                style: GoogleFonts.notoSans(
+                                                  fontSize: fontSize2,
+                                                  color:
+                                                      const Color(0xff666666),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Divider(
+                                            color: priceGrey,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  '결제 금액',
+                                                  '정가',
                                                   style: GoogleFonts.notoSans(
-                                                    fontSize: fontSize1,
+                                                    fontSize: 15,
                                                     color:
                                                         const Color(0xffaaaaaa),
                                                   ),
                                                 ),
                                                 Text(
-                                                  currencyFormat(totalPrice),
+                                                  currencyFormat(
+                                                      widget.info.price),
                                                   style: GoogleFonts.notoSans(
-                                                    fontSize: fontSize2,
+                                                    fontSize: 15,
                                                     color:
                                                         const Color(0xff666666),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            const Divider(
-                                              color: priceGrey,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    '정가',
-                                                    style: GoogleFonts.notoSans(
-                                                      fontSize: 15,
-                                                      color: const Color(
-                                                          0xffaaaaaa),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    currencyFormat(
-                                                        widget.info.price),
-                                                    style: GoogleFonts.notoSans(
-                                                      fontSize: 15,
-                                                      color: const Color(
-                                                          0xff666666),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '할인가',
-                                                    style: GoogleFonts.notoSans(
-                                                      fontSize: 15,
-                                                      color: const Color(
-                                                          0xffaaaaaa),
-                                                    ),
-                                                  ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        currencyFormat(dcPrice),
-                                                        style: GoogleFonts
-                                                            .notoSans(
-                                                          fontSize: 15,
-                                                          color: const Color(
-                                                              0xff666666),
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        '($dcRate% 할인)',
-                                                        style: GoogleFonts
-                                                            .notoSans(
-                                                          fontSize: 13,
-                                                          color: const Color(
-                                                              0xff666666),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    '배송비',
-                                                    style: GoogleFonts.notoSans(
-                                                      fontSize: 15,
-                                                      color: const Color(
-                                                          0xffaaaaaa),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    currencyFormat(shippingFee),
-                                                    style: GoogleFonts.notoSans(
-                                                      fontSize: 15,
-                                                      color: const Color(
-                                                          0xff666666),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            (isBeans)
-                                                ? Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 8.0),
-                                                    child: beansDropDown!,
-                                                  )
-                                                : Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 8.0),
-                                                    child: dropDown!,
-                                                  ),
-                                            if (isBeans)
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 8.0),
-                                                child: beansTypeDropDown!,
-                                              )
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 30,
-                                      ),
-                                      Column(
-                                        children: [
-                                          getQrImage(state.selectedProductCount,
-                                              beansType),
+                                          ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
-                                            child: Theme(
-                                              data: ThemeData(
-                                                splashColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                              ),
-                                              child: OnHoverDetect(
-                                                builder: (isHovered) {
-                                                  final color = (isHovered)
-                                                      ? Colors.black
-                                                      : selectColor;
-                                                  bool countOverflow;
-                                                  return ElevatedButton(
-                                                    onPressed: () async {
-                                                      if (!isBeans) {
-                                                        countOverflow =
-                                                            await cartViewModel
-                                                                .addCart(CartInfo(
-                                                                    productInfo:
-                                                                        widget
-                                                                            .info,
-                                                                    count: state
-                                                                        .selectedProductCount));
-                                                      } else {
-                                                        final type =
-                                                            (state.selectedProductType ==
-                                                                    '원두 상태(홀빈)')
-                                                                ? BeanType.Whole
-                                                                : BeanType.Drip;
-                                                        countOverflow =
-                                                            await cartViewModel
-                                                                .addCart(
-                                                          CartInfo(
-                                                            productInfo:
-                                                                widget.info,
-                                                            count: state
-                                                                .selectedProductCount,
-                                                            beanType: type,
-                                                          ),
-                                                        );
-                                                      }
-                                                      _showToast(countOverflow);
-                                                    },
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 10.0,
-                                                          vertical: 15.0),
-                                                      primary: color,
-                                                      splashFactory: NoSplash
-                                                          .splashFactory,
-                                                      elevation: 0,
-                                                      shape:
-                                                          const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.zero,
-                                                      ),
-                                                    ),
-                                                    child: Text(
-                                                      '장바구니 담기',
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '할인가',
+                                                  style: GoogleFonts.notoSans(
+                                                    fontSize: 15,
+                                                    color:
+                                                        const Color(0xffaaaaaa),
+                                                  ),
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      currencyFormat(dcPrice),
                                                       style:
                                                           GoogleFonts.notoSans(
-                                                        fontSize: 16,
+                                                        fontSize: 15,
+                                                        color: const Color(
+                                                            0xff666666),
                                                       ),
                                                     ),
-                                                  );
-                                                },
-                                              ),
+                                                    Text(
+                                                      '($dcRate% 할인)',
+                                                      style:
+                                                          GoogleFonts.notoSans(
+                                                        fontSize: 13,
+                                                        color: const Color(
+                                                            0xff666666),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '배송비',
+                                                  style: GoogleFonts.notoSans(
+                                                    fontSize: 15,
+                                                    color:
+                                                        const Color(0xffaaaaaa),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  currencyFormat(shippingFee),
+                                                  style: GoogleFonts.notoSans(
+                                                    fontSize: 15,
+                                                    color:
+                                                        const Color(0xff666666),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            child: DropdownSearch(
+                                              items: const [
+                                                1,
+                                                2,
+                                                3,
+                                                4,
+                                                5,
+                                                6,
+                                                7,
+                                                8,
+                                                9,
+                                                10
+                                              ],
+                                              menuHeight: (27.0 * 5) +
+                                                  (21 * (5 - 1)) +
+                                                  20,
+                                              selectedItem: 1,
+                                              onChanged: (val) {
+                                                viewModel.onEvent(ProductEvent
+                                                    .selectProductCount(
+                                                        val as int));
+                                              },
+                                              dropdownSearchTextAlign:
+                                                  TextAlign.center,
+                                            ),
+                                          ),
+                                          if (isBeans)
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0),
+                                              child: DropdownSearch(
+                                                items: const [
+                                                  '원두 상태(홀빈)',
+                                                  '분쇄(드립용)'
+                                                ],
+                                                menuHeight: (27.0 * 2) +
+                                                    (21 * (2 - 1)) +
+                                                    20,
+                                                selectedItem: '원두 상태(홀빈)',
+                                                onChanged: (val) {
+                                                  viewModel.onEvent(ProductEvent
+                                                      .selectProductValue(
+                                                          val as String));
+                                                },
+                                                dropdownSearchTextAlign:
+                                                    TextAlign.center,
+                                              ),
+                                            )
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        widget.info.description,
-                                        style: GoogleFonts.notoSans(),
-                                      ),
-                                    ],
-                                  ),
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Divider(
-                                      color: Color(0xffe7e7e7),
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: FaIcon(
-                                          FontAwesomeIcons.tags,
-                                          color: secondaryGrey,
-                                          size: 15,
-                                        ),
-                                      ),
-                                      const Text(
-                                        'CATEGORIES: ',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      ...widget.info.categories
-                                          .map((e) => Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 4.0),
-                                                child: Text(e),
-                                              )),
-                                    ],
-                                  ),
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Divider(
-                                      color: Color(0xffe7e7e7),
+                                    const SizedBox(
+                                      width: 30,
                                     ),
+                                    Column(
+                                      children: [
+                                        getQrImage(state.selectedProductCount,
+                                            beansType),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0),
+                                          child: Theme(
+                                            data: ThemeData(
+                                              splashColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                            ),
+                                            child: OnHoverDetect(
+                                              builder: (isHovered) {
+                                                final color = (isHovered)
+                                                    ? Colors.black
+                                                    : selectColor;
+                                                bool countOverflow;
+                                                return ElevatedButton(
+                                                  onPressed: () async {
+                                                    if (!isBeans) {
+                                                      countOverflow =
+                                                          await cartViewModel
+                                                              .addCart(CartInfo(
+                                                                  productInfo:
+                                                                      widget
+                                                                          .info,
+                                                                  count: state
+                                                                      .selectedProductCount));
+                                                    } else {
+                                                      final type =
+                                                          (state.selectedProductType ==
+                                                                  '원두 상태(홀빈)')
+                                                              ? BeanType.Whole
+                                                              : BeanType.Drip;
+                                                      countOverflow =
+                                                          await cartViewModel
+                                                              .addCart(
+                                                        CartInfo(
+                                                          productInfo:
+                                                              widget.info,
+                                                          count: state
+                                                              .selectedProductCount,
+                                                          beanType: type,
+                                                        ),
+                                                      );
+                                                    }
+                                                    _showToast(countOverflow);
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10.0,
+                                                        vertical: 15.0),
+                                                    primary: color,
+                                                    splashFactory:
+                                                        NoSplash.splashFactory,
+                                                    elevation: 0,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.zero,
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    '장바구니 담기',
+                                                    style: GoogleFonts.notoSans(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      widget.info.description,
+                                      style: GoogleFonts.notoSans(),
+                                    ),
+                                  ],
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Divider(
+                                    color: Color(0xffe7e7e7),
                                   ),
-                                ],
-                              ),
+                                ),
+                                Row(
+                                  children: [
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: FaIcon(
+                                        FontAwesomeIcons.tags,
+                                        color: secondaryGrey,
+                                        size: 15,
+                                      ),
+                                    ),
+                                    const Text(
+                                      'CATEGORIES: ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    ...widget.info.categories
+                                        .map((e) => Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 4.0),
+                                              child: Text(e),
+                                            )),
+                                  ],
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Divider(
+                                    color: Color(0xffe7e7e7),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  void removeOverlay(String type) {
-    switch (type) {
-      case '':
-        if (dropDown?.removeOverlay != null) {
-          dropDown?.removeOverlay!();
-        }
-        if (beansDropDown?.removeOverlay != null) {
-          beansDropDown?.removeOverlay!();
-        }
-        if (beansTypeDropDown?.removeOverlay != null) {
-          beansTypeDropDown?.removeOverlay!();
-        }
-        break;
-      case 'normal':
-        if (beansDropDown?.removeOverlay != null) {
-          beansDropDown?.removeOverlay!();
-        }
-        if (beansTypeDropDown?.removeOverlay != null) {
-          beansTypeDropDown?.removeOverlay!();
-        }
-        break;
-      case 'beans':
-        if (dropDown?.removeOverlay != null) {
-          dropDown?.removeOverlay!();
-        }
-        if (beansTypeDropDown?.removeOverlay != null) {
-          beansTypeDropDown?.removeOverlay!();
-        }
-        break;
-      case 'beans type':
-        if (dropDown?.removeOverlay != null) {
-          dropDown?.removeOverlay!();
-        }
-        if (beansDropDown?.removeOverlay != null) {
-          beansDropDown?.removeOverlay!();
-        }
-        break;
-    }
   }
 
   Widget getQrImage(int count, String beansType) {

@@ -81,7 +81,7 @@ class _CartInfoListState extends State<CartInfoList> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             MouseRegion(
               cursor: SystemMouseCursors.click,
@@ -89,15 +89,18 @@ class _CartInfoListState extends State<CartInfoList> {
                 onTap: () {
                   widget.onDelete(widget.index);
                 },
-                child: FaIcon(
-                  FontAwesomeIcons.circleMinus,
-                  color: selectColor,
-                  size: iconSize,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: FaIcon(
+                    FontAwesomeIcons.circleMinus,
+                    color: selectColor,
+                    size: iconSize,
+                  ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.only(right: 30),
               child: Image(
                 image: AssetImage(widget.cartInfo.productInfo.imageUrl),
                 height: imageHeight,
@@ -237,8 +240,11 @@ class _CartInfoListState extends State<CartInfoList> {
             )
           ],
         ),
-        const Divider(
-          color: Colors.black,
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 20.0),
+          child: Divider(
+            color: Colors.black,
+          ),
         )
       ],
     );
