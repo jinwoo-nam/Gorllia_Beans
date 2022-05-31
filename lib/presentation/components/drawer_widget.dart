@@ -1,3 +1,4 @@
+import 'package:beans_instapay/presentation/components/temp/notice_sample.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
@@ -188,6 +189,29 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             mouseCursor: SystemMouseCursors.click,
             title: const Text(
               'INSTAPAY',
+              style: TextStyle(
+                color: secondaryGrey,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const Divider(
+            height: 1,
+            color: fontColorGrey,
+          ),
+          ListTile(
+            onTap: () {
+              if(widget.removeOverlay != null){
+                widget.removeOverlay!('');
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const NoticeSample()),
+              );
+            },
+            mouseCursor: SystemMouseCursors.click,
+            title: const Text(
+              'NOTICE',
               style: TextStyle(
                 color: secondaryGrey,
                 fontWeight: FontWeight.bold,
