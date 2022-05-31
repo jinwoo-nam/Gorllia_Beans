@@ -479,8 +479,20 @@ class _ProductPreviewPaymentWidgetState
                                     ),
                                     Column(
                                       children: [
-                                        getQrImage(state.selectedProductCount,
-                                            beansType),
+                                        Column(
+                                          children: [
+                                            const Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 8.0),
+                                              child: Text(
+                                                '인스타페이 앱으로 QR코드를 찍어서 결제해 주세요',
+                                              ),
+                                            ),
+                                            getQrImage(
+                                                state.selectedProductCount,
+                                                beansType),
+                                          ],
+                                        ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 8.0),

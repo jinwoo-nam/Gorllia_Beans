@@ -65,7 +65,7 @@ class _CartPageState extends State<CartPage> {
       bodyPadding = 32;
       mainWidth = 500;
       fontSize = 18;
-      summaryPadding=50;
+      summaryPadding = 50;
     } else if (Responsive.isPage2(context) || Responsive.isPage3(context)) {
       bodyPadding = 32;
       mainWidth = 650;
@@ -242,15 +242,24 @@ class _CartPageState extends State<CartPage> {
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 20.0),
-                                            child: Container(
-                                              width: 120,
-                                              height: 120,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(),
-                                              ),
-                                              child: const Center(
-                                                child: Text('QR'),
-                                              ),
+                                            child: Column(
+                                              children: [
+                                                const Padding(
+                                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                                  child: Text(
+                                                      '인스타페이 앱으로 QR코드를 찍어서 결제해 주세요',),
+                                                ),
+                                                Container(
+                                                  width: 120,
+                                                  height: 120,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(),
+                                                  ),
+                                                  child: const Center(
+                                                    child: Text('QR'),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         if (!kIsWeb)
