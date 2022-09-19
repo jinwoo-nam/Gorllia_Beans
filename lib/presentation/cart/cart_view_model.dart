@@ -4,6 +4,7 @@ import 'package:beans_instapay/domain/use_case/cart/delete_cart_data_use_case.da
 import 'package:beans_instapay/domain/use_case/cart/get_cart_data_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/update_cart_data_use_case.dart';
 import 'package:beans_instapay/presentation/cart/cart_state.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CartViewModel with ChangeNotifier {
@@ -100,5 +101,23 @@ class CartViewModel with ChangeNotifier {
       sum += (dcPrice * state.cartInfo[i].count);
     }
     return sum;
+  }
+
+  Future<DocumentReference> saveCartInfoToFireStore(
+      List<CartInfo> infos) async {
+    List<Map<String, dynamic>> temp = [];
+    for (final data in infos) {
+      temp.add({
+        'name': data.productInfo.name,
+        'count': data.count,
+      });
+    }
+
+    return FirebaseFirestore.instance
+        .collection('cart_info')
+        .add(<String, dynamic>{
+      'data': temp,
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+    });
   }
 }

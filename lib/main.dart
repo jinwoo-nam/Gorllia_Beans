@@ -7,10 +7,16 @@ import 'package:beans_instapay/presentation/home/overlay/overlay_view.dart';
 import 'package:beans_instapay/presentation/product/detail/coffee_beans_detail_screen.dart';
 import 'package:beans_instapay/presentation/product/detail/dripbag_detail_screen.dart';
 import 'package:beans_instapay/presentation/product/detail/stick_coffee_detail_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MultiProvider(
     providers: await getProviders(),
     child: const MyApp(),
@@ -30,8 +36,7 @@ class MyApp extends StatelessWidget {
           final state = viewModel.state;
 
           if (state.productInfo == null) {
-          } else {
-          }
+          } else {}
           return Stack(
             children: [
               const HomeScreen(),

@@ -251,12 +251,13 @@ class AppBarWidget extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const NoticeSample()),
+                          MaterialPageRoute(
+                              builder: (context) => const NoticeSample()),
                         );
                       },
                       style: ButtonStyle(
                         overlayColor:
-                        MaterialStateProperty.all(Colors.transparent),
+                            MaterialStateProperty.all(Colors.transparent),
                       ),
                       child: Text(
                         'NOTICE',

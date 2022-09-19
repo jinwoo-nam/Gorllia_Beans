@@ -245,9 +245,11 @@ class _CartPageState extends State<CartPage> {
                                             child: Column(
                                               children: [
                                                 const Padding(
-                                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8.0),
                                                   child: Text(
-                                                      '인스타페이 앱으로 QR코드를 찍어서 결제해 주세요',),
+                                                    '인스타페이 앱으로 QR코드를 찍어서 결제해 주세요',
+                                                  ),
                                                 ),
                                                 Container(
                                                   width: 120,
@@ -257,6 +259,41 @@ class _CartPageState extends State<CartPage> {
                                                   ),
                                                   child: const Center(
                                                     child: Text('QR'),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 16.0),
+                                                  child: OnHoverDetect(
+                                                    builder: (isHovered) {
+                                                      final color = isHovered
+                                                          ? Colors.black
+                                                          : selectColor;
+                                                      return InkWell(
+                                                        onTap: () async {
+                                                          viewModel.saveCartInfoToFireStore(state.cartInfo);
+                                                        },
+                                                        child: Container(
+                                                          width: 150,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(16),
+                                                          color: color,
+                                                          child: Center(
+                                                            child: Text(
+                                                              '결제',
+                                                              style: GoogleFonts
+                                                                  .notoSans(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 15,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
                                                   ),
                                                 ),
                                               ],
