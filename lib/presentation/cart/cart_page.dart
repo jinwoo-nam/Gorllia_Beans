@@ -272,7 +272,34 @@ class _CartPageState extends State<CartPage> {
                                                           : selectColor;
                                                       return InkWell(
                                                         onTap: () async {
-                                                          viewModel.saveCartInfoToFireStore(state.cartInfo);
+                                                          final result = await viewModel
+                                                              .saveCartInfoToFireStore(
+                                                                  state
+                                                                      .cartInfo);
+
+                                                          showDialog<String>(
+                                                            context: context,
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                AlertDialog(
+                                                              title: const Text(
+                                                                  '저장 완료'),
+                                                              content:
+                                                                  const Text(
+                                                                      '서버에 저장되었습니다.'),
+                                                              actions: <Widget>[
+                                                                TextButton(
+                                                                  onPressed: () =>
+                                                                      Navigator.pop(
+                                                                          context,
+                                                                          'OK'),
+                                                                  child:
+                                                                      const Text(
+                                                                          'OK'),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          );
                                                         },
                                                         child: Container(
                                                           width: 150,

@@ -31,11 +31,35 @@
 
   <title>beans_instapay</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+      .container {
+        width: 100vw;
+        height: 100vh;
+        line-height:100vh;
+        align-items: center;
+        text-align:center;
+        vertical-align: middle;
+        margin: 0 auto;
+        display:table-cell;
+      }
+      .indicator2{
+        width: 80px;
+      }
+      .container img {
+        display:block;
+        margin:0 auto;
+      }
+    </style>
 </head>
-<body>
+<body style="overflow: hidden" bgcolor="#fff">
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+
+  <div id="loading_indicator" class="container">
+    <img class="indicator2"  src="./asset/loading.gif"/>
+  </div>
+
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
@@ -100,5 +124,15 @@
       loadMainDartJs();
     }
   </script>
+  <script>
+      window.onload = function () {
+      setTimeout(function () {
+          var loadingIndicator = document.getElementById("loading_indicator");
+          if (loadingIndicator) {
+              loadingIndicator.remove();
+          }
+        }, 10000);
+      };
+</script>
 </body>
 </html>

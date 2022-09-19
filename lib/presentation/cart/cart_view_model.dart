@@ -113,7 +113,7 @@ class CartViewModel with ChangeNotifier {
       });
     }
 
-    return FirebaseFirestore.instance
+    return await FirebaseFirestore.instance
         .collection('cart_info')
         .add(<String, dynamic>{
       'data': temp,
