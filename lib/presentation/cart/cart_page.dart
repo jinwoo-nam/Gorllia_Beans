@@ -255,10 +255,11 @@ class _CartPageState extends State<CartPage> {
                                                 if (state.qrAddress.isNotEmpty)
                                                   InkWell(
                                                     onTap: () {
-                                                        launchURL(state.qrAddress);
+                                                      launchURL(
+                                                          state.qrAddress);
                                                     },
                                                     child: Image.network(
-                                                      state.qrAddress,
+                                                      state.qrCode,
                                                       width: 180,
                                                       height: 180,
                                                     ),

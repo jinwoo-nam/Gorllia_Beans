@@ -6,7 +6,7 @@ class GetCartQrRepositoryImpl implements GetCartQrRepository {
   final dataSource = BeansApi();
 
   @override
-  Future<Result<String>> getCartQrCode(String price, String serial) async {
+  Future<Result<List<String>>> getCartQrCode(String price, String serial) async {
     return await dataSource.getCartQrCode(price, serial);
   }
 }

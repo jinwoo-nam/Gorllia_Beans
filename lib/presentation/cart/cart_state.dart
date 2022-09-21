@@ -9,6 +9,7 @@ class CartState with _$CartState {
   factory CartState({
     @Default([]) List<CartInfo> cartInfo,
     @Default('') String qrAddress,
+    @Default('') String qrCode,
   }) = _CartState;
   factory CartState.fromJson(Map<String, dynamic> json) => _$CartStateFromJson(json);
 }

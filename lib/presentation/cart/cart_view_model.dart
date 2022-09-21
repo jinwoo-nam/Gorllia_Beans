@@ -109,7 +109,8 @@ class CartViewModel with ChangeNotifier {
     qr.when(
       success: (data) {
         _state = state.copyWith(
-          qrAddress: data,
+          qrCode: data[0],
+          qrAddress: data[1],
         );
       },
       error: (message) {},
