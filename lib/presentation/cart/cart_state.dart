@@ -8,6 +8,7 @@ part 'cart_state.g.dart';
 class CartState with _$CartState {
   factory CartState({
     @Default([]) List<CartInfo> cartInfo,
+    @Default('') String qrAddress,
   }) = _CartState;
   factory CartState.fromJson(Map<String, dynamic> json) => _$CartStateFromJson(json);
 }

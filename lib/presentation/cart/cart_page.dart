@@ -6,6 +6,7 @@ import 'package:beans_instapay/presentation/home/contact/contact_page.dart';
 import 'package:beans_instapay/presentation/home/footer/footer_page.dart';
 import 'package:beans_instapay/presentation/home/home_view_model.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
+import 'package:beans_instapay/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -251,78 +252,89 @@ class _CartPageState extends State<CartPage> {
                                                     '인스타페이 앱으로 QR코드를 찍어서 결제해 주세요',
                                                   ),
                                                 ),
-                                                Container(
-                                                  width: 120,
-                                                  height: 120,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(),
-                                                  ),
-                                                  child: const Center(
-                                                    child: Text('QR'),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 16.0),
-                                                  child: OnHoverDetect(
-                                                    builder: (isHovered) {
-                                                      final color = isHovered
-                                                          ? Colors.black
-                                                          : selectColor;
-                                                      return InkWell(
-                                                        onTap: () async {
-                                                          final result = await viewModel
-                                                              .saveCartInfoToFireStore(
-                                                                  state
-                                                                      .cartInfo);
-
-                                                          showDialog<String>(
-                                                            context: context,
-                                                            builder: (BuildContext
-                                                                    context) =>
-                                                                AlertDialog(
-                                                              title: const Text(
-                                                                  '저장 완료'),
-                                                              content:
-                                                                  const Text(
-                                                                      '서버에 저장되었습니다.'),
-                                                              actions: <Widget>[
-                                                                TextButton(
-                                                                  onPressed: () =>
-                                                                      Navigator.pop(
-                                                                          context,
-                                                                          'OK'),
-                                                                  child:
-                                                                      const Text(
-                                                                          'OK'),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          width: 150,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(16),
-                                                          color: color,
-                                                          child: Center(
-                                                            child: Text(
-                                                              '결제',
-                                                              style: GoogleFonts
-                                                                  .notoSans(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 15,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      );
+                                                if (state.qrAddress.isNotEmpty)
+                                                  InkWell(
+                                                    onTap: () {
+                                                        launchURL(state.qrAddress);
                                                     },
+                                                    child: Image.network(
+                                                      state.qrAddress,
+                                                      width: 180,
+                                                      height: 180,
+                                                    ),
                                                   ),
-                                                ),
+                                                // Container(
+                                                //   width: 120,
+                                                //   height: 120,
+                                                //   decoration: BoxDecoration(
+                                                //     border: Border.all(),
+                                                //   ),
+                                                //   child: const Center(
+                                                //     child: Text('QR'),
+                                                //   ),
+                                                // ),
+                                                // Padding(
+                                                //   padding: const EdgeInsets
+                                                //           .symmetric(
+                                                //       vertical: 16.0),
+                                                //   child: OnHoverDetect(
+                                                //     builder: (isHovered) {
+                                                //       final color = isHovered
+                                                //           ? Colors.black
+                                                //           : selectColor;
+                                                //       return InkWell(
+                                                //         onTap: () async {
+                                                //           final result = await viewModel
+                                                //               .saveCartInfoToFireStore(
+                                                //                   state
+                                                //                       .cartInfo);
+                                                //
+                                                //           showDialog<String>(
+                                                //             context: context,
+                                                //             builder: (BuildContext
+                                                //                     context) =>
+                                                //                 AlertDialog(
+                                                //               title: const Text(
+                                                //                   '저장 완료'),
+                                                //               content:
+                                                //                   const Text(
+                                                //                       '서버에 저장되었습니다.'),
+                                                //               actions: <Widget>[
+                                                //                 TextButton(
+                                                //                   onPressed: () =>
+                                                //                       Navigator.pop(
+                                                //                           context,
+                                                //                           'OK'),
+                                                //                   child:
+                                                //                       const Text(
+                                                //                           'OK'),
+                                                //                 ),
+                                                //               ],
+                                                //             ),
+                                                //           );
+                                                //         },
+                                                //         child: Container(
+                                                //           width: 150,
+                                                //           padding:
+                                                //               const EdgeInsets
+                                                //                   .all(16),
+                                                //           color: color,
+                                                //           child: Center(
+                                                //             child: Text(
+                                                //               '결제',
+                                                //               style: GoogleFonts
+                                                //                   .notoSans(
+                                                //                 color: Colors
+                                                //                     .white,
+                                                //                 fontSize: 15,
+                                                //               ),
+                                                //             ),
+                                                //           ),
+                                                //         ),
+                                                //       );
+                                                //     },
+                                                //   ),
+                                                // ),
                                               ],
                                             ),
                                           ),

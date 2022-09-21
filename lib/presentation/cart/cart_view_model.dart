@@ -1,10 +1,11 @@
 import 'package:beans_instapay/domain/model/cart_info.dart';
+import 'package:beans_instapay/domain/repository/get_cart_qr_repository.dart';
+import 'package:beans_instapay/domain/repository/save_cart_info_repository.dart';
 import 'package:beans_instapay/domain/use_case/cart/add_cart_data_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/delete_cart_data_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/get_cart_data_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/update_cart_data_use_case.dart';
 import 'package:beans_instapay/presentation/cart/cart_state.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CartViewModel with ChangeNotifier {
@@ -12,12 +13,16 @@ class CartViewModel with ChangeNotifier {
   final AddCartDataUseCase addCartData;
   final DeleteCartDataUseCase deleteCartData;
   final UpdateCartDataUseCase updateCartData;
+  final SaveCartInfoRepository saveCartInfo;
+  final GetCartQrRepository getCartQr;
 
   CartViewModel({
     required this.getCartData,
     required this.addCartData,
     required this.deleteCartData,
     required this.updateCartData,
+    required this.saveCartInfo,
+    required this.getCartQr,
   }) {
     fetchData();
   }
@@ -78,16 +83,37 @@ class CartViewModel with ChangeNotifier {
       await addCartData(cart);
     }
     notifyListeners();
+    saveCartInfoFirebase();
     return countOverflow;
   }
 
   void deleteCart(int index) async {
     await deleteCartData(index);
     notifyListeners();
+    saveCartInfoFirebase();
   }
 
   void updateCart(int index, CartInfo cart) async {
     await updateCartData(index, cart);
+    notifyListeners();
+    saveCartInfoFirebase();
+  }
+
+  void saveCartInfoFirebase() async {
+    final result = await saveCartInfo.saveCartInfoToFireStore(state.cartInfo);
+
+    int sumOfProduct = getSumOfProduct();
+    int shipmentFee = sumOfProduct < 20000 ? 2000 : 0;
+    String totalPrice = (sumOfProduct + shipmentFee).toString();
+    final qr = await getCartQr.getCartQrCode(totalPrice, result.id);
+    qr.when(
+      success: (data) {
+        _state = state.copyWith(
+          qrAddress: data,
+        );
+      },
+      error: (message) {},
+    );
     notifyListeners();
   }
 
@@ -101,23 +127,5 @@ class CartViewModel with ChangeNotifier {
       sum += (dcPrice * state.cartInfo[i].count);
     }
     return sum;
-  }
-
-  Future<DocumentReference> saveCartInfoToFireStore(
-      List<CartInfo> infos) async {
-    List<Map<String, dynamic>> temp = [];
-    for (final data in infos) {
-      temp.add({
-        'name': data.productInfo.name,
-        'count': data.count,
-      });
-    }
-
-    return await FirebaseFirestore.instance
-        .collection('cart_info')
-        .add(<String, dynamic>{
-      'data': temp,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-    });
   }
 }

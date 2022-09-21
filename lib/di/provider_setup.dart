@@ -1,8 +1,9 @@
 import 'package:beans_instapay/data/repository/api_test_repository_impl.dart';
 import 'package:beans_instapay/data/repository/cart_repository_impl.dart';
+import 'package:beans_instapay/data/repository/get_cart_qr_repositroy_impl.dart';
 import 'package:beans_instapay/data/repository/product_detail_info_repository_impl.dart';
 import 'package:beans_instapay/data/repository/product_info_repository_impl.dart';
-import 'package:beans_instapay/domain/repository/api_test_repository.dart';
+import 'package:beans_instapay/data/repository/save_cart_info_repository_impl.dart';
 import 'package:beans_instapay/domain/use_case/api_test_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/add_cart_data_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/delete_cart_data_use_case.dart';
@@ -52,6 +53,8 @@ Future<List<SingleChildWidget>> getProviders() async {
         addCartData: AddCartDataUseCase(cartRepository),
         deleteCartData: DeleteCartDataUseCase(cartRepository),
         updateCartData: UpdateCartDataUseCase(cartRepository),
+        saveCartInfo: SaveCartInfoRepositoryImpl(),
+        getCartQr: GetCartQrRepositoryImpl(),
       ),
     ),
     ChangeNotifierProvider<ProductDetailViewModel>(
@@ -63,10 +66,9 @@ Future<List<SingleChildWidget>> getProviders() async {
             GetCoffeeBeansDetailInfoUseCase(detailProductRepository),
       ),
     ),
-
     ChangeNotifierProvider<NoticeSampleViewModel>(
       create: (context) => NoticeSampleViewModel(
-          ApiTestUseCase(ApiTestRepositoryImpl()),
+        ApiTestUseCase(ApiTestRepositoryImpl()),
       ),
     ),
   ];
