@@ -12,7 +12,7 @@ class BeansApi {
       var dio = Dio();
       response = await dio
           .get(beansBaseUrl, queryParameters: {'p': price, 'g': serial});
-      return Result.success(response.data['qr']);
+      return Result.success(response.data['re']);
     } on Exception catch (e) {
       return Result.error(e.toString());
     }
