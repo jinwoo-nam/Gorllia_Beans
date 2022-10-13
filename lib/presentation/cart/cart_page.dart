@@ -84,12 +84,18 @@ class _CartPageState extends State<CartPage> {
       summaryPadding = 65;
     }
 
-    final double lastAppbarWidth =
-        150 * ((MediaQuery.of(context).size.width - 1200) / 720);
-    double categoryWidth = 150;
     double appBarHeight = 70;
-    if (Responsive.isPage5(context)) {
-      categoryWidth += lastAppbarWidth;
+    double widthTemp = (MediaQuery.of(context).size.width > 1200)
+        ? 150 * ((MediaQuery.of(context).size.width - 1200) / 720)
+        : 0;
+    double categoryWidth = 200 + widthTemp;
+
+    if (Responsive.isPage1(context) ||
+        Responsive.isPage2(context) ||
+        Responsive.isPage3(context)) {
+      if (hoverState) {
+        changeHoverState();
+      }
     }
 
     return GestureDetector(
@@ -173,9 +179,11 @@ class _CartPageState extends State<CartPage> {
                                     );
                                   }).toList(),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 25.0,
-                                      horizontal: summaryPadding,
+                                    padding: EdgeInsets.only(
+                                      top: 25.0,
+                                      bottom: 25,
+                                      left: summaryPadding,
+                                      right: 15,
                                     ),
                                     child: Column(
                                       children: [

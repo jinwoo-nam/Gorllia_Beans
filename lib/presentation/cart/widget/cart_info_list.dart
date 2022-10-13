@@ -40,7 +40,7 @@ class _CartInfoListState extends State<CartInfoList> {
   @override
   Widget build(BuildContext context) {
     final type =
-        (widget.cartInfo.beanType == BeanType.Whole) ? '원두상태(홀빈)' : '분쇄(드립용)';
+        (widget.cartInfo.beanType == BeanType.Whole) ? '원두(홀빈)' : '분쇄(드립용)';
 
     final int dcPrice = (widget.cartInfo.productInfo.price *
             ((100 - widget.cartInfo.productInfo.dcRate) / 100))
@@ -106,15 +106,17 @@ class _CartInfoListState extends State<CartInfoList> {
                 height: imageHeight,
               ),
             ),
+            const Spacer(),
             SizedBox(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   SizedBox(
                     width: titleWidth,
                     child: Text(
                       widget.cartInfo.productInfo.name,
+                      textAlign: TextAlign.end,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: GoogleFonts.notoSans(
@@ -213,11 +215,11 @@ class _CartInfoListState extends State<CartInfoList> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: DropdownSearch(
-                              items: const ['원두상태(홀빈)', '분쇄(드립용)'],
+                              items: const ['원두(홀빈)', '분쇄(드립용)'],
                               menuHeight: (27.0 * 2) + (21 * (2 - 1)) + 20,
                               selectedItem: type,
                               onChanged: (val) {
-                                BeanType beanType = (val == '원두상태(홀빈)')
+                                BeanType beanType = (val == '원두(홀빈)')
                                     ? BeanType.Whole
                                     : BeanType.Drip;
                                 widget.onChanged(
@@ -237,7 +239,10 @@ class _CartInfoListState extends State<CartInfoList> {
                     ),
                 ],
               ),
-            )
+            ),
+            const SizedBox(
+              width: 15,
+            ),
           ],
         ),
         const Padding(

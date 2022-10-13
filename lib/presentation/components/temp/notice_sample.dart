@@ -14,39 +14,55 @@ class NoticeSample extends StatelessWidget {
       appBar: AppBar(
         title: const Text('공지사항'),
       ),
-      body: Column(
-        children: viewModel.state.notice.map(
-          (e) => ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  e.adate,
-                  style: const TextStyle(fontSize: 13),
-                ),
-                Text(
-                  e.ftitle,
-                  style: const TextStyle(
-                    fontSize: 15,
-                  ),
-                ),
-              ],
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios_outlined,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NoticeDetailScreen(
-                          data: e,
-                        )),
-              );
-            },
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 16,
           ),
-        ).toList(),
+          child: SizedBox(
+            width: 800,
+            child: SingleChildScrollView(
+              child: Column(
+                children: viewModel.state.notice
+                    .map(
+                      (e) => ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              e.adate,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                            Text(
+                              e.ftitle,
+                              style: const TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+                            const Divider(),
+                          ],
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios_outlined,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NoticeDetailScreen(
+                                      data: e,
+                                    )),
+                          );
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -288,6 +288,9 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
           SeeCollection(
             info: info,
           ),
+          const SizedBox(
+            height: 55,
+          ),
         ],
       );
     } else if (Responsive.isPage2(context)) {
@@ -321,6 +324,9 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
                 info: info,
               ),
             ],
+          ),
+          const SizedBox(
+            height: 50,
           ),
         ],
       );
@@ -552,13 +558,22 @@ class ProductList extends StatefulWidget {
 }
 
 class _ProductListState extends State<ProductList> {
+  final ScrollController listViewController = ScrollController();
+
+  @override
+  void dispose() {
+    listViewController.dispose();
+    super.dispose();
+  }
+
   int _current = 0;
 
   @override
   Widget build(BuildContext context) {
     double page5Width = 450 + ((MediaQuery.of(context).size.width - 1200) / 9);
     double page3Width = 450 + ((MediaQuery.of(context).size.width - 730) / 5);
-    double viewPortFraction = 0.33;
+    //double viewPortFraction = 0.33;
+    double viewPortFraction = Responsive.isPage1(context) ? 0.5 : 0.33;
     double sideButtonPadding = 85;
     if (Responsive.isPage1(context)) {
       sideButtonPadding = 70 + ((MediaQuery.of(context).size.width - 350) / 10);
@@ -575,6 +590,114 @@ class _ProductListState extends State<ProductList> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        // (Responsive.isPage1(context))
+        //     ? Stack(
+        //         children: [
+        //           SizedBox(
+        //             height: 445,
+        //             child: ListView.builder(
+        //               controller: listViewController,
+        //               scrollDirection: Axis.horizontal,
+        //               shrinkWrap: true,
+        //               itemCount: widget.widget.pageInfo.productInfo.length,
+        //               itemBuilder: (BuildContext context, int index) {
+        //                 return Container(
+        //                   margin: const EdgeInsets.all(5.0),
+        //                   child: ClipRRect(
+        //                       borderRadius:
+        //                           const BorderRadius.all(Radius.circular(5.0)),
+        //                       child: SizedBox(
+        //                         width:
+        //                             MediaQuery.of(context).size.width / 2 - 20,
+        //                         child: ProductListWidget(
+        //                             productInfo: widget
+        //                                 .widget.pageInfo.productInfo[index]),
+        //                       )),
+        //                 );
+        //               },
+        //             ),
+        //           ),
+        //           Align(
+        //             alignment: Alignment.topRight,
+        //             child: Padding(
+        //               padding: EdgeInsets.only(top: sideButtonPadding),
+        //               child: InkWell(
+        //                 onTap: () {
+        //                   double offset = listViewController.offset +
+        //                       (MediaQuery.of(context).size.width - 20);
+        //                   if (offset >
+        //                       listViewController.position.maxScrollExtent) {
+        //                     listViewController.animateTo(0,
+        //                         duration: Duration(milliseconds: 200),
+        //                         curve: Curves.easeIn);
+        //                   } else {
+        //                     listViewController.animateTo(offset,
+        //                         duration: Duration(milliseconds: 200),
+        //                         curve: Curves.easeIn);
+        //                   }
+        //                 },
+        //                 child: OnHoverDetect(builder: (isHovered) {
+        //                   final color =
+        //                       (isHovered) ? selectColor : Colors.white;
+        //
+        //                   return Container(
+        //                     width: 40,
+        //                     height: 70,
+        //                     decoration: BoxDecoration(
+        //                       color: color.withOpacity(0.8),
+        //                       borderRadius: const BorderRadius.only(
+        //                         topLeft: Radius.circular(100),
+        //                         bottomLeft: Radius.circular(100),
+        //                       ),
+        //                     ),
+        //                     child: const Icon(Icons.arrow_right),
+        //                   );
+        //                 }),
+        //               ),
+        //             ),
+        //           ),
+        //           Align(
+        //             alignment: Alignment.topLeft,
+        //             child: Padding(
+        //               padding: EdgeInsets.only(top: sideButtonPadding),
+        //               child: InkWell(
+        //                 onTap: () {
+        //                   double offset = listViewController.offset -
+        //                       (MediaQuery.of(context).size.width - 20);
+        //                   if (offset < 0) {
+        //                     listViewController.animateTo(
+        //                         listViewController.position.maxScrollExtent,
+        //                         duration: Duration(milliseconds: 200),
+        //                         curve: Curves.easeIn);
+        //                   } else {
+        //                     listViewController.animateTo(offset,
+        //                         duration: Duration(milliseconds: 200),
+        //                         curve: Curves.easeIn);
+        //                   }
+        //                 },
+        //                 child: OnHoverDetect(builder: (isHovered) {
+        //                   final color =
+        //                       (isHovered) ? selectColor : Colors.white;
+        //
+        //                   return Container(
+        //                     width: 40,
+        //                     height: 70,
+        //                     decoration: BoxDecoration(
+        //                       color: color.withOpacity(0.8),
+        //                       borderRadius: const BorderRadius.only(
+        //                         topRight: Radius.circular(100),
+        //                         bottomRight: Radius.circular(100),
+        //                       ),
+        //                     ),
+        //                     child: const Icon(Icons.arrow_left),
+        //                   );
+        //                 }),
+        //               ),
+        //             ),
+        //           ),
+        //         ],
+        //       )
+        //     :
         Stack(
           children: [
             CarouselSlider(
@@ -585,7 +708,7 @@ class _ProductListState extends State<ProductList> {
                       : (Responsive.isPage3(context))
                           ? page3Width
                           : (Responsive.isPage1(context))
-                              ? 380
+                              ? 430
                               : 450,
                   enlargeCenterPage: false,
                   viewportFraction: viewPortFraction,

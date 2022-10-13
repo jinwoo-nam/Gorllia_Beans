@@ -53,6 +53,7 @@ dependencies:
       url: https://github.com/jinwoo-nam/searchable_dropdown.git
       ref: master
   firebase_core: ^1.22.0
+  animated_text_kit: ^4.2.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -223,7 +223,7 @@ class ProductListWidget extends StatelessWidget {
   ) {
     return InkWell(
       onTap: () {
-        introViewModel.setProductValue('원두 상태(홀빈)');
+        introViewModel.setProductValue('원두(홀빈)');
         introViewModel.setProductCount(1);
         Navigator.push(
           context,
@@ -255,13 +255,13 @@ class ProductListWidget extends StatelessWidget {
                     return InkWell(
                       onTap: () async {
                         if (listType == ListWidgetType.preview) {
-                          productViewModel.setProductValue('원두 상태(홀빈)');
+                          productViewModel.setProductValue('원두(홀빈)');
                           productViewModel.setProductCount(1);
                           viewModel.setProductInfo(productInfo);
                           Loader.appLoader.showLoader();
                           await Future.delayed(const Duration(seconds: 5));
                         } else {
-                          productViewModel.setProductValue('원두 상태(홀빈)');
+                          productViewModel.setProductValue('원두(홀빈)');
                           productViewModel.setProductCount(1);
                           productDetailViewModel.setProductInfo(productInfo);
                           LoaderDetail.appLoader.showLoader();
@@ -299,7 +299,7 @@ class ProductListWidget extends StatelessWidget {
                         (isButtonHovered) ? selectColor : Colors.white;
                     return ElevatedButton(
                       onPressed: () {
-                        introViewModel.setProductValue('원두 상태(홀빈)');
+                        introViewModel.setProductValue('원두(홀빈)');
                         introViewModel.setProductCount(1);
                         Navigator.push(
                           context,

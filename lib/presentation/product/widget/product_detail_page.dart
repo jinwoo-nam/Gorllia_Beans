@@ -56,12 +56,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     final cartViewModel = context.watch<CartViewModel>();
     final itemCount = cartViewModel.state.cartInfo.length;
 
-    final double lastAppbarWidth =
-        150 * ((MediaQuery.of(context).size.width - 1200) / 720);
     double appBarHeight = 70;
-    double categoryWidth = 150;
-    if (Responsive.isPage5(context)) {
-      categoryWidth += lastAppbarWidth;
+    double widthTemp = (MediaQuery.of(context).size.width > 1200)
+        ? 150 * ((MediaQuery.of(context).size.width - 1200) / 720)
+        : 0;
+    double categoryWidth = 200 + widthTemp;
+
+    if (Responsive.isPage1(context) ||
+        Responsive.isPage2(context) ||
+        Responsive.isPage3(context)) {
+      if (hoverState) {
+        changeHoverState();
+      }
     }
 
     return GestureDetector(

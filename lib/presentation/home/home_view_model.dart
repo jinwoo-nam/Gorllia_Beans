@@ -28,7 +28,7 @@ class HomeViewModel with ChangeNotifier {
 
   double getCalcProductHeight(BuildContext context) {
     if (Responsive.isPage1(context)) {
-      calcProductHeight = productPageHeight;
+      calcProductHeight = productPageHeight+50;
     } else if (Responsive.isPage2(context)) {
       calcProductHeight = productPageHeight + 80;
     } else if (Responsive.isPage3(context)) {

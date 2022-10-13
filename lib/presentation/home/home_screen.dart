@@ -10,6 +10,7 @@ import 'package:beans_instapay/presentation/home/main/main_page.dart';
 import 'package:beans_instapay/presentation/home/product/coffee_beans_page.dart';
 import 'package:beans_instapay/presentation/home/product/dripbag_page.dart';
 import 'package:beans_instapay/presentation/home/product/stick_coffee_page.dart';
+import 'package:beans_instapay/responsive/responsive.dart';
 import 'package:beans_instapay/ui/color.dart';
 import 'package:beans_instapay/ui/on_hover_detect.dart';
 import 'package:flutter/material.dart';
@@ -68,13 +69,29 @@ class _HomeScreenState extends State<HomeScreen> {
     final state = cartViewModel.state;
     final itemCount = state.cartInfo.length;
     double appBarHeight = 70;
-    double categoryWidth = 150;
+    double widthTemp = (MediaQuery.of(context).size.width > 1200)
+        ? 150 * ((MediaQuery.of(context).size.width - 1200) / 720)
+        : 0;
+    double categoryWidth = 200 + widthTemp;
 
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         scrollOffset = scrollController.offset;
+        if (scrollOffset < 150) {
+          if (hoverState) {
+            changeHoverState();
+          }
+        }
       },
     );
+
+    if (Responsive.isPage1(context) ||
+        Responsive.isPage2(context) ||
+        Responsive.isPage3(context)) {
+      if (hoverState) {
+        changeHoverState();
+      }
+    }
 
     return GestureDetector(
       onTap: () {
@@ -177,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             if (hoverState)
               Visibility(
-                visible: scrollOffset > viewModel.getCalcMainHeight(context),
+                visible: scrollOffset > 150,
                 child: Positioned(
                   right: categoryWidth,
                   top: 2,
