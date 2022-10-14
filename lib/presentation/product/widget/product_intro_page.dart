@@ -785,63 +785,63 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
           ],
         ),
         const Padding(padding: EdgeInsets.all(25)),
-        Stack(
-          clipBehavior: Clip.none,
+        Row(
           children: [
-            Row(
-              children: [
-                OnHoverDetect(
-                  builder: (isHovered) {
-                    final color = isHovered ? Colors.black : selectColor;
+            OnHoverDetect(
+              builder: (isHovered) {
+                final color = isHovered ? Colors.black : selectColor;
 
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          buyBtnShow = !buyBtnShow;
-                          if (buyBtnShow) {
-                            introViewModel.setProductValue('원두(홀빈)');
-                            introViewModel.setProductCount(1);
-                          }
-                        });
-                      },
-                      child: (buyBtnShow)
-                          ? Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      buyBtnShow = !buyBtnShow;
+                      if (buyBtnShow) {
+                        introViewModel.setProductValue('원두(홀빈)');
+                        introViewModel.setProductCount(1);
+                      }
+                    });
+                  },
+                  child: (buyBtnShow)
+                      ? Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: selectColor,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '닫기',
+                              style: GoogleFonts.notoSans(
                                   color: selectColor,
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '닫기',
-                                  style: GoogleFonts.notoSans(
-                                      color: selectColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            )
-                          : Container(
-                              padding: const EdgeInsets.all(16),
-                              color: color,
-                              child: Center(
-                                child: Text(
-                                  '구매하기',
-                                  style: GoogleFonts.notoSans(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          padding: const EdgeInsets.all(16),
+                          color: color,
+                          child: Center(
+                            child: Text(
+                              '구매하기',
+                              style: GoogleFonts.notoSans(
+                                color: Colors.white,
+                                fontSize: 15,
                               ),
                             ),
-                    );
-                  },
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
+                          ),
+                        ),
+                );
+              },
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
                 OnHoverDetect(
                   builder: (isHovered) {
                     final color = isHovered ? Colors.black : selectColor;
@@ -885,35 +885,35 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                     );
                   },
                 ),
-              ],
-            ),
-            AnimatedPositioned(
-              duration: const Duration(
-                milliseconds: 300,
-              ),
-              onEnd: () {
-                setState(() {
-                  isAddCart = false;
-                  //isUpperText = false;
-                });
-              },
-              top: isAddCart ? -20 : -10,
-              right: 0,
-              child: AnimatedOpacity(
-                opacity: isAddCart ? 1 : 0,
-                duration:
-                const Duration(milliseconds: 100),
-                child: const Text(
-                  '+1',
-                  style: TextStyle(
-                      backgroundColor: Colors.amber,
-                      fontSize: 30,
-                      color: Colors.white
+                AnimatedPositioned(
+                  duration: const Duration(
+                    milliseconds: 300,
+                  ),
+                  onEnd: () {
+                    setState(() {
+                      isAddCart = false;
+                      //isUpperText = false;
+                    });
+                  },
+                  top: isAddCart ? -40 : -20,
+                  right: -20,
+                  child: AnimatedOpacity(
+                    opacity: isAddCart ? 1 : 0,
+                    duration:
+                    const Duration(milliseconds: 100),
+                    child: const Text(
+                      '+1',
+                      style: TextStyle(
+                          backgroundColor: Colors.amber,
+                          fontSize: 30,
+                          color: Colors.white
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
 
+              ],
+            ),
           ],
         ),
         const Padding(padding: EdgeInsets.all(25)),

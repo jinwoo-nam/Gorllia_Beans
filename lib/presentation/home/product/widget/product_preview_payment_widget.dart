@@ -501,6 +501,7 @@ class _ProductPreviewPaymentWidgetState
                                                             vertical: 8.0),
                                                     child: Text(
                                                       '인스타페이 앱으로 QR코드를 찍어서 결제해 주세요',
+                                                      textAlign: TextAlign.center,
                                                     ),
                                                   ),
                                                   getQrImage(
@@ -1096,34 +1097,42 @@ class _ProductPreviewPaymentWidgetState
     switch (count) {
       case 1:
         if (beansType == '분쇄(드립용)') {
-          return Image(
-            image: AssetImage(widget.info.dripQrImage_1!),
-            fit: BoxFit.cover,
-            width: width,
-            height: height,
+          return Center(
+            child: Image(
+              image: AssetImage(widget.info.dripQrImage_1!),
+              fit: BoxFit.cover,
+              width: width,
+              height: height,
+            ),
           );
         } else {
-          return Image(
-            image: AssetImage(widget.info.qrImage_1),
-            fit: BoxFit.cover,
-            width: width,
-            height: height,
+          return Center(
+            child: Image(
+              image: AssetImage(widget.info.qrImage_1),
+              fit: BoxFit.cover,
+              width: width,
+              height: height,
+            ),
           );
         }
       case 2:
         if (beansType == '분쇄(드립용)') {
-          return Image(
-            image: AssetImage(widget.info.dripQrImage_2!),
-            fit: BoxFit.cover,
-            width: width,
-            height: height,
+          return Center(
+            child: Image(
+              image: AssetImage(widget.info.dripQrImage_2!),
+              fit: BoxFit.cover,
+              width: width,
+              height: height,
+            ),
           );
         } else {
-          return Image(
-            image: AssetImage(widget.info.qrImage_2),
-            fit: BoxFit.cover,
-            width: width,
-            height: height,
+          return Center(
+            child: Image(
+              image: AssetImage(widget.info.qrImage_2),
+              fit: BoxFit.cover,
+              width: width,
+              height: height,
+            ),
           );
         }
       case 3:
@@ -1142,11 +1151,13 @@ class _ProductPreviewPaymentWidgetState
             ),
           );
         } else {
-          return Image(
-            image: AssetImage(widget.info.qrImage_3),
-            fit: BoxFit.cover,
-            width: width,
-            height: height,
+          return Center(
+            child: Image(
+              image: AssetImage(widget.info.qrImage_3),
+              fit: BoxFit.cover,
+              width: width,
+              height: height,
+            ),
           );
         }
 
@@ -1166,11 +1177,13 @@ class _ProductPreviewPaymentWidgetState
             ),
           );
         } else {
-          return Image(
-            image: AssetImage(widget.info.qrImage_5),
-            fit: BoxFit.cover,
-            width: width,
-            height: height,
+          return Center(
+            child: Image(
+              image: AssetImage(widget.info.qrImage_5),
+              fit: BoxFit.cover,
+              width: width,
+              height: height,
+            ),
           );
         }
 
@@ -1190,11 +1203,13 @@ class _ProductPreviewPaymentWidgetState
             ),
           );
         } else {
-          return Image(
-            image: AssetImage(widget.info.qrImage_10),
-            fit: BoxFit.cover,
-            width: width,
-            height: height,
+          return Center(
+            child: Image(
+              image: AssetImage(widget.info.qrImage_10),
+              fit: BoxFit.cover,
+              width: width,
+              height: height,
+            ),
           );
         }
 
