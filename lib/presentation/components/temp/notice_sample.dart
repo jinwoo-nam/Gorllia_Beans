@@ -14,16 +14,18 @@ class NoticeSample extends StatelessWidget {
       appBar: AppBar(
         title: const Text('공지사항'),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8.0,
-            horizontal: 16,
-          ),
-          child: SizedBox(
-            width: 800,
-            child: SingleChildScrollView(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 16,
+        ),
+        child: Container(
+          alignment: Alignment.topCenter,
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: 800,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: viewModel.state.notice
                     .map(
                       (e) => ListTile(
