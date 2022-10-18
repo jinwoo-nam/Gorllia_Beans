@@ -712,6 +712,7 @@ class _ProductListState extends State<ProductList> {
                               : 450,
                   enlargeCenterPage: false,
                   viewportFraction: viewPortFraction,
+                  disableCenter: false,
                   onPageChanged: (index, reason) {
                     setState(() {
                       _current = index;

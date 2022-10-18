@@ -622,7 +622,7 @@ class _ProductPreviewPaymentWidgetState
 
                                                   AnimatedPositioned(
                                                     duration: const Duration(
-                                                      milliseconds: 300,
+                                                      milliseconds: 400,
                                                     ),
                                                     onEnd: () {
                                                       setState(() {
@@ -630,21 +630,19 @@ class _ProductPreviewPaymentWidgetState
                                                         //isUpperText = false;
                                                       });
                                                     },
-                                                    top: isAddCart ? -50 : -10,
+                                                    top: isAddCart ? -80 : -10,
                                                     right: -20,
                                                     child: AnimatedOpacity(
                                                       opacity:
                                                           isAddCart ? 1 : 0,
                                                       duration: const Duration(
-                                                          milliseconds: 100),
+                                                          milliseconds: 400),
                                                       child: const Text(
                                                         '+1',
                                                         style: TextStyle(
-                                                            backgroundColor:
-                                                                Colors.amber,
                                                             fontSize: 30,
                                                             color:
-                                                                Colors.white),
+                                                                Colors.amber),
                                                       ),
                                                     ),
                                                   ),
@@ -991,7 +989,7 @@ class _ProductPreviewPaymentWidgetState
 
                                                   AnimatedPositioned(
                                                     duration: const Duration(
-                                                      milliseconds: 300,
+                                                      milliseconds: 400,
                                                     ),
                                                     onEnd: () {
                                                       setState(() {
@@ -999,21 +997,19 @@ class _ProductPreviewPaymentWidgetState
                                                         //isUpperText = false;
                                                       });
                                                     },
-                                                    top: isAddCart ? -50 : -10,
+                                                    top: isAddCart ? -80 : -10,
                                                     right: -20,
                                                     child: AnimatedOpacity(
                                                       opacity:
                                                           isAddCart ? 1 : 0,
                                                       duration: const Duration(
-                                                          milliseconds: 100),
+                                                          milliseconds: 400),
                                                       child: const Text(
                                                         '+1',
                                                         style: TextStyle(
-                                                            backgroundColor:
-                                                                Colors.amber,
                                                             fontSize: 30,
                                                             color:
-                                                                Colors.white),
+                                                                Colors.amber),
                                                       ),
                                                     ),
                                                   ),

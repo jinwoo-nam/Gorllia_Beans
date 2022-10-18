@@ -218,6 +218,10 @@ class _CartInfoListState extends State<CartInfoList> {
                               items: const ['원두(홀빈)', '분쇄(드립용)'],
                               menuHeight: (27.0 * 2) + (21 * (2 - 1)) + 20,
                               selectedItem: type,
+                              verticalPadding: 10,
+                              dropdownSearchTextStyle: TextStyle(
+                                fontSize: 15,
+                              ),
                               onChanged: (val) {
                                 BeanType beanType = (val == '원두(홀빈)')
                                     ? BeanType.Whole

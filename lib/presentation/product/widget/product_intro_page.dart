@@ -887,7 +887,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                 ),
                 AnimatedPositioned(
                   duration: const Duration(
-                    milliseconds: 300,
+                    milliseconds: 700,
                   ),
                   onEnd: () {
                     setState(() {
@@ -895,12 +895,12 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                       //isUpperText = false;
                     });
                   },
-                  top: isAddCart ? -40 : -20,
+                  top: isAddCart ? -80 : -20,
                   right: -20,
                   child: AnimatedOpacity(
                     opacity: isAddCart ? 1 : 0,
                     duration:
-                    const Duration(milliseconds: 100),
+                    const Duration(milliseconds: 400),
                     child: const Text(
                       '+1',
                       style: TextStyle(
