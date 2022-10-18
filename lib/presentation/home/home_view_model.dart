@@ -28,15 +28,18 @@ class HomeViewModel with ChangeNotifier {
 
   double getCalcProductHeight(BuildContext context) {
     if (Responsive.isPage1(context)) {
-      calcProductHeight = productPageHeight+50;
+      calcProductHeight = productPageHeight - 80;
     } else if (Responsive.isPage2(context)) {
-      calcProductHeight = productPageHeight + 80;
+      calcProductHeight = productPageHeight - 80;
     } else if (Responsive.isPage3(context)) {
-      calcProductHeight = productPageHeight + 200;
+      calcProductHeight = productPageHeight;
     } else if (Responsive.isPage4(context)) {
-      calcProductHeight = productPageHeight - 400;
+      calcProductHeight = productPageHeight - 600;
     } else {
-      calcProductHeight = (MediaQuery.of(context).size.width / 2);
+      calcProductHeight = (MediaQuery.of(context).size.width / 2) > 600
+          ? 600
+          : (MediaQuery.of(context).size.width / 2);
+      //calcProductHeight = productPageHeight-600;
     }
     return calcProductHeight;
   }

@@ -36,36 +36,6 @@ class _ProductPageWidgetState extends State<ProductPageWidget> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (widget.pageInfo.title == '드립백')
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 25.0, horizontal: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/cart');
-                      },
-                      child: Text(
-                        '장바구니로 이동 ',
-                        style: GoogleFonts.notoSans(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/cart');
-                      },
-                      child: const FaIcon(
-                        FontAwesomeIcons.circleArrowRight,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             if (Responsive.isPage1(context) ||
                 Responsive.isPage2(context) ||
                 Responsive.isPage3(context))
@@ -531,7 +501,7 @@ class SeeCollection extends StatelessWidget {
               ),
             ),
             child: Text(
-              'SEE COLLECTION',
+              '전체보기',
               style: GoogleFonts.notoSans(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
@@ -786,28 +756,28 @@ class _ProductListState extends State<ProductList> {
             ),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:
-              widget.widget.pageInfo.productInfo.asMap().entries.map((entry) {
-            return GestureDetector(
-              onTap: () =>
-                  widget.widget.scrollController.animateToPage(entry.key),
-              child: Container(
-                width: 12.0,
-                height: 12.0,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: (Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black)
-                        .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-              ),
-            );
-          }).toList(),
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children:
+        //       widget.widget.pageInfo.productInfo.asMap().entries.map((entry) {
+        //     return GestureDetector(
+        //       onTap: () =>
+        //           widget.widget.scrollController.animateToPage(entry.key),
+        //       child: Container(
+        //         width: 12.0,
+        //         height: 12.0,
+        //         margin:
+        //             const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+        //         decoration: BoxDecoration(
+        //             shape: BoxShape.circle,
+        //             color: (Theme.of(context).brightness == Brightness.dark
+        //                     ? Colors.white
+        //                     : Colors.black)
+        //                 .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+        //       ),
+        //     );
+        //   }).toList(),
+        // ),
       ],
     );
   }

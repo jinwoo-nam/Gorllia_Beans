@@ -25,6 +25,7 @@ class AppBarWidget extends StatelessWidget {
         150 * ((MediaQuery.of(context).size.width - 1200) / 720);
 
     return AppBar(
+      toolbarHeight: 120,
       iconTheme: const IconThemeData(color: Colors.black),
       centerTitle: false,
       automaticallyImplyLeading: false,

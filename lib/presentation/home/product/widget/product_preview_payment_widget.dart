@@ -630,13 +630,13 @@ class _ProductPreviewPaymentWidgetState
                                                         //isUpperText = false;
                                                       });
                                                     },
-                                                    top: isAddCart ? -80 : -10,
-                                                    right: -20,
+                                                    top: isAddCart?0:5,
+                                                    right: -40,
                                                     child: AnimatedOpacity(
                                                       opacity:
                                                           isAddCart ? 1 : 0,
                                                       duration: const Duration(
-                                                          milliseconds: 400),
+                                                          milliseconds: 800),
                                                       child: const Text(
                                                         '+1',
                                                         style: TextStyle(
@@ -997,13 +997,14 @@ class _ProductPreviewPaymentWidgetState
                                                         //isUpperText = false;
                                                       });
                                                     },
-                                                    top: isAddCart ? -80 : -10,
-                                                    right: -20,
+                                                    top: isAddCart?0:5,
+
+                                                    right: -40,
                                                     child: AnimatedOpacity(
                                                       opacity:
                                                           isAddCart ? 1 : 0,
                                                       duration: const Duration(
-                                                          milliseconds: 400),
+                                                          milliseconds: 800),
                                                       child: const Text(
                                                         '+1',
                                                         style: TextStyle(

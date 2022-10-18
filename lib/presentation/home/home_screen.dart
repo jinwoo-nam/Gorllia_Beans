@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Container(
                       color: Colors.white,
-                      height: 60,
+                      height: Responsive.isPage5(context) ? 150 : 60,
                     ),
                     ConstrainedBox(
                       constraints: BoxConstraints(

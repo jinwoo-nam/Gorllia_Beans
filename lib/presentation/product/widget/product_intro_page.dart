@@ -887,7 +887,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                 ),
                 AnimatedPositioned(
                   duration: const Duration(
-                    milliseconds: 700,
+                    milliseconds: 400,
                   ),
                   onEnd: () {
                     setState(() {
@@ -895,18 +895,17 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                       //isUpperText = false;
                     });
                   },
-                  top: isAddCart ? -80 : -20,
-                  right: -20,
+                  top: isAddCart?0:5,
+                  right: -40,
                   child: AnimatedOpacity(
                     opacity: isAddCart ? 1 : 0,
                     duration:
-                    const Duration(milliseconds: 400),
+                    const Duration(milliseconds: 800),
                     child: const Text(
                       '+1',
                       style: TextStyle(
-                          backgroundColor: Colors.amber,
                           fontSize: 30,
-                          color: Colors.white
+                          color: Colors.amber
                       ),
                     ),
                   ),

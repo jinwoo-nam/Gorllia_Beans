@@ -219,7 +219,7 @@ class _CartInfoListState extends State<CartInfoList> {
                               menuHeight: (27.0 * 2) + (21 * (2 - 1)) + 20,
                               selectedItem: type,
                               verticalPadding: 10,
-                              dropdownSearchTextStyle: TextStyle(
+                              dropdownSearchTextStyle: const TextStyle(
                                 fontSize: 15,
                               ),
                               onChanged: (val) {
