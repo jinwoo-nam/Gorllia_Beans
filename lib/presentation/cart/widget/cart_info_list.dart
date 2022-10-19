@@ -165,6 +165,10 @@ class _CartInfoListState extends State<CartInfoList> {
                           items: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                           selectedItem: widget.cartInfo.count,
                           menuHeight: (27.0 * 5) + (21 * (5 - 1)) + 20,
+                          verticalPadding: 10,
+                          dropdownSearchTextStyle: const TextStyle(
+                            fontSize: 15,
+                          ),
                           onChanged: (val) {
                             widget.onChanged(
                               widget.index,
@@ -193,6 +197,10 @@ class _CartInfoListState extends State<CartInfoList> {
                               items: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                               menuHeight: (27.0 * 5) + (21 * (5 - 1)) + 20,
                               selectedItem: widget.cartInfo.count,
+                              verticalPadding: 10,
+                              dropdownSearchTextStyle: const TextStyle(
+                                fontSize: 15,
+                              ),
                               onChanged: (val) {
                                 widget.onChanged(
                                   widget.index,

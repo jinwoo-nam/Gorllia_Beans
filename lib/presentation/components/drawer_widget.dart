@@ -24,6 +24,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.white,
       child: ListView(
         children: [
           OnHoverDetect(
@@ -71,7 +72,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             Column(
               children: [
                 ListTile(
-                  tileColor: Colors.grey.withOpacity(0.5),
+                  tileColor: const Color(0xfff4f4f4),
                   mouseCursor: SystemMouseCursors.click,
                   onTap: () {
                     Navigator.pushNamed(context, '/detail/beans');
@@ -79,17 +80,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   title: const Text(
                     'COFFEE BEANS',
                     style: TextStyle(
-                      color: secondaryGrey,
+                       color: secondaryGrey,
                       fontSize: 15,
                     ),
                   ),
                 ),
                 const Divider(
                   height: 1,
-                  color: fontColorGrey,
+                  color: Colors.white,
                 ),
                 ListTile(
-                  tileColor: Colors.grey.withOpacity(0.5),
+                  tileColor: const Color(0xfff4f4f4),
                   mouseCursor: SystemMouseCursors.click,
                   onTap: () {
                     Navigator.pushNamed(context, '/detail/dripbag');
@@ -97,17 +98,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   title: const Text(
                     'FEDORA DRIPBAG',
                     style: TextStyle(
-                      color: secondaryGrey,
+                       color: secondaryGrey,
                       fontSize: 15,
                     ),
                   ),
                 ),
                 const Divider(
                   height: 1,
-                  color: fontColorGrey,
+                  color: Colors.white,
                 ),
                 ListTile(
-                  tileColor: Colors.grey.withOpacity(0.5),
+                  tileColor: const Color(0xfff4f4f4),
                   mouseCursor: SystemMouseCursors.click,
                   onTap: () {
                     Navigator.pushNamed(context, '/detail/stick');
@@ -115,15 +116,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   title: const Text(
                     'STICK COFFEE',
                     style: TextStyle(
-                      color: secondaryGrey,
+                       color: secondaryGrey,
                       fontSize: 15,
                     ),
                   ),
                 ),
-                const Divider(
-                  height: 1,
-                  color: fontColorGrey,
-                ),
+                // const Divider(
+                //   height: 1,
+                //   color: fontColorGrey,
+                // ),
               ],
             ),
           ListTile(
