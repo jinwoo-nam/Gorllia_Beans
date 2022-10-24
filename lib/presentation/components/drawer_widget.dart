@@ -177,26 +177,26 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             height: 1,
             color: fontColorGrey,
           ),
-          ListTile(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const NoticeSample()),
-              );
-            },
-            mouseCursor: SystemMouseCursors.click,
-            title: const Text(
-              'NOTICE',
-              style: TextStyle(
-                color: secondaryGrey,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const Divider(
-            height: 1,
-            color: fontColorGrey,
-          ),
+          // ListTile(
+          //   onTap: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => const NoticeSample()),
+          //     );
+          //   },
+          //   mouseCursor: SystemMouseCursors.click,
+          //   title: const Text(
+          //     'NOTICE',
+          //     style: TextStyle(
+          //       color: secondaryGrey,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
+          // const Divider(
+          //   height: 1,
+          //   color: fontColorGrey,
+          // ),
         ],
       ),
     );

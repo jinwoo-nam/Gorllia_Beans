@@ -388,7 +388,7 @@ class MainPage extends StatelessWidget {
             ),
           ),
           Text(
-            '최고급 원두 1+1 할인 이벤트!',
+            '최고급 원두 전품목 10% 할인',
             style: GoogleFonts.notoSans(
               color: Colors.white,
               fontSize: fontSize2,
