@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
     double widthTemp = (MediaQuery.of(context).size.width > 1200)
         ? 150 * ((MediaQuery.of(context).size.width - 1200) / 720)
         : 0;
-    double categoryWidth = 130 + widthTemp;
+    double categoryWidth = 150 + widthTemp;
 
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
