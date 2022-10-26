@@ -6,6 +6,7 @@ import 'package:beans_instapay/domain/use_case/cart/delete_cart_data_use_case.da
 import 'package:beans_instapay/domain/use_case/cart/get_cart_data_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/update_cart_data_use_case.dart';
 import 'package:beans_instapay/presentation/cart/cart_state.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 class CartViewModel with ChangeNotifier {
@@ -81,6 +82,7 @@ class CartViewModel with ChangeNotifier {
     }
     if (check == false) {
       await addCartData(cart);
+      FirebaseAnalytics.instance.logAddToCart();
     }
     notifyListeners();
     saveCartInfoFirebase();
@@ -89,6 +91,7 @@ class CartViewModel with ChangeNotifier {
 
   void deleteCart(int index) async {
     await deleteCartData(index);
+    FirebaseAnalytics.instance.logRemoveFromCart();
     notifyListeners();
     saveCartInfoFirebase();
   }

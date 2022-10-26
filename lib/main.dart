@@ -7,6 +7,7 @@ import 'package:beans_instapay/presentation/home/overlay/overlay_view.dart';
 import 'package:beans_instapay/presentation/product/detail/coffee_beans_detail_screen.dart';
 import 'package:beans_instapay/presentation/product/detail/dripbag_detail_screen.dart';
 import 'package:beans_instapay/presentation/product/detail/stick_coffee_detail_screen.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseAnalytics.instance.logAppOpen();
   runApp(MultiProvider(
     providers: await getProviders(),
     child: const MyApp(),
@@ -25,11 +27,15 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
+      navigatorObservers: <NavigatorObserver>[observer],
       routes: {
         '/': (context) {
           final viewModel = context.watch<MainViewModel>();
