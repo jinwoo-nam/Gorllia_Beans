@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:beans_instapay/domain/model/cart_info.dart';
 import 'package:beans_instapay/domain/model/product_info.dart';
 import 'package:beans_instapay/presentation/cart/cart_view_model.dart';
@@ -21,6 +23,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../util/util.dart';
 
 class ProductIntroPage extends StatefulWidget {
   final ProductInfo info;
@@ -265,6 +269,7 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
         title = 'Coffee Beans';
         break;
     }
+
     return GestureDetector(
       onTap: () {
         if (hoverState == true) {
@@ -668,6 +673,13 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
       ProductIntroState state,
       ProductIntroViewModel introViewModel,
       CartViewModel cartViewModel) {
+    final userAgent = window.navigator.userAgent.toString().toLowerCase();
+    String platform = 'web';
+
+    if (userAgent.contains("iphone")) platform = 'ios';
+    if (userAgent.contains("ipad")) platform = 'ios';
+    if (userAgent.contains("android")) platform = 'android';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -895,22 +907,17 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                       //isUpperText = false;
                     });
                   },
-                  top: isAddCart?0:5,
+                  top: isAddCart ? 0 : 5,
                   right: -40,
                   child: AnimatedOpacity(
                     opacity: isAddCart ? 1 : 0,
-                    duration:
-                    const Duration(milliseconds: 800),
+                    duration: const Duration(milliseconds: 800),
                     child: const Text(
                       '+1',
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.amber
-                      ),
+                      style: TextStyle(fontSize: 30, color: Colors.amber),
                     ),
                   ),
                 ),
-
               ],
             ),
           ],
@@ -1041,23 +1048,52 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
                     dropdownSearchTextAlign: TextAlign.center,
                   ),
                 ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(
-                          '인스타페이 앱으로 QR코드를 찍어서 결제해 주세요',
+              if (platform == 'web')
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(
+                            '인스타페이 앱으로 QR코드를 찍어서 결제해 주세요',
+                          ),
                         ),
-                      ),
-                      getQrImage(state.selectedProductCount,
-                          state.selectedProductType),
-                    ],
+                        getQrImage(state.selectedProductCount,
+                            state.selectedProductType),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              if (platform != 'web')
+                InkWell(
+                  onTap: () {
+                    if (widget.info.isBean &&
+                        state.selectedProductType == '분쇄(드립용)') {
+                      launchURL(widget.info.dripQrImage_1_Url ?? '');
+                    } else {
+                      launchURL(widget.info.qrImage_1_Url);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 25.0),
+                    child: Container(
+                      width: 180,
+                      height: 55,
+                      color: selectColor,
+                      child: Center(
+                        child: Text(
+                          '결제하기',
+                          style: GoogleFonts.notoSans(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         const Padding(
@@ -1282,10 +1318,6 @@ class _ProductIntroPageState extends State<ProductIntroPage> {
     setState(() {
       hoverState = !hoverState;
     });
-  }
-
-  void launchURL(Uri query) async {
-    if (!await launchUrl(query)) throw 'Could not launch $query';
   }
 
   String currencyFormat(int price) {

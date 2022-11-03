@@ -19,6 +19,7 @@ class ProductInfo with _$ProductInfo {
     required String qrImage_3,
     required String qrImage_5,
     required String qrImage_10,
+    required String qrImage_1_Url,
     required int sourness,
     required int sweet,
     required int bitterness,
@@ -30,6 +31,7 @@ class ProductInfo with _$ProductInfo {
     String? dripQrImage_3,
     String? dripQrImage_5,
     String? dripQrImage_10,
+    String? dripQrImage_1_Url,
   }) = _ProductInfo;
   factory ProductInfo.fromJson(Map<String, dynamic> json) => _$ProductInfoFromJson(json);
 }

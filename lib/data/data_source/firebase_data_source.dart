@@ -15,10 +15,20 @@ class FirebaseDataSource {
           ((100 - data.productInfo.dcRate) / 100);
 
       totalPrice += price;
+      String bean = '';
+      if (data.beanType != null) {
+        if (data.beanType == BeanType.Whole) {
+          bean = '홀빈';
+        } else {
+          bean = '드립용';
+        }
+      }
+
       temp.add({
         'name': data.productInfo.name,
         'count': data.count,
         'price': price,
+        'beanType': bean,
       });
     }
 
@@ -27,8 +37,7 @@ class FirebaseDataSource {
         .add(<String, dynamic>{
       'data': temp,
       'timestamp':
-      '${now.year}/${now.month}/${now.day} ${now.hour}:${now.minute}:${now
-          .second}',
+          '${now.year}/${now.month}/${now.day} ${now.hour}:${now.minute}:${now.second}',
       '배송료': (totalPrice > 20000) ? 0 : 2500
     });
   }

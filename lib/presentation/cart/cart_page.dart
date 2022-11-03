@@ -1,3 +1,6 @@
+import 'dart:html';
+import 'dart:io';
+
 import 'package:beans_instapay/presentation/cart/cart_view_model.dart';
 import 'package:beans_instapay/presentation/cart/widget/cart_info_list.dart';
 import 'package:beans_instapay/presentation/components/app_bar_widget.dart';
@@ -97,6 +100,13 @@ class _CartPageState extends State<CartPage> {
         changeHoverState();
       }
     }
+
+    final userAgent = window.navigator.userAgent.toString().toLowerCase();
+    String platform = 'web';
+
+    if (userAgent.contains("iphone")) platform = 'ios';
+    if (userAgent.contains("ipad")) platform = 'ios';
+    if (userAgent.contains("android")) platform = 'android';
 
     return GestureDetector(
       onTap: () {
@@ -247,7 +257,7 @@ class _CartPageState extends State<CartPage> {
                                             ),
                                           ],
                                         ),
-                                        if (kIsWeb)
+                                        if (platform == 'web')
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 20.0),
@@ -272,89 +282,19 @@ class _CartPageState extends State<CartPage> {
                                                       height: 180,
                                                     ),
                                                   ),
-                                                // Container(
-                                                //   width: 120,
-                                                //   height: 120,
-                                                //   decoration: BoxDecoration(
-                                                //     border: Border.all(),
-                                                //   ),
-                                                //   child: const Center(
-                                                //     child: Text('QR'),
-                                                //   ),
-                                                // ),
-                                                // Padding(
-                                                //   padding: const EdgeInsets
-                                                //           .symmetric(
-                                                //       vertical: 16.0),
-                                                //   child: OnHoverDetect(
-                                                //     builder: (isHovered) {
-                                                //       final color = isHovered
-                                                //           ? Colors.black
-                                                //           : selectColor;
-                                                //       return InkWell(
-                                                //         onTap: () async {
-                                                //           final result = await viewModel
-                                                //               .saveCartInfoToFireStore(
-                                                //                   state
-                                                //                       .cartInfo);
-                                                //
-                                                //           showDialog<String>(
-                                                //             context: context,
-                                                //             builder: (BuildContext
-                                                //                     context) =>
-                                                //                 AlertDialog(
-                                                //               title: const Text(
-                                                //                   '저장 완료'),
-                                                //               content:
-                                                //                   const Text(
-                                                //                       '서버에 저장되었습니다.'),
-                                                //               actions: <Widget>[
-                                                //                 TextButton(
-                                                //                   onPressed: () =>
-                                                //                       Navigator.pop(
-                                                //                           context,
-                                                //                           'OK'),
-                                                //                   child:
-                                                //                       const Text(
-                                                //                           'OK'),
-                                                //                 ),
-                                                //               ],
-                                                //             ),
-                                                //           );
-                                                //         },
-                                                //         child: Container(
-                                                //           width: 150,
-                                                //           padding:
-                                                //               const EdgeInsets
-                                                //                   .all(16),
-                                                //           color: color,
-                                                //           child: Center(
-                                                //             child: Text(
-                                                //               '결제',
-                                                //               style: GoogleFonts
-                                                //                   .notoSans(
-                                                //                 color: Colors
-                                                //                     .white,
-                                                //                 fontSize: 15,
-                                                //               ),
-                                                //             ),
-                                                //           ),
-                                                //         ),
-                                                //       );
-                                                //     },
-                                                //   ),
-                                                // ),
                                               ],
                                             ),
                                           ),
-                                        if (!kIsWeb)
+                                        if (platform != 'web')
                                           InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              launchURL(state.qrAddress);
+                                            },
                                             child: Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 20.0),
+                                                  top: 25.0),
                                               child: Container(
-                                                width: 90,
+                                                width: 180,
                                                 height: 55,
                                                 color: selectColor,
                                                 child: Center(
