@@ -107,7 +107,7 @@ List<ProductInfo> dripBagProductInfo = [
     qrImage_5: 'img/shop/qr/dripbagGA_5EA.png',
     qrImage_10: 'img/shop/qr/dripbagGA_10EA.png',
     qrImage_1_Url:
-        'https://api.instapay.kr/v3/qrm?i=i20bq-ps20a-09x08-09x56-v15bw',
+        'https://api.instapay.kr/v3/qrm?i=n20vd-gg20h-09g08-10g53-i02nl',
     sourness: 4,
     sweet: 4,
     bitterness: 3,
