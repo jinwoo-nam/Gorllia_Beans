@@ -62,7 +62,7 @@ class _CartPageState extends State<CartPage> {
     int index = -1;
 
     int sumOfProduct = viewModel.getSumOfProduct();
-    int shipmentFee = sumOfProduct < 20000 ? 2000 : 0;
+    int shipmentFee = sumOfProduct < 20000 ? 2500 : 0;
     int totalPrice = sumOfProduct + shipmentFee;
 
     if (Responsive.isPage1(context)) {
