@@ -6,6 +6,7 @@ import 'package:beans_instapay/domain/use_case/cart/delete_cart_data_use_case.da
 import 'package:beans_instapay/domain/use_case/cart/get_cart_data_use_case.dart';
 import 'package:beans_instapay/domain/use_case/cart/update_cart_data_use_case.dart';
 import 'package:beans_instapay/presentation/cart/cart_state.dart';
+import 'package:beans_instapay/util/util.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
@@ -106,7 +107,7 @@ class CartViewModel with ChangeNotifier {
     final result = await saveCartInfo.saveCartInfoToFireStore(state.cartInfo);
 
     int sumOfProduct = getSumOfProduct();
-    int shipmentFee = sumOfProduct < 20000 ? 2000 : 0;
+    int shipmentFee = sumOfProduct < 20000 ? shipment : 0;
     String totalPrice = (sumOfProduct + shipmentFee).toString();
     final qr = await getCartQr.getCartQrCode(totalPrice, result.id);
     qr.when(
