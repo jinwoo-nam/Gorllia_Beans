@@ -35,11 +35,12 @@ class FirebaseDataSource {
     final String timestamp =
         '${now.year}/${now.month.toString().padLeft(2, '0')}/${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
 
+
     return await FirebaseFirestore.instance
         .collection('cart_info')
         .add(<String, dynamic>{
       'data': temp,
-      'timestamp': timestamp,
+      'timestamp': FieldValue.serverTimestamp(),
       '배송료': (totalPrice > 20000) ? 0 : 2500
     });
   }
